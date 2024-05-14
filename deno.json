@@ -1,6 +1,0 @@
-{
-	"imports": {
-		"./*.js": "./*.ts"
-	},
-	"unstable": ["sloppy-imports"]
-}

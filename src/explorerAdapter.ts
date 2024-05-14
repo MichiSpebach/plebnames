@@ -1,6 +1,6 @@
-import { Transaction } from './Transaction.js'
-import { Transactions } from './Transactions.js'
-import * as util from './util.js'
+import { Transaction } from './Transaction.ts'
+import { Transactions } from './Transactions.ts'
+import * as util from './util.ts'
 
 interface ExplorerAdapter {
 	getFirstInputOfAddress(address: string): Promise<{addr: string}>

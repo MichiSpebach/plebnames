@@ -1,10 +1,10 @@
-import { explorerAdapter } from './explorerAdapter.js'
-import * as util from './util.js'
+import { explorerAdapter } from './explorerAdapter.ts'
+import * as util from './util.ts'
 
 main()
 
 async function main(): Promise<void> {
-	const url: string = new URLSearchParams(window.location.search).get('url')
+	const url: string|null = new URLSearchParams(window.location.search).get('url')
 	document.body.innerHTML += '<br>coming from: '+url
 	//document.body.innerHTML += 'first input:<br><pre>'+JSON.stringify(firstInput, null, '\t')+'</pre>'
 

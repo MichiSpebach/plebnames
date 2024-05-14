@@ -1,4 +1,4 @@
-import { Transaction } from './Transaction'
+import { Transaction } from './Transaction.ts'
 
 export type Transactions = {
 	n_tx: number

@@ -1,9 +1,4 @@
 {
 	"deno.enable": true,
-	"deno.enablePaths": [
-		"**/*.test.ts", // not working, workarounds:
-		"src/testUtil.test.ts",
-		"src/util.test.ts",
-		"src/explorerAdapter.test.ts"
-	]
+	"deno.config": "tsconfig.json"
 }
