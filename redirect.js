@@ -1,11 +1,3 @@
-//console.log('Hello World')
-
-/*chrome.webRequest.onBeforeRequest.addListener(function(details) {
-	console.log('redirecting')
-	return {redirectUrl: 'https://bitcoin.org'}
-}, {urls: ['*://*.test/*']}, ['blocking'])*/
-
-//chrome.runtime.onInstalled.addListener(() => {
 chrome.declarativeNetRequest.updateDynamicRules({
 	removeRuleIds: [1],
 	addRules: [
@@ -23,4 +15,3 @@ chrome.declarativeNetRequest.updateDynamicRules({
 		}
 	]
 })
-//})

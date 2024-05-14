@@ -14,13 +14,6 @@
 			"extension_ids": []
 		}
 	],
-	/*"declarative_net_request": {
-		"rule_resources": [{
-			"id": "1",
-			"enabled": true,
-			"path": "redirect_rule.json"
-		}]
-	},*/
 	"background": {
 		"service_worker": "redirect.js"
 	}
