@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"target": "es2021",
+		"outDir": "dist"
+	},
+	"exclude": ["**/*.test.ts"]
+}
