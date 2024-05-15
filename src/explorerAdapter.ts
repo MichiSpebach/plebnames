@@ -41,7 +41,9 @@ class BlockchainExplorerAdapter implements ExplorerAdapter {
 	public async getOutScriptsOfAddress(address: string): Promise<string[]> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		const outputs = transactions.txs.flatMap(transaction => transaction.out)
-		return outputs.map(output => output.script).filter(script => script.startsWith('6a16')).map(script => util.hexToAscii(script.substring(4)))
+		return outputs.map(output => output.script)
+			.filter(script => script.startsWith('6a12') || script.startsWith('6a16'))
+			.map(script => util.hexToAscii(script.substring(4)))
 	}
 
 	private async getTransactionsOfAddress(address: string): Promise<Transactions> {
