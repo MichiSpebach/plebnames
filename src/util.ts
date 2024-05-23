@@ -29,6 +29,16 @@ export function asciiToHex(ascii: string): string {
 	return hex
 }
 
+export function normalizeAsciiToBech32(ascii: string): string {
+	let bech32: string = ''
+	for (const char of ascii.toLowerCase().replaceAll('b', '8').replaceAll('i', '7').replaceAll('o', '0')) { // TODO: could also replace 'b' with '6'?
+		if (bech32Chars.includes(char)) {
+			bech32 += char
+		}
+	}
+	return bech32
+}
+
 export function generateBech32AddressWithPad(pad: string): string {
 	return addPrefixAndChecksumToBech32Ascii(''.padEnd(32, pad))
 }

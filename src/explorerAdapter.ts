@@ -3,7 +3,7 @@ import { Transactions } from './Transactions.ts'
 import * as util from './util.ts'
 
 interface ExplorerAdapter {
-	getFirstInputOfAddress(address: string): Promise<{addr: string}>
+	getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined>
 	getInputsOfAddress(address: string): Promise<{addr: string}[]>
 	getOutScriptsOfAddress(address: string): Promise<string[]>
 }
@@ -11,10 +11,11 @@ interface ExplorerAdapter {
 class BlockchainExplorerAdapter implements ExplorerAdapter {
 	private readonly baseUrl: string = 'https://blockchain.info'
 
-	public async getFirstInputOfAddress(address: string): Promise<{addr: string}> {
+	public async getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		if (transactions.txs.length < 1) {
-			throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: no transaction found for address.`)
+			//throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: no transaction found for address.`)
+			return undefined
 		}
 		if (transactions.n_tx > transactions.txs.length) {
 			throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: case for transactions.n_tx > transactions.txs.length not implemented yet.`)

@@ -2,8 +2,8 @@ import { assertEquals } from './testUtil.test.ts'
 import { explorerAdapter } from './explorerAdapter.ts'
 
 Deno.test('getFirstInputOfAddress', async () => {
-	const firstInput: {addr: string} = await explorerAdapter.getFirstInputOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
-	assertEquals(firstInput.addr, 'bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve')
+	const firstInput: {addr: string}|undefined = await explorerAdapter.getFirstInputOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
+	assertEquals(firstInput!.addr, 'bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve')
 })
 
 Deno.test('getInputsOfAddress', async () => {
