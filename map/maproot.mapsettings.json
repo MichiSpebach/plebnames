@@ -1,0 +1,189 @@
+{
+	"id": "57a2g2v4c7o",
+	"x": 0,
+	"y": 0,
+	"width": 100,
+	"height": 100,
+	"links": [
+		{
+			"id": "linkqmesqqpd6k",
+			"from": {
+				"path": [
+					{
+						"boxId": "rv4qcrgrfno",
+						"boxName": "build.run.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d8jeikoj56",
+						"boxName": "dist",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link6sd1u5mkeq8",
+			"from": {
+				"path": [
+					{
+						"boxId": "rv4qcrgrfno",
+						"boxName": "build.run.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "6rji1h5kuhg",
+						"boxName": "src",
+						"x": 82,
+						"y": 18
+					},
+					{
+						"boxId": "9tmhjc5frfo",
+						"boxName": "main.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linka38v94f0gag",
+			"from": {
+				"path": [
+					{
+						"boxId": "vibai5ddgag",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d8jeikoj56",
+						"boxName": "dist",
+						"x": 50,
+						"y": 52
+					},
+					{
+						"boxId": "6ooo0st6uj8",
+						"boxName": "main.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkvnhutk0sjc",
+			"from": {
+				"path": [
+					{
+						"boxId": "dggo7t9326g",
+						"boxName": "manifest.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "vibai5ddgag",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link5vodaho631",
+			"from": {
+				"path": [
+					{
+						"boxId": "dggo7t9326g",
+						"boxName": "manifest.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "72ef6k2n4fg",
+						"boxName": "redirect.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			}
+		},
+		{
+			"id": "linkovaaeeieafo",
+			"from": {
+				"path": [
+					{
+						"boxId": "72ef6k2n4fg",
+						"boxName": "redirect.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "vibai5ddgag",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			}
+		}
+	],
+	"nodes": [],
+	"srcRootPath": "../",
+	"mapRootPath": "./",
+	"linkTags": [
+		{
+			"name": "autoMaintained",
+			"count": 14,
+			"appearance": {}
+		},
+		{
+			"name": "test",
+			"count": 2,
+			"appearance": {
+				"color": "green"
+			}
+		}
+	],
+	"defaultLinkAppearance": {}
+}

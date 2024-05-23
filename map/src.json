@@ -1,0 +1,272 @@
+{
+	"id": "6rji1h5kuhg",
+	"x": 32,
+	"y": 32,
+	"width": 64,
+	"height": 48,
+	"links": [
+		{
+			"id": "linksu8a0tko9o8",
+			"from": {
+				"path": [
+					{
+						"boxId": "7siqoluu03o",
+						"boxName": "explorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "2l7kitnvsj8",
+						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkenal0ktffl8",
+			"from": {
+				"path": [
+					{
+						"boxId": "7siqoluu03o",
+						"boxName": "explorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "link8vnrlffk2ho",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "aotef5rpauo",
+						"boxName": "util.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkg7819dqlj38",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link2drjg7j4beg",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link8tjpgfouak",
+			"from": {
+				"path": [
+					{
+						"boxId": "9tmhjc5frfo",
+						"boxName": "main.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkvqklqaq9ek",
+			"from": {
+				"path": [
+					{
+						"boxId": "9tmhjc5frfo",
+						"boxName": "main.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "aotef5rpauo",
+						"boxName": "util.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linko9fs41i67s",
+			"from": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link41g9dglfkl8",
+			"from": {
+				"path": [
+					{
+						"boxId": "b7c1kr47ik",
+						"boxName": "util.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "aotef5rpauo",
+						"boxName": "util.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "linkhlf4j1nr1eo",
+			"from": {
+				"path": [
+					{
+						"boxId": "b7c1kr47ik",
+						"boxName": "util.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "2l7kitnvsj8",
+						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": []
+}
