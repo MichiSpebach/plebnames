@@ -1,11 +1,15 @@
 import base58 from 'npm:bs58'
 import base58check from 'npm:bs58check'
-import bech32 from 'npm:bech32'
+import { bech32 } from 'npm:bech32'
 
 export const base58Chars: string[] = [
 	'1','2','3','4','5','6','7','8','9',
 	'A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z',
 	'a','b','c','d','e','f','g','h','i','j','k','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+]
+
+export const bech32Chars: string[] = [
+	'q','p','z','r','y','9','x','8','g','f','2','t','v','d','w','0','s','3','j','n','5','4','k','h','c','e','6','m','u','a','7','l'
 ]
 
 export function hexToAscii(hex: string): string {
@@ -23,6 +27,23 @@ export function asciiToHex(ascii: string): string {
 		hex += ascii.charCodeAt(i).toString(16)
 	}
 	return hex
+}
+
+export function generateBech32AddressWithPad(pad: string): string {
+	return addPrefixAndChecksumToBech32Ascii(''.padEnd(32, pad))
+}
+
+export function addPrefixAndChecksumToBech32Ascii(bech32InAscii: string): string {
+	const bytes: number[] = []
+	for (let i = 0; i < bech32InAscii.length; i++) {
+		bytes.push(bech32Chars.indexOf(bech32InAscii[i]))
+	}
+	return bech32.encode('bc', [0, ...bytes])
+}
+
+export function addPrefixAndChecksumToBech32Hex(bech32InHex: string): string {
+	const bytes: Uint8Array = hexToBytes(bech32InHex) 
+	return bech32.encode('bc', [0, ...bytes])
 }
 
 /** Problem with base 58: there are different procedures that produce slightly different (but valid) addresses and it is not obvious which is evident */

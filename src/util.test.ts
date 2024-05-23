@@ -17,6 +17,35 @@ Deno.test('asciiToHex', () => {
 	assertEquals(util.asciiToHex('EW Running bitcoin'), '45572052756e6e696e6720626974636f696e')
 })
 
+Deno.test('generateBech32AddressWithPad', () => {
+	assertEquals(util.generateBech32AddressWithPad('q'), 'bc1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq9e75rs')
+	assertEquals(util.generateBech32AddressWithPad('3'), 'bc1q33333333333333333333333333333333jdhc4c')
+	assertEquals(util.generateBech32AddressWithPad('l'), 'bc1qllllllllllllllllllllllllllllllllfglmy6')
+	assertEquals(util.generateBech32AddressWithPad('test'), 'bc1qtesttesttesttesttesttesttesttestaylauu')
+	assertEquals(util.generateBech32AddressWithPad('w508d6qejxtdg4y5r3zarvary0c5xw7k'), 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4')
+	assertEquals(util.generateBech32AddressWithPad('w508d6qejxtdg4y5r3zarvary0c5xw7ktest'), 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4')
+	assertEquals(util.generateBech32AddressWithPad('w508d6qejxtdg4y5r3zarvary0c5xw7kkv8f3t4'), 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4')
+})
+
+Deno.test('addPrefixAndChecksumToBech32Ascii', () => {
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('q'), 'bc1qqsa7s0f')
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('3'), 'bc1q3c2za8g')
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('l'), 'bc1ql63959z')
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('q3l'), 'bc1qq3lzgp3c2')
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('test'), 'bc1qtestrrmw67')
+	assertEquals(util.addPrefixAndChecksumToBech32Ascii('w508d6qejxtdg4y5r3zarvary0c5xw7k'), 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4')
+})
+
+Deno.test('addPrefixAndChecksumToBech32Hex', () => {
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('0e140f070d1a001912060b0d081504140311021d030c1d03040f1814060e1e16'), 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('0'), 'bc1qqsa7s0f')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('00'), 'bc1qqsa7s0f')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('11'), 'bc1q3c2za8g')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('1f'), 'bc1ql63959z')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('0b19100b'), 'bc1qtestrrmw67')
+	assertEquals(util.addPrefixAndChecksumToBech32Hex('00111f'), 'bc1qq3lzgp3c2')
+})
+
 Deno.test('generateBase58AddressWithPad', () => {
 	const list: {pad: string, base58Address: string}[] = [
 		{pad: '1', base58Address: '1111111111111111111114oLvT2'},
