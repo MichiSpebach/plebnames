@@ -56,6 +56,16 @@ export function addPrefixAndChecksumToBech32Hex(bech32InHex: string): string {
 	return bech32.encode('bc', [0, ...bytes])
 }
 
+export function normalizeAsciiToBase58(ascii: string): string {
+	let base58: string = ''
+	for (const char of ascii.replaceAll('l', 'L').replaceAll('O', 'o').replaceAll('0', 'o')) {
+		if (base58Chars.includes(char)) {
+			base58 += char
+		}
+	}
+	return base58
+}
+
 /** Problem with base 58: there are different procedures that produce slightly different (but valid) addresses and it is not obvious which is evident */
 export function generateBase58AddressWithPad(pad: string): string {
 	const withChecksumPlaceholders: string = fillUp21BytesWithPadThenAddZeroBytesToJustReach25Bytes(pad)

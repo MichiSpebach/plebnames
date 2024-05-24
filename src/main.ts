@@ -8,7 +8,7 @@ async function main(): Promise<void> {
 	document.body.innerHTML += '<br>coming from: '+url
 	
 	document.body.innerHTML += `<br><label for="url">url: </label><input id="url" value="${url}"></input>`
-	setTimeout(() => document.getElementById('url')!.oninput = (event) => update(), 0)
+	setTimeout(() => document.getElementById('url')!.oninput = (event) => updateNamesAndPadAddress(), 0)
 	
 	document.body.innerHTML += `<div><span>name: </span><span id="name"></span></div>`
 	document.body.innerHTML += `<div id="normalizedName"></div>`
@@ -17,10 +17,10 @@ async function main(): Promise<void> {
 	setTimeout(() => document.getElementById('lookup')!.onclick = (event) => lookupPadAddress(), 0)
 	document.body.innerHTML += `<div id="lookupResult"></div>`
 
-	update()
+	updateNamesAndPadAddress()
 }
 
-function update(): void {
+function updateNamesAndPadAddress(): void {
 	const url: string = (document.getElementById('url') as any).value
 	const name: string = getNameFromUrl(url)
 	document.getElementById('name')!.textContent = name
