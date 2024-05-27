@@ -44,7 +44,7 @@ function getNameFromUrl(url: string): string {
 	}
 	const schemeIndex: number = url.indexOf('//')
 	if (schemeIndex > -1) {
-		url = url.slice(schemeIndex)
+		url = url.slice(schemeIndex+2)
 	}
 	const startIndex: number = url.lastIndexOf('.')
 	if (startIndex > -1) {

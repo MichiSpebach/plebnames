@@ -28,4 +28,6 @@ export type Change = {
 export type PadAddressData = {
 	owner: string
 	linkTo?: string
+	website?: string
+	lightningAddress?: string
 }
