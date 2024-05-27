@@ -5,19 +5,35 @@ main()
 
 async function main(): Promise<void> {
 	const url: string|null = new URLSearchParams(window.location.search).get('url')
-	document.body.innerHTML += '<br>coming from: '+url
-	
-	document.body.innerHTML += `<br><label for="url">url: </label><input id="url" value="${url}"></input>`
+	//const urlTable: HTMLTableElement = document.createElement('table')
+	//urlTable.appendChild(document.createElement())
+	document.body.innerHTML += `
+	<table style="margin:auto">
+		${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
+		${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
+		${buildRowHtml({html: 'name: '}, {id: 'name'})}
+		${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
+		${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
+		${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;height:0')}
+		${buildRowHtml({html: ''}, {html: '<button id="lookup" style="margin:auto">lookup padAddress</button>'})}
+	</table>
+	`
+
 	setTimeout(() => document.getElementById('url')!.oninput = (event) => updateNamesAndPadAddress(), 0)
-	
-	document.body.innerHTML += `<div><span>name: </span><span id="name"></span></div>`
-	document.body.innerHTML += `<div id="normalizedName"></div>`
-	document.body.innerHTML += `<div><span>padAddress: </span><span id="padAddress"></span></div>`
-	document.body.innerHTML += `<button id="lookup">lookup padAddress</button>`
 	setTimeout(() => document.getElementById('lookup')!.onclick = (event) => lookupPadAddress(), 0)
 	document.body.innerHTML += `<div id="lookupResult"></div>`
 
 	updateNamesAndPadAddress()
+}
+
+function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, style?: string}, style?: string): string {
+	const styleHtml: string =style ? `style="${style}"` : ''
+	const rightId: string = right.id ? `id="${right.id}"` : ''
+	const rightStyle: string = right.style ? `style="${right.style}"` : ''
+	return `<tr ${styleHtml}>
+		<td style="text-align:right">${left.html}</td>
+		<td ${rightId} ${rightStyle}>${right.html}</td>
+	</tr>`
 }
 
 function updateNamesAndPadAddress(): void {
@@ -26,7 +42,7 @@ function updateNamesAndPadAddress(): void {
 	document.getElementById('name')!.textContent = name
 
 	const normalizedName: string = util.normalizeAsciiToBech32(name)
-	document.getElementById('normalizedName')!.textContent = `normalizedName: ${normalizedName}`
+	document.getElementById('normalizedName')!.textContent = normalizedName
 
 	const padAddress: string = util.generateBech32AddressWithPad(normalizedName)
 	document.getElementById('padAddress')!.textContent = padAddress
