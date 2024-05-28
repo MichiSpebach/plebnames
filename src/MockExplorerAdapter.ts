@@ -23,13 +23,13 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 	}
 
 	public getOutScriptsOfAddress(address: string): Promise<string[]> {
-		if (address === '192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2') {
+		if (address === '15imVtqf7BzhbmAr6AA15H51tddchkNHyV') {
 			return Promise.resolve(['EW Merry Christmas !!!'])
 		}
-		if (address === 'bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy') {
+		if (address === 'bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d') {
 			return Promise.resolve(['EW Running bitcoin'])
 		}
-		throw new Error("Method not implemented.")
+		return Promise.resolve([])
 	}
 
 }

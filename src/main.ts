@@ -6,19 +6,22 @@ main()
 async function main(): Promise<void> {
 	const url: string|null = new URLSearchParams(window.location.search).get('url')
 
-	document.body.innerHTML += `<table style="margin:auto">
-		${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
-		${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
-		${buildRowHtml({html: 'name: '}, {id: 'name'})}
-		${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
-		${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
-		${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
-		${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup padAddress</button>'})}
-	</table>`
+	document.body.innerHTML = `
+		<table style="margin:auto">
+			${buildRowHtml({html: ''}, {html: 'Test', style: 'font-size:200%'})}
+			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
+			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
+			${buildRowHtml({html: 'name: '}, {id: 'name'})}
+			${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
+			${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
+			${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
+			${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup padAddress</button>'})}
+		</table>
+		<div id="lookupResult"></div>
+	`
 
 	setTimeout(() => document.getElementById('url')!.oninput = (event) => updateNamesAndPadAddress(), 0)
 	setTimeout(() => document.getElementById('lookup')!.onclick = (event) => lookupPadAddress(), 0)
-	document.body.innerHTML += `<div id="lookupResult"></div>`
 
 	updateNamesAndPadAddress()
 }

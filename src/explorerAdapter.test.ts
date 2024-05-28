@@ -18,11 +18,21 @@ Deno.test('getInputsOfAddress', async () => {
 })
 
 Deno.test('getOutScriptsOfAddress Base58 P2PKH', async () => {
-	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
+	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
 	assertEquals(scripts, ['EW Merry Christmas !!!'])
 })
 
+Deno.test('getOutScriptsOfAddress Base58 P2PKH no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
+	assertEquals(scripts, [])
+})
+
 Deno.test('getOutScriptsOfAddress Bech32', async () => {
-	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
+	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d')
 	assertEquals(scripts, ['EW Running bitcoin'])
+})
+
+Deno.test('getOutScriptsOfAddress Bech32 no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
+	assertEquals(scripts, [])
 })
