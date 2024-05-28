@@ -6,6 +6,15 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 		if (address === 'bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy') {
 			return Promise.resolve({addr: 'bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve'})
 		}
+		if (address === 'bc1qa76sspmw6dyx5uem5axxgyawr7ctlzxev2m2ps') {
+			return Promise.resolve({addr: 'bc1qa76sspmw6dyx5uem5axxgyawr7ctlzxev2m2ps'})
+		}
+		if (address === 'bc1qtesttesttesttesttesttesttesttestaylauu') {
+			return Promise.resolve({addr: 'bc1qtestcla7mertestcla7mertestcla7men2uhyt'})
+		}
+		if (address === 'bc1qtesttransfertesttransfertesttranzjda2m') {
+			return Promise.resolve({addr: 'bc1qtestcla7mertestcla7mertestcla7men2uhyt'})
+		}
 		return Promise.resolve(undefined)
 	}
 
@@ -19,6 +28,21 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 				{addr: 'bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve'}
 			])
 		}
+		if (address === 'bc1qa76sspmw6dyx5uem5axxgyawr7ctlzxev2m2ps') {
+			return Promise.resolve([
+				{addr: 'bc1qa76sspmw6dyx5uem5axxgyawr7ctlzxev2m2ps'}
+			])
+		}
+		if (address === 'bc1qtesttesttesttesttesttesttesttestaylauu') {
+			return Promise.resolve([
+				{addr: 'bc1qtestcla7mertestcla7mertestcla7men2uhyt'}
+			])
+		}
+		if (address === 'bc1qtesttransfertesttransfertesttranzjda2m') {
+			return Promise.resolve([
+				{addr: 'bc1qtestcla7mertestcla7mertestcla7men2uhyt'}
+			])
+		}
 		return Promise.resolve([])
 	}
 
@@ -28,6 +52,24 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 		}
 		if (address === 'bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d') {
 			return Promise.resolve(['EW Running bitcoin'])
+		}
+		if (address === 'bc1qa76sspmw6dyx5uem5axxgyawr7ctlzxev2m2ps') {
+			return Promise.resolve(['EW bitcoin'])
+		}
+		if (address === 'bc1qtestcla7mertestcla7mertestcla7men2uhyt') {
+			return Promise.resolve([
+				"test.website='old'",
+				"test.website='bitcoin.org'",
+				"testTransfer.website='old'",
+				"testTransfer.website='also old'",
+				"testTransfer.owner='bc1qtestrec7p7enttestrec7p7enttestrehs0tm8'",
+				"testTransfer.website='already transferred'",
+			])
+		}
+		if (address === 'bc1qtestrec7p7enttestrec7p7enttestrehs0tm8') {
+			return Promise.resolve([
+				"testTransfer.website='blockstream.com'"
+			])
 		}
 		return Promise.resolve([])
 	}
