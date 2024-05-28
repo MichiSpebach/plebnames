@@ -5,19 +5,16 @@ main()
 
 async function main(): Promise<void> {
 	const url: string|null = new URLSearchParams(window.location.search).get('url')
-	//const urlTable: HTMLTableElement = document.createElement('table')
-	//urlTable.appendChild(document.createElement())
-	document.body.innerHTML += `
-	<table style="margin:auto">
+
+	document.body.innerHTML += `<table style="margin:auto">
 		${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
 		${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
 		${buildRowHtml({html: 'name: '}, {id: 'name'})}
 		${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
 		${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
-		${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;height:0')}
-		${buildRowHtml({html: ''}, {html: '<button id="lookup" style="margin:auto">lookup padAddress</button>'})}
-	</table>
-	`
+		${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
+		${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup padAddress</button>'})}
+	</table>`
 
 	setTimeout(() => document.getElementById('url')!.oninput = (event) => updateNamesAndPadAddress(), 0)
 	setTimeout(() => document.getElementById('lookup')!.onclick = (event) => lookupPadAddress(), 0)
@@ -70,9 +67,12 @@ function getNameFromUrl(url: string): string {
 }
 
 async function lookupPadAddress(): Promise<void> {
-	const name: string = document.getElementById('name')!.textContent!
-	const padAddress: string = document.getElementById('padAddress')!.textContent!
 	const lookupResultElement: HTMLElement = document.getElementById('lookupResult')!
+	lookupResultElement.innerHTML = 'looking up...'
+
+	const padAddress: string = document.getElementById('padAddress')!.textContent!
+	const name: string = document.getElementById('name')!.textContent!
+
 	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(padAddress))
 	if (!claimer) {
 		lookupResultElement.innerHTML = `The name '${name}' is not claimed yet.<br>`
