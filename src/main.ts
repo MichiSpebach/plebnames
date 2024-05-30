@@ -90,31 +90,40 @@ async function lookupPadAddress(): Promise<void> {
 }
 
 async function followChanges(history: PadAddressHistory): Promise<void> {
+	getLookupResultElement().innerHTML += `
+		<div id="lookupResultData">
+			looking up...
+		</div>
+		<details>
+			<summary style="cursor:pointer">History</summary>
+			<pre id="lookupResultHistory"></pre>
+		</details>
+		<details>
+			<summary style="cursor:pointer">All related OP_RETURN scripts</summary>
+			<pre id="lookupResultRelatedScripts"></pre>
+		</details>
+	`
+
 	let owner: string|undefined = undefined
 	while (owner !== history.getData().owner) {
 		owner = history.getData().owner
 		const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress(owner)
+		document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: owner, scripts}, null, 4)+'\n'
 		for (const script of scripts) {
 			history.addChangeFromOpReturnScript(script)
+			document.getElementById('lookupResultHistory')!.innerHTML = JSON.stringify(history.getChanges(), null, 4)
 			if (owner !== history.getData().owner) {
 				break
 			}
 		}
 	}
-	getLookupResultElement().innerHTML += `
+
+	document.getElementById('lookupResultData')!.innerHTML = `
 		The current owner is '${history.getData().owner}'<br>
 		The current website is <a href="${history.getData().website}">${history.getData().website}</a><br>
 		The current lightningAddress is ${history.getData().lightningAddress}<br>
 		All current data:
 		<pre>${JSON.stringify(history.getData(), null, 4)}</pre>
-		<details>
-			<summary style="cursor:pointer">History</summary>
-			<pre>${JSON.stringify(history.getChanges(), null, 4)}</pre>
-		</details>
-		<details>
-			<summary style="cursor:pointer">All related OP_RETURN scripts</summary>
-			<pre>${JSON.stringify('scripts', null, 4)}</pre>
-		</details>
 	`
 }
 
