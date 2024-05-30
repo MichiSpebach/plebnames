@@ -59,7 +59,7 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 		if (address === 'bc1qtestcla7mertestcla7mertestcla7men2uhyt') {
 			return Promise.resolve([
 				"test.website='old'",
-				"test.website='bitcoin.org'",
+				"test.website='https://bitcoin.org'",
 				"testTransfer.website='old'",
 				"testTransfer.website='also old'",
 				"testTransfer.owner='bc1qtestrec7p7enttestrec7p7enttestrehs0tm8'",
@@ -68,7 +68,7 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 		}
 		if (address === 'bc1qtestrec7p7enttestrec7p7enttestrehs0tm8') {
 			return Promise.resolve([
-				"testTransfer.website='blockstream.com'"
+				"testTransfer.website='https://blockstream.com'"
 			])
 		}
 		return Promise.resolve([])
