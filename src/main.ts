@@ -78,12 +78,13 @@ async function lookupPadAddress(): Promise<void> {
 	const name: string = document.getElementById('name')!.textContent!
 
 	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(padAddress))
+	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
 	if (!claimer) {
-		lookupResultElement.innerHTML = `The name '${name}' is not claimed yet.<br>`
+		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
 		lookupResultElement.innerHTML += `You can claim it by sending one Satoshi to '${padAddress}'.`
 		return
 	}
-	lookupResultElement.innerHTML = `The name '${name}' was first claimed by '${claimer.addr}'.<br>`
+	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.addr}'.<br>`
 	
 	const history = new PadAddressHistory(name, claimer.addr)
 	await followChanges(history)
@@ -130,7 +131,7 @@ async function followChanges(history: PadAddressHistory): Promise<void> {
 
 function showScriptOptions(name: string, owner: string): void {
 	getElement('lookupResult').innerHTML += `
-		To add or change data of '${name}' send OP_RETURN scripts from '${owner}':<br>
+		<div style="margin-top:8px; font-size:150%">Alter ${name}</div>
 		<div style="display:flex">
 			<select id="lookupResultSelect">
 				<option value="website">website</option>
@@ -146,12 +147,12 @@ function showScriptOptions(name: string, owner: string): void {
 			When changing owner you transfer '${name}' to another address, be sure to type in the address correctly because<br>
 			you cannot change anything regarding '${name}' afterwards (there are no checksums put in yet TODO)<br>
 		</div>
-		E.g. Electrum:
+		To add or change data of '${name}' send following OP_RETURN script from '${owner}'<br>
+		e.g. with Electrum with amount 0:<br>
 		<div style="display:flex">
 			<pre id="lookupResultSelectProposedScript" style="margin:0 4px 0 0;border:1px solid; padding:4px 8px;"></pre>
 			<button id="lookupResultSelectProposedScriptCopy" style="cursor:pointer" title="copy">&#x1f4cb;</button>
 		</div>
-		with amount 0
 	`
 	
 	getElement('lookupResultSelect').oninput = () => {
