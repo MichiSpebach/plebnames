@@ -1,7 +1,7 @@
 import * as util from './util.ts'
 
 export class PadAddressHistory {
-	private readonly name: string
+	public readonly name: string
 	private readonly claim: Change & {data: PadAddressData}
 	private readonly changes: Change[] = []
 	private data: PadAddressData

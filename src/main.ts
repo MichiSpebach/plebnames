@@ -71,7 +71,7 @@ function getNameFromUrl(url: string): string {
 }
 
 async function lookupPadAddress(): Promise<void> {
-	const lookupResultElement: HTMLElement = getLookupResultElement()
+	const lookupResultElement: HTMLElement = getElement('lookupResult')
 	lookupResultElement.innerHTML = 'looking up...'
 
 	const padAddress: string = document.getElementById('padAddress')!.textContent!
@@ -90,7 +90,7 @@ async function lookupPadAddress(): Promise<void> {
 }
 
 async function followChanges(history: PadAddressHistory): Promise<void> {
-	getLookupResultElement().innerHTML += `
+	getElement('lookupResult').innerHTML += `
 		<div id="lookupResultData">
 			looking up...
 		</div>
@@ -125,10 +125,64 @@ async function followChanges(history: PadAddressHistory): Promise<void> {
 		All current data:
 		<pre>${JSON.stringify(history.getData(), null, 4)}</pre>
 	`
+	showScriptOptions(history.name, history.getData().owner)
 }
 
-function getLookupResultElement(): HTMLElement {
-	return document.getElementById('lookupResult')!
+function showScriptOptions(name: string, owner: string): void {
+	getElement('lookupResult').innerHTML += `
+		To add or change data of '${name}' send OP_RETURN scripts from '${owner}':<br>
+		<div style="display:flex">
+			<select id="lookupResultSelect">
+				<option value="owner">owner</option>
+				<option value="website">website</option>
+				<option value="lightningAddress">lightningAddress</option>
+				<option value="any">any</option>
+			</select>
+			<input id="lookupResultSelectInput" style="margin-left:4px"></input>
+			=
+			<input id="lookupResultSelectValue" style="flex-grow:1" value="https://bitcoin.org"><br>
+		</div>
+		<div style="color:red">
+			When changing owner you transfer '${name}' to another address, be sure to type in the address correctly because<br>
+			you cannot change anything regarding '${name}' afterwards (there are no checksums put in yet TODO)<br>
+		</div>
+		E.g. Electrum:
+		<div style="display:flex">
+			<pre id="lookupResultSelectProposedScript" style="margin:0 4px 0 0;border:1px solid; padding:4px 8px;"></pre>
+			<button id="lookupResultSelectProposedScriptCopy" style="cursor:pointer" title="copy">&#x1f4cb;</button>
+		</div>
+		with amount 0
+	`
+	
+	getElement('lookupResultSelect').oninput = () => updateScriptOptions(name)
+	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name)
+	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name)
+	getElement('lookupResultSelectProposedScriptCopy').onclick = () => navigator.clipboard.writeText(getElement('lookupResultSelectProposedScript').innerHTML)
+
+	updateScriptOptions(name)
+}
+
+function updateScriptOptions(name: string): void {
+	let key: string = (getElement('lookupResultSelect') as any).value
+	if (key === 'any') {
+		key = (getElement('lookupResultSelectInput') as any).value
+		getElement('lookupResultSelectInput').style.display = ''
+	} else {
+		getElement('lookupResultSelectInput').style.display = 'none'
+	}
+	const value: string = (getElement('lookupResultSelectValue') as any).value
+	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${value}`
+}
+
+function getElement(id: 
+	'lookupResult'|
+	'lookupResultSelect'|
+	'lookupResultSelectInput'|
+	'lookupResultSelectValue'|
+	'lookupResultSelectProposedScript'|
+	'lookupResultSelectProposedScriptCopy'
+): HTMLElement {
+	return document.getElementById(id)!
 }
 
 //window.location.replace('bitcoin.org')
