@@ -21,8 +21,8 @@ async function main(): Promise<void> {
 		<div id="lookupResult"></div>
 	`
 
-	setTimeout(() => document.getElementById('url')!.oninput = (event) => updateNamesAndPadAddress(), 0)
-	setTimeout(() => document.getElementById('lookup')!.onclick = (event) => lookupPadAddress(), 0)
+	setTimeout(() => document.getElementById('url')!.oninput = () => updateNamesAndPadAddress(), 0)
+	setTimeout(() => document.getElementById('lookup')!.onclick = () => lookupPadAddress(), 0)
 
 	updateNamesAndPadAddress()
 }
@@ -38,7 +38,7 @@ function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, 
 }
 
 function updateNamesAndPadAddress(): void {
-	const url: string = (document.getElementById('url') as any).value
+	const url: string = (document.getElementById('url') as HTMLInputElement).value
 	const name: string = getNameFromUrl(url)
 	document.getElementById('name')!.textContent = name
 
@@ -133,16 +133,16 @@ function showScriptOptions(name: string, owner: string): void {
 		To add or change data of '${name}' send OP_RETURN scripts from '${owner}':<br>
 		<div style="display:flex">
 			<select id="lookupResultSelect">
-				<option value="owner">owner</option>
 				<option value="website">website</option>
+				<option value="owner">owner</option>
 				<option value="lightningAddress">lightningAddress</option>
 				<option value="any">any</option>
 			</select>
 			<input id="lookupResultSelectInput" style="margin-left:4px"></input>
 			=
-			<input id="lookupResultSelectValue" style="flex-grow:1" value="https://bitcoin.org"><br>
+			<input id="lookupResultSelectValue" style="flex-grow:1"><br>
 		</div>
-		<div style="color:red">
+		<div id="lookupResultSelectWarning" style="color:red">
 			When changing owner you transfer '${name}' to another address, be sure to type in the address correctly because<br>
 			you cannot change anything regarding '${name}' afterwards (there are no checksums put in yet TODO)<br>
 		</div>
@@ -154,24 +154,44 @@ function showScriptOptions(name: string, owner: string): void {
 		with amount 0
 	`
 	
-	getElement('lookupResultSelect').oninput = () => updateScriptOptions(name)
-	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name)
-	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name)
+	getElement('lookupResultSelect').oninput = () => {
+		updateScriptOptions(name, owner)
+		;(getElement('lookupResultSelectValue') as HTMLInputElement).value = ''
+	}
+	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name, owner)
+	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name, owner)
 	getElement('lookupResultSelectProposedScriptCopy').onclick = () => navigator.clipboard.writeText(getElement('lookupResultSelectProposedScript').innerHTML)
 
-	updateScriptOptions(name)
+	updateScriptOptions(name, owner)
 }
 
-function updateScriptOptions(name: string): void {
-	let key: string = (getElement('lookupResultSelect') as any).value
+function updateScriptOptions(name: string, owner: string): void {
+	let key: string = (getElement('lookupResultSelect') as HTMLInputElement).value
 	if (key === 'any') {
-		key = (getElement('lookupResultSelectInput') as any).value
+		key = (getElement('lookupResultSelectInput') as HTMLInputElement).value
 		getElement('lookupResultSelectInput').style.display = ''
 	} else {
 		getElement('lookupResultSelectInput').style.display = 'none'
 	}
-	const value: string = (getElement('lookupResultSelectValue') as any).value
-	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${value}`
+	if (key === 'owner') {
+		getElement('lookupResultSelectWarning').style.display = ''
+	} else {
+		getElement('lookupResultSelectWarning').style.display = 'none'
+	}
+
+	const valueElement: HTMLInputElement = getElement('lookupResultSelectValue') as HTMLInputElement
+	switch (key) {
+		case 'owner':
+			valueElement.placeholder = owner
+			break
+		case 'website':
+			valueElement.placeholder = 'https://bitcoin.org'
+			break
+		default:
+			valueElement.placeholder = ''
+	}
+
+	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${valueElement.value}`
 }
 
 function getElement(id: 
@@ -179,6 +199,7 @@ function getElement(id:
 	'lookupResultSelect'|
 	'lookupResultSelectInput'|
 	'lookupResultSelectValue'|
+	'lookupResultSelectWarning'|
 	'lookupResultSelectProposedScript'|
 	'lookupResultSelectProposedScriptCopy'
 ): HTMLElement {
