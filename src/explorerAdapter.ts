@@ -1,4 +1,4 @@
-import { BlockchainExplorerAdapter } from './BlockchainExplorerAdapter.ts'
+import { CombinedExplorerAdapter } from './CombinedExplorerAdapter.ts'
 
 export interface ExplorerAdapter {
 	getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined>
@@ -6,4 +6,4 @@ export interface ExplorerAdapter {
 	getOutScriptsOfAddress(address: string): Promise<string[]>
 }
 
-export const explorerAdapter: ExplorerAdapter = new BlockchainExplorerAdapter()
+export const explorerAdapter: ExplorerAdapter = new CombinedExplorerAdapter()
