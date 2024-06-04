@@ -82,12 +82,14 @@ async function lookupPadAddress(): Promise<void> {
 	if (!claimer) {
 		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
 		lookupResultElement.innerHTML += `You can claim it by sending one Satoshi to '${padAddress}'.`
+		showScriptOptions(name, '${addressUsedToSentToPadAddress}')
 		return
 	}
 	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.addr}'.<br>`
 	
 	const history = new PadAddressHistory(name, claimer.addr)
 	await followChanges(history)
+	showScriptOptions(history.name, history.getData().owner)
 }
 
 async function followChanges(history: PadAddressHistory): Promise<void> {
@@ -126,7 +128,6 @@ async function followChanges(history: PadAddressHistory): Promise<void> {
 		All current data:
 		<pre>${JSON.stringify(history.getData(), null, 4)}</pre>
 	`
-	showScriptOptions(history.name, history.getData().owner)
 }
 
 function showScriptOptions(name: string, owner: string): void {
@@ -156,17 +157,17 @@ function showScriptOptions(name: string, owner: string): void {
 	`
 	
 	getElement('lookupResultSelect').oninput = () => {
-		updateScriptOptions(name, owner)
+		updateScriptOptions(name)
 		;(getElement('lookupResultSelectValue') as HTMLInputElement).value = ''
 	}
-	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name, owner)
-	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name, owner)
+	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name)
+	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name)
 	getElement('lookupResultSelectProposedScriptCopy').onclick = () => navigator.clipboard.writeText(getElement('lookupResultSelectProposedScript').innerHTML)
 
-	updateScriptOptions(name, owner)
+	updateScriptOptions(name)
 }
 
-function updateScriptOptions(name: string, owner: string): void {
+function updateScriptOptions(name: string): void {
 	let key: string = (getElement('lookupResultSelect') as HTMLInputElement).value
 	if (key === 'any') {
 		key = (getElement('lookupResultSelectInput') as HTMLInputElement).value
@@ -183,7 +184,7 @@ function updateScriptOptions(name: string, owner: string): void {
 	const valueElement: HTMLInputElement = getElement('lookupResultSelectValue') as HTMLInputElement
 	switch (key) {
 		case 'owner':
-			valueElement.placeholder = owner
+			valueElement.placeholder = 'bc1qtp8nlplz7myycp5vtyy7zd7a7c2xgkwx7hsssr'
 			break
 		case 'website':
 			valueElement.placeholder = 'https://bitcoin.org'
