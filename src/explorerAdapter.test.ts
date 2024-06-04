@@ -17,6 +17,7 @@ Deno.test('getInputsOfAddress', async () => {
 	])
 })
 
+/** does not work with BlockstreamExplorerAdapter */
 Deno.test('getOutScriptsOfAddress Base58 P2PKH', async () => {
 	const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
 	assertEquals(scripts, ['EW Merry Christmas !!!'])
