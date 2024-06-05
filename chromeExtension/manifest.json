@@ -10,11 +10,11 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["/index.html"],
+			"resources": ["./index.html"],
 			"extension_ids": []
 		}
 	],
 	"background": {
-		"service_worker": "redirect.js"
+		"service_worker": "./redirect.js"
 	}
 }

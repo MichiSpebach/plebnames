@@ -20,8 +20,14 @@
 			"to": {
 				"path": [
 					{
-						"boxId": "d8jeikoj56",
-						"boxName": "dist",
+						"boxId": "3vtsdc0sil8",
+						"boxName": "chromeExtension",
+						"x": 31,
+						"y": 48
+					},
+					{
+						"boxId": "6ooo0st6uj8",
+						"boxName": "main.js",
 						"x": 50,
 						"y": 50
 					}
@@ -62,110 +68,6 @@
 			"tags": [
 				"autoMaintained"
 			]
-		},
-		{
-			"id": "linka38v94f0gag",
-			"from": {
-				"path": [
-					{
-						"boxId": "vibai5ddgag",
-						"boxName": "index.html",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "d8jeikoj56",
-						"boxName": "dist",
-						"x": 50,
-						"y": 52
-					},
-					{
-						"boxId": "6ooo0st6uj8",
-						"boxName": "main.js",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
-			"id": "linkvnhutk0sjc",
-			"from": {
-				"path": [
-					{
-						"boxId": "dggo7t9326g",
-						"boxName": "manifest.json",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "vibai5ddgag",
-						"boxName": "index.html",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
-			"id": "link5vodaho631",
-			"from": {
-				"path": [
-					{
-						"boxId": "dggo7t9326g",
-						"boxName": "manifest.json",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "72ef6k2n4fg",
-						"boxName": "redirect.js",
-						"x": 50,
-						"y": 50
-					}
-				]
-			}
-		},
-		{
-			"id": "linkovaaeeieafo",
-			"from": {
-				"path": [
-					{
-						"boxId": "72ef6k2n4fg",
-						"boxName": "redirect.js",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "vibai5ddgag",
-						"boxName": "index.html",
-						"x": 50,
-						"y": 50
-					}
-				]
-			}
 		}
 	],
 	"nodes": [],
