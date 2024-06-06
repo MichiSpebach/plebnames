@@ -5,7 +5,7 @@ chrome.declarativeNetRequest.updateDynamicRules({
 			"id": 1,
 			"priority": 1,
 			"condition": {
-				"regexFilter": ".*\\.test(.*)",
+				"regexFilter": ".*\\.btc(.*)",
 				"resourceTypes": ["main_frame"]
 			},
 			"action": {

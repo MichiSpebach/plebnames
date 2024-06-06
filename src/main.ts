@@ -9,7 +9,7 @@ async function main(): Promise<void> {
 
 	document.body.innerHTML = `
 		<table style="margin:auto">
-			${buildRowHtml({html: ''}, {html: 'Test', style: 'font-size:200%'})}
+			${buildRowHtml({html: ''}, {html: 'PlebNames', style: 'font-size:200%'})}
 			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
 			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
 			${buildRowHtml({html: 'name: '}, {id: 'name'})}
@@ -51,10 +51,11 @@ function updateNamesAndPadAddress(): void {
 
 function getNameFromUrl(url: string): string {
 	//return new URLPattern(url).hostname.split('.')[0]
-	if (url.endsWith('.test')) {
-		url = url.slice(0, '.test'.length)
+	const tld: string = '.btc'
+	if (url.endsWith(tld)) {
+		url = url.slice(0, tld.length)
 	} else {
-		const endIndex: number = url.indexOf('.test/')
+		const endIndex: number = url.indexOf(tld)
 		if (endIndex > 0) {
 			url = url.slice(0, endIndex)
 		}
