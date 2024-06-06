@@ -66,7 +66,7 @@ function getNameFromUrl(url: string): string {
 	if (url.endsWith(tld)) {
 		url = url.slice(0, -tld.length)
 	} else {
-		const endIndex: number = url.indexOf(tld)
+		const endIndex: number = url.indexOf(tld+'/')
 		if (endIndex > 0) {
 			url = url.slice(0, endIndex)
 		}
