@@ -5,13 +5,16 @@ import * as util from './util.ts'
 main()
 
 async function main(): Promise<void> {
+	const showUrl: boolean = Boolean(document.currentScript?.getAttribute('showUrl'))
 	const url: string|null = new URLSearchParams(window.location.search).get('url')
+
+	const urlStyle: string|undefined = showUrl ? undefined : 'display:none'
 
 	document.body.innerHTML = `
 		<table style="margin:auto">
 			${buildRowHtml({html: ''}, {html: 'PlebNames', style: 'font-size:200%'})}
-			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
-			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
+			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined}, urlStyle)}
+			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`}, urlStyle)}
 			${buildRowHtml({html: '<label for="name">name: </label>'}, {html: `<input id="name" placeholder="input name of choice" value=""></input>`})}
 			${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
 			${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
@@ -61,7 +64,7 @@ function getNameFromUrl(url: string): string {
 	//return new URLPattern(url).hostname.split('.')[0]
 	const tld: string = '.btc'
 	if (url.endsWith(tld)) {
-		url = url.slice(0, tld.length)
+		url = url.slice(0, -tld.length)
 	} else {
 		const endIndex: number = url.indexOf(tld)
 		if (endIndex > 0) {
