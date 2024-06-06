@@ -12,7 +12,7 @@ async function main(): Promise<void> {
 			${buildRowHtml({html: ''}, {html: 'PlebNames', style: 'font-size:200%'})}
 			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined})}
 			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`})}
-			${buildRowHtml({html: 'name: '}, {id: 'name'})}
+			${buildRowHtml({html: '<label for="name">name: </label>'}, {html: `<input id="name" placeholder="input name of choice" value=""></input>`})}
 			${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
 			${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
 			${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
@@ -22,6 +22,7 @@ async function main(): Promise<void> {
 	`
 
 	setTimeout(() => document.getElementById('url')!.oninput = () => updateNamesAndPadAddress(), 0)
+	setTimeout(() => getInputElement('name').oninput = () => updateNormalizedNameAndPadAddress(), 0)
 	setTimeout(() => document.getElementById('lookup')!.onclick = () => lookupPadAddress(), 0)
 
 	updateNamesAndPadAddress()
@@ -40,11 +41,18 @@ function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, 
 function updateNamesAndPadAddress(): void {
 	const url: string = (document.getElementById('url') as HTMLInputElement).value
 	const name: string = getNameFromUrl(url)
-	document.getElementById('name')!.textContent = name
+
+	getInputElement('name').value = name
+
+	updateNormalizedNameAndPadAddress()
+}
+
+function updateNormalizedNameAndPadAddress(): void {
+	const name: string = getInputElement('name').value
 
 	const normalizedName: string = util.normalizeAsciiToBech32(name)
 	document.getElementById('normalizedName')!.textContent = normalizedName
-
+	
 	const padAddress: string = util.generateBech32AddressWithPad(normalizedName)
 	document.getElementById('padAddress')!.textContent = padAddress
 }
@@ -76,7 +84,7 @@ async function lookupPadAddress(): Promise<void> {
 	lookupResultElement.innerHTML = 'looking up...'
 
 	const padAddress: string = document.getElementById('padAddress')!.textContent!
-	const name: string = document.getElementById('name')!.textContent!
+	const name: string = getInputElement('name').value
 
 	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(padAddress))
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
@@ -197,7 +205,12 @@ function updateScriptOptions(name: string): void {
 	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${valueElement.value}`
 }
 
+function getInputElement(id: 'name'): HTMLInputElement {
+	return getElement(id) as HTMLInputElement
+}
+
 function getElement(id: 
+	'name'|
 	'lookupResult'|
 	'lookupResultSelect'|
 	'lookupResultSelectInput'|
