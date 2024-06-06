@@ -40,7 +40,7 @@ function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, 
 
 function updateNamesAndPadAddress(): void {
 	const url: string = getInputElement('url').value
-	const name: string = getNameFromUrl(url)
+	const name: string = url === 'null' ? '' : getNameFromUrl(url)
 
 	getInputElement('name').value = name
 
