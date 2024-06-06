@@ -21,9 +21,9 @@ async function main(): Promise<void> {
 		<div id="lookupResult"></div>
 	`
 
-	setTimeout(() => document.getElementById('url')!.oninput = () => updateNamesAndPadAddress(), 0)
+	setTimeout(() => getInputElement('url').oninput = () => updateNamesAndPadAddress(), 0)
 	setTimeout(() => getInputElement('name').oninput = () => updateNormalizedNameAndPadAddress(), 0)
-	setTimeout(() => document.getElementById('lookup')!.onclick = () => lookupPadAddress(), 0)
+	setTimeout(() => getElement('lookup').onclick = () => lookupPadAddress(), 0)
 
 	updateNamesAndPadAddress()
 }
@@ -39,7 +39,7 @@ function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, 
 }
 
 function updateNamesAndPadAddress(): void {
-	const url: string = (document.getElementById('url') as HTMLInputElement).value
+	const url: string = getInputElement('url').value
 	const name: string = getNameFromUrl(url)
 
 	getInputElement('name').value = name
@@ -205,12 +205,14 @@ function updateScriptOptions(name: string): void {
 	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${valueElement.value}`
 }
 
-function getInputElement(id: 'name'): HTMLInputElement {
+function getInputElement(id: 'url'|'name'): HTMLInputElement {
 	return getElement(id) as HTMLInputElement
 }
 
 function getElement(id: 
+	'url'|
 	'name'|
+	'lookup'|
 	'lookupResult'|
 	'lookupResultSelect'|
 	'lookupResultSelectInput'|
