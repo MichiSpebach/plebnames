@@ -1,27 +1,26 @@
 ### About PlebNames
-PlebNames are piggybacked names on Bitcoin, just normal Bitcoin-Nodes are required, no other server infrastructure or sidechain.\
+PlebNames are piggybacked names on Bitcoin. Just normal Bitcoin-Nodes are required, no other server infrastructure or sidechain.\
 A PlebName is unique and is owned by one clear pleb at a time (or with multisig a group of plebs).
-
-PlebNames to fastly lookup information about a PlebName, like the current lightningAddress of a pleb
 
 ### Why PlebNames
 PlebNames give every pleb a clear unique name that can be spoken and easily remembered.\
-For example when doing a transaction: Instead of typing in a long address you just type in the PlebName of the pleb. The Wallet then looks in the Bitcoin mainchain to whom the PlebName belongs and resolves the PlebName to the actual address.
+For example when doing a transaction: Instead of typing in a long address you just type in the PlebName of a pleb. The wallet then looks in the Bitcoin mainchain to whom the PlebName belongs and resolves the PlebName to the actual address.
 
 ### How can I get my PlebName
+For example "Ego" is a great name, but there is one problem: How to let everbody know that we claimed "Ego" first because it is not indexed by Bitcoin-Nodes.\
+Fortunately Bitcoin-Addresses are indexed by every Bitcoin-Node, then let's convert our name to a Bitcoin-Address:\
 Convert your name to Bech32. As Bech32 is missing some letters let's agree b converts to 8, i to 7 and o to 0.\
-For example "Ego" is a great name, "Ego" converts to "eg0".
+So in our example, "Ego" converts to "eg0".
 Problem: "eg0" is not a valid Bitcoin-Address. Luckily there is one very obvious and deterministic way:\
 Prefix it with "bc1q" and as you are proud of your name repeat it as long as possible (reach 32 letters), then suffix it with the 6 letter checksum.\
-We get "bc1qeg0eg0eg0eg0eg0eg0eg0eg0eg0eg0egt7y40w" and call it PlebAddress, the PlebAddress of a name is unambiguous, there is exactly one PlebAddress for a name.\
+We get "bc1qeg0eg0eg0eg0eg0eg0eg0eg0eg0eg0egt7y40w" (exactly 42=2*21 letters, awesome!) and call it PlebAddress, the PlebAddress of a name is unambiguous, there is exactly one PlebAddress for a name.\
 In a blockchain explorer of your choice or your Bitcoin-Node search for your PlebAddress to ensure it is not claimed yet.\
-Send or burn the smallest Satoshi count to your PlebAddress that is distributed in the mempool and accepted by miners.\
+Send or burn the smallest Satoshi count to your PlebAddress that is distributed in the mempool and accepted by miners (atm 546 SATs).\
 We agree the first one who sent to a PlebAddress claimed the related PlebName.
 
 ### What can you do with your PlebName
 You can own it, really own it.\
-You can publish the most precious information about your name that should be able to be fastly looked up by everyone.\
-E.g. your current lightningAddress.\
+You can publish the most precious information about your name that should be able to be fastly looked-up by everyone. E.g. your current lightningAddress.\
 You can update these most precious information and transfer a PlebName to somebody else.
 
 ### Why do PlebNames abuse Bitcoin-Addresses?
@@ -45,7 +44,7 @@ deno run --allow-env --allow-read --allow-run build.run.ts
 ```
 
 #### Start Website
-Just open [./website/index.html](./website/index.html) in a web browser.
+Just open [./website/index.html](./website/index.html) in a web browser (after you built the project).
 
 #### Start Chrome Extension
 In Chrome go to `chrome://extensions/`, on the top left click `Load unpacked` and select the `chromeExtension` folder of this repository.\

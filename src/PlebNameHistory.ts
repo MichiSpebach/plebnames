@@ -1,10 +1,10 @@
 import * as util from './util.ts'
 
-export class PadAddressHistory {
+export class PlebNameHistory {
 	public readonly name: string
-	private readonly claim: Change & {data: PadAddressData}
+	private readonly claim: Change & {data: PlebNameData}
 	private readonly changes: Change[] = []
-	private data: PadAddressData
+	private data: PlebNameData
 
 	public constructor(name: string, claimerAddress: string) {
 		this.name = name
@@ -20,7 +20,7 @@ export class PadAddressHistory {
 				continue
 			}
 			const [key, value]: string[] = this.splitStringIntoTwoParts(keyAndValue, '=')
-			change.data[key as keyof Partial<PadAddressData>] = value.replaceAll("'", '')
+			change.data[key as keyof Partial<PlebNameData>] = value.replaceAll("'", '')
 		}
 		if (Object.entries(change.data).length > 0) {
 			this.addChange(change)
@@ -42,7 +42,7 @@ export class PadAddressHistory {
 		return this.changes
 	}
 
-	public getData(): PadAddressData {
+	public getData(): PlebNameData {
 		return this.data
 	}
 }
@@ -50,10 +50,10 @@ export class PadAddressHistory {
 export type Change = {
 	//blockNumber: number // TODO: important to prevent cycles
 	//transaction: string
-	data: Partial<PadAddressData>
+	data: Partial<PlebNameData>
 }
 
-export type PadAddressData = {
+export type PlebNameData = {
 	owner: string
 	linkTo?: string
 	website?: string

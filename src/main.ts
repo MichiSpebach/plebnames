@@ -1,4 +1,4 @@
-import { PadAddressHistory } from './PadAddressHistory.ts'
+import { PlebNameHistory } from './PlebNameHistory.ts'
 import { explorerAdapter } from './explorerAdapter.ts'
 import * as util from './util.ts'
 
@@ -17,18 +17,18 @@ async function main(): Promise<void> {
 			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`}, urlStyle)}
 			${buildRowHtml({html: '<label for="name">name: </label>'}, {html: `<input id="name" placeholder="input name of choice" value=""></input>`})}
 			${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
-			${buildRowHtml({html: 'padAddress: '}, {id: 'padAddress'})}
+			${buildRowHtml({html: 'plebAddress: '}, {id: 'plebAddress'})}
 			${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
-			${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup padAddress</button>'})}
+			${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup plebAddress</button>'})}
 		</table>
 		<div id="lookupResult"></div>
 	`
 
-	setTimeout(() => getInputElement('url').oninput = () => updateNamesAndPadAddress(), 0)
-	setTimeout(() => getInputElement('name').oninput = () => updateNormalizedNameAndPadAddress(), 0)
-	setTimeout(() => getElement('lookup').onclick = () => lookupPadAddress(), 0)
+	setTimeout(() => getInputElement('url').oninput = () => updateNamesAndPlebAddress(), 0)
+	setTimeout(() => getInputElement('name').oninput = () => updateNormalizedNameAndPlebAddress(), 0)
+	setTimeout(() => getElement('lookup').onclick = () => lookupPlebAddress(), 0)
 
-	updateNamesAndPadAddress()
+	updateNamesAndPlebAddress()
 }
 
 function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, style?: string}, style?: string): string {
@@ -41,23 +41,23 @@ function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, 
 	</tr>`
 }
 
-function updateNamesAndPadAddress(): void {
+function updateNamesAndPlebAddress(): void {
 	const url: string = getInputElement('url').value
 	const name: string = url === 'null' ? '' : getNameFromUrl(url)
 
 	getInputElement('name').value = name
 
-	updateNormalizedNameAndPadAddress()
+	updateNormalizedNameAndPlebAddress()
 }
 
-function updateNormalizedNameAndPadAddress(): void {
+function updateNormalizedNameAndPlebAddress(): void {
 	const name: string = getInputElement('name').value
 
 	const normalizedName: string = util.normalizeAsciiToBech32(name)
 	document.getElementById('normalizedName')!.textContent = normalizedName
 	
-	const padAddress: string = util.generateBech32AddressWithPad(normalizedName)
-	document.getElementById('padAddress')!.textContent = padAddress
+	const plebAddress: string = util.generateBech32AddressWithPad(normalizedName)
+	document.getElementById('plebAddress')!.textContent = plebAddress
 }
 
 function getNameFromUrl(url: string): string {
@@ -82,29 +82,29 @@ function getNameFromUrl(url: string): string {
 	return url
 }
 
-async function lookupPadAddress(): Promise<void> {
+async function lookupPlebAddress(): Promise<void> {
 	const lookupResultElement: HTMLElement = getElement('lookupResult')
 	lookupResultElement.innerHTML = 'looking up...'
 
-	const padAddress: string = document.getElementById('padAddress')!.textContent!
+	const plebAddress: string = document.getElementById('plebAddress')!.textContent!
 	const name: string = getInputElement('name').value
 
-	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(padAddress))
+	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(plebAddress))
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
 	if (!claimer) {
 		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
-		lookupResultElement.innerHTML += `You can claim it by sending one Satoshi to '${padAddress}'.`
-		showScriptOptions(name, '${addressUsedToSentToPadAddress}')
+		lookupResultElement.innerHTML += `You can claim it by sending one Satoshi to '${plebAddress}'.`
+		showScriptOptions(name, '${addressUsedToSentToPlebAddress}')
 		return
 	}
 	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.addr}'.<br>`
 	
-	const history = new PadAddressHistory(name, claimer.addr)
+	const history = new PlebNameHistory(name, claimer.addr)
 	await followChanges(history)
 	showScriptOptions(history.name, history.getData().owner)
 }
 
-async function followChanges(history: PadAddressHistory): Promise<void> {
+async function followChanges(history: PlebNameHistory): Promise<void> {
 	getElement('lookupResult').innerHTML += `
 		<div id="lookupResultData">
 			looking up...
