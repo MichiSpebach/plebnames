@@ -38,8 +38,8 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 		const authoredTransactions: Transaction[] = transactions.txs.filter(transaction => transaction.inputs.find(input => input.prev_out.addr === address))
 		const outputs: {script: string}[] = authoredTransactions.flatMap(transaction => transaction.out)
 		return outputs.map(output => output.script)
-			.filter(script => script.startsWith('6a12') || script.startsWith('6a16'))
-			.map(script => util.hexToAscii(script.substring(4)))
+			.filter(script => script.startsWith('6a'))
+			.map(script => util.hexToAscii(script.substring(2)))
 	}
 
 	protected abstract getTransactionsOfAddress(address: string): Promise<Transactions>
