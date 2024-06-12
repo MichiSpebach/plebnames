@@ -5,7 +5,7 @@ import * as util from './util.ts'
 
 export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 
-    public async getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined> {
+	public async getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		if (transactions.txs.length < 1) {
 			//throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: no transaction found for address.`)
@@ -15,10 +15,10 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 			throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: case for transactions.n_tx > transactions.txs.length not implemented yet.`)
 		}
 		const firstTransaction: Transaction = transactions.txs[transactions.txs.length-1]
-		if (firstTransaction.inputs.length !== 1) {
-			throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: expected exactly one input for firstTransaction, but are ${firstTransaction.inputs.length}.`)
+		if (firstTransaction.inputs.length < 1) {
+			throw new Error(`BlockchainExplorerAdapter::getFirstInputOfAddress(${address}) failed: firstTransaction.inputs is empty.`)
 		}
-		return firstTransaction.inputs[0].prev_out
+		return firstTransaction.inputs[firstTransaction.inputs.length-1].prev_out // length-1 selects the latest address the sender worked with when multiple inputs
 	}
 	
 	public async getInputsOfAddress(address: string): Promise<{addr: string}[]> {
@@ -42,5 +42,5 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 			.map(script => util.hexToAscii(script.substring(4)))
 	}
 
-    protected abstract getTransactionsOfAddress(address: string): Promise<Transactions>
+	protected abstract getTransactionsOfAddress(address: string): Promise<Transactions>
 }

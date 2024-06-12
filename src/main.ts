@@ -166,6 +166,7 @@ function showScriptOptions(name: string, owner: string): void {
 			<pre id="lookupResultSelectProposedScript" style="margin:0 4px 0 0;border:1px solid; padding:4px 8px;"></pre>
 			<button id="lookupResultSelectProposedScriptCopy" style="cursor:pointer" title="copy">&#x1f4cb;</button>
 		</div>
+		<div id="lookupResultSelectProposedScriptValueAscii"></div>
 	`
 	
 	getElement('lookupResultSelect').oninput = () => {
@@ -204,8 +205,10 @@ function updateScriptOptions(name: string): void {
 		default:
 			valueElement.placeholder = ''
 	}
+	const scriptValue: string = `${name}.${key}=${valueElement.value}`
 
-	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${name}.${key}=${valueElement.value}`
+	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${util.asciiToHex(scriptValue)}`
+	getElement('lookupResultSelectProposedScriptValueAscii').textContent = `The scriptValue is encoded in hex, in ascii it is "${scriptValue}".`
 }
 
 function getInputElement(id: 'url'|'name'): HTMLInputElement {
@@ -222,7 +225,8 @@ function getElement(id:
 	'lookupResultSelectValue'|
 	'lookupResultSelectWarning'|
 	'lookupResultSelectProposedScript'|
-	'lookupResultSelectProposedScriptCopy'
+	'lookupResultSelectProposedScriptCopy'|
+	'lookupResultSelectProposedScriptValueAscii'
 ): HTMLElement {
 	return document.getElementById(id)!
 }
