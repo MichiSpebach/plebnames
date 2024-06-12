@@ -207,7 +207,7 @@ function updateScriptOptions(name: string): void {
 	}
 	const scriptValue: string = `${name}.${key}=${valueElement.value}`
 
-	getElement('lookupResultSelectProposedScript').innerHTML = `OP_RETURN ${util.asciiToHex(scriptValue)}`
+	getElement('lookupResultSelectProposedScript').textContent = `script(OP_RETURN ${util.asciiToHex(scriptValue)})`
 	getElement('lookupResultSelectProposedScriptValueAscii').textContent = `The scriptValue is encoded in hex, in ascii it is "${scriptValue}".`
 }
 
