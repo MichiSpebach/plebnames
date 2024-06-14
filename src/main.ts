@@ -11,15 +11,17 @@ async function main(): Promise<void> {
 	const urlStyle: string|undefined = showUrl ? undefined : 'display:none'
 
 	document.body.innerHTML = `
+		<div style="font-size:200%;text-align:center">PlebNames</div>
+		PlebNames are piggybacked names on Bitcoin. Just normal Bitcoin-Nodes are required, no other server infrastructure or sidechain.<br>
+		Look-up names or claim yours:
 		<table style="margin:auto">
-			${buildRowHtml({html: ''}, {html: 'PlebNames', style: 'font-size:200%'})}
 			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined}, urlStyle)}
 			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`}, urlStyle)}
 			${buildRowHtml({html: '<label for="name">name: </label>'}, {html: `<input id="name" placeholder="input name of choice" value=""></input>`})}
 			${buildRowHtml({html: 'normalizedName: '}, {id: 'normalizedName'})}
 			${buildRowHtml({html: 'plebAddress: '}, {id: 'plebAddress'})}
 			${buildRowHtml({html: 'broadestAddress: '}, {html: util.generateBech32AddressWithPad('m')}, 'visibility:hidden;line-height:0')}
-			${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer">lookup plebAddress</button>'})}
+			${buildRowHtml({html: ''}, {html: '<button id="lookup" style="cursor:pointer;font-size:121%">lookup</button>'})}
 		</table>
 		<div id="lookupResult"></div>
 	`
@@ -93,7 +95,7 @@ async function lookupPlebAddress(): Promise<void> {
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
 	if (!claimer) {
 		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
-		lookupResultElement.innerHTML += `You can claim it by sending one Satoshi to '${plebAddress}'.`
+		lookupResultElement.innerHTML += `You can claim it by sending a minimum amount of satoshis (atm 546) to '${plebAddress}'.`
 		showScriptOptions(name, '${addressUsedToSentToPlebAddress}')
 		return
 	}
