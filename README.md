@@ -30,7 +30,7 @@ This makes PlebNames a simple, ubiquitous, uncensorable and fast Protocol.
 
 ### What about unspendable UTXOs?
 Yes, claiming a PlebName creates an unspendable UTXO, but taking into account that everybody who uses the Bitcoin mainchain has about 10 to 20 UTXOs on average\
-one or two additional UTXOs do not fall into account and are imho worth it to have convenient names on just Bitcoin.
+one or two additional UTXOs for having one or two names on average do not fall into account and are imho worth it to have convenient names on just Bitcoin.
 
 ### Develop
 #### Prerequisites

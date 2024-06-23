@@ -7,13 +7,16 @@ main()
 async function main(): Promise<void> {
 	const showUrl: boolean = Boolean(document.currentScript?.getAttribute('showUrl'))
 	const url: string|null = new URLSearchParams(window.location.search).get('url')
+	const urlRedirect: boolean = Boolean(document.currentScript?.getAttribute('urlRedirect'))
 
 	const urlStyle: string|undefined = showUrl ? undefined : 'display:none'
 
 	document.body.innerHTML = `
 		<div style="font-size:200%;text-align:center">PlebNames</div>
-		PlebNames are piggybacked names on Bitcoin. Just normal Bitcoin-Nodes are required, no other server infrastructure or sidechain.<br>
-		Look-up names or claim yours:
+		PlebNames are piggybacked names on Bitcoin, just Bitcoin.<br>
+		Only normal Bitcoin explorers are required, no other server infrastructure or sidechain.<br>
+		Also see: <a target="blank" href="https://github.com/MichiSpebach/plebnames">https://github.com/MichiSpebach/plebnames</a>.<br><br>
+		<div style="cursor:pointer;font-size:150%">Look-up names or claim yours:</div>
 		<table style="margin:auto">
 			${buildRowHtml({html: 'coming from: '}, {html: url ?? undefined}, urlStyle)}
 			${buildRowHtml({html: '<label for="url">url: </label>'}, {html: `<input id="url" value="${url}"></input>`}, urlStyle)}
@@ -31,6 +34,9 @@ async function main(): Promise<void> {
 	setTimeout(() => getElement('lookup').onclick = () => lookupPlebAddress(), 0)
 
 	updateNamesAndPlebAddress()
+	if (urlRedirect) {
+		lookupPlebAddress({redirectToWebsiteOrUrl: urlRedirect})
+	}
 }
 
 function buildRowHtml(left: {html: string}, right: {html?: string, id?: string, style?: string}, style?: string): string {
@@ -84,7 +90,7 @@ function getNameFromUrl(url: string): string {
 	return url
 }
 
-async function lookupPlebAddress(): Promise<void> {
+async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): Promise<void> {
 	const lookupResultElement: HTMLElement = getElement('lookupResult')
 	lookupResultElement.innerHTML = 'looking up...'
 
@@ -103,7 +109,12 @@ async function lookupPlebAddress(): Promise<void> {
 	
 	const history = new PlebNameHistory(name, claimer.addr)
 	await followChanges(history)
-	showScriptOptions(history.name, history.getData().owner)
+	const websiteOrUrl: string|undefined = history.getData().website
+	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {
+		window.location.replace(websiteOrUrl)
+	} else {
+		showScriptOptions(history.name, history.getData().owner)
+	}
 }
 
 async function followChanges(history: PlebNameHistory): Promise<void> {
@@ -232,5 +243,3 @@ function getElement(id:
 ): HTMLElement {
 	return document.getElementById(id)!
 }
-
-//window.location.replace('bitcoin.org')
