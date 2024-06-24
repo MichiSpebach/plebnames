@@ -29,13 +29,23 @@ async function main(): Promise<void> {
 		<div id="lookupResult"></div>
 	`
 
-	setTimeout(() => getInputElement('url').oninput = () => updateNamesAndPlebAddress(), 0)
-	setTimeout(() => getInputElement('name').oninput = () => updateNormalizedNameAndPlebAddress(), 0)
-	setTimeout(() => getElement('lookup').onclick = () => lookupPlebAddress(), 0)
-
 	updateNamesAndPlebAddress()
 	if (urlRedirect) {
 		lookupPlebAddress({redirectToWebsiteOrUrl: urlRedirect})
+	}
+
+	getInputElement('url').oninput = () => updateNamesAndPlebAddress()
+	getInputElement('name').oninput = () => updateNormalizedNameAndPlebAddress()
+	setOnKeydownEnterToElement('url', () => lookupPlebAddress())
+	setOnKeydownEnterToElement('name', () => lookupPlebAddress())
+	getElement('lookup').onclick = () => lookupPlebAddress()
+
+	function setOnKeydownEnterToElement(elementId: InputElementId, onEnter: () => void): void {
+		getInputElement(elementId).onkeydown = (event: KeyboardEvent) => {
+			if (event.key === 'Enter') {
+				onEnter()
+			}
+		}
 	}
 }
 
@@ -224,13 +234,9 @@ function updateScriptOptions(name: string): void {
 	getElement('lookupResultSelectProposedScriptValueAscii').textContent = `The scriptValue is encoded in hex, in ascii it is "${scriptValue}".`
 }
 
-function getInputElement(id: 'url'|'name'): HTMLInputElement {
-	return getElement(id) as HTMLInputElement
-}
+type InputElementId = 'url'|'name'
 
-function getElement(id: 
-	'url'|
-	'name'|
+type ElementId = InputElementId |
 	'lookup'|
 	'lookupResult'|
 	'lookupResultSelect'|
@@ -240,6 +246,11 @@ function getElement(id:
 	'lookupResultSelectProposedScript'|
 	'lookupResultSelectProposedScriptCopy'|
 	'lookupResultSelectProposedScriptValueAscii'
-): HTMLElement {
+
+function getInputElement(id: InputElementId): HTMLInputElement {
+	return getElement(id) as HTMLInputElement
+}
+
+function getElement(id: ElementId): HTMLElement {
 	return document.getElementById(id)!
 }
