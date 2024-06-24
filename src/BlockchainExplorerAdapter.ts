@@ -1,4 +1,5 @@
 import { GeneralExplorerAdapter } from './GeneralExplorerAdapter.ts'
+import { Transaction } from './Transaction.ts'
 import { Transactions } from './Transactions.ts'
 
 export class BlockchainExplorerAdapter extends GeneralExplorerAdapter {
@@ -10,6 +11,10 @@ export class BlockchainExplorerAdapter extends GeneralExplorerAdapter {
 		if (!response.ok) {
 			throw new Error(`BlockchainExplorerAdapter::getInputsOfAddress(${address}) failed: ${response.status}, ${(await response.blob()).text}`)
 		}
-		return await response.json() // TODO validate use e.g. Zod
+		const json: any = await response.json()
+		return {
+			n_tx: json.n_tx,
+			txs: json.txs.map(Transaction.fromBlockchainTransaction)
+		}
 	}
 }

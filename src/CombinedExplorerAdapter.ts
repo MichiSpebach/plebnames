@@ -1,11 +1,13 @@
 import { BlockchainExplorerAdapter } from './BlockchainExplorerAdapter.ts'
 import { BlockstreamExplorerAdapter } from './BlockstreamExplorerAdapter.ts'
+import { MempoolExplorerAdapter } from './MempoolExplorerAdapter.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 
 /** rotates between different Explorers to distribute the load and prevent http 429 too many requests */
 export class CombinedExplorerAdapter implements ExplorerAdapter {
 
 	private readonly explorers: ExplorerAdapter[] = [
+		new MempoolExplorerAdapter(),
 		new BlockchainExplorerAdapter(),
 		new BlockstreamExplorerAdapter()
 	]
