@@ -1,5 +1,6 @@
 import { BlockchainExplorerAdapter } from './BlockchainExplorerAdapter.ts'
 import { BlockstreamExplorerAdapter } from './BlockstreamExplorerAdapter.ts'
+import { BtcscanExplorerAdapter } from './BtcscanExplorerAdapter.ts'
 import { MempoolExplorerAdapter } from './MempoolExplorerAdapter.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 
@@ -9,6 +10,7 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 	private readonly explorers: ExplorerAdapter[] = [
 		new MempoolExplorerAdapter(),
 		new BlockchainExplorerAdapter(),
+		new BtcscanExplorerAdapter(),
 		new BlockstreamExplorerAdapter()
 	]
 
