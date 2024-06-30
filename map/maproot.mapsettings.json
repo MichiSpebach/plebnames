@@ -76,14 +76,35 @@
 	"linkTags": [
 		{
 			"name": "autoMaintained",
-			"count": 14,
+			"count": 41,
 			"appearance": {}
 		},
 		{
 			"name": "test",
-			"count": 2,
+			"count": 3,
 			"appearance": {
 				"color": "green"
+			}
+		},
+		{
+			"name": "hidden",
+			"count": 11,
+			"appearance": {
+				"mode": "hidden"
+			}
+		},
+		{
+			"name": "has",
+			"count": 6,
+			"appearance": {
+				"color": "lime"
+			}
+		},
+		{
+			"name": "isA",
+			"count": 7,
+			"appearance": {
+				"color": "aqua"
 			}
 		}
 	],

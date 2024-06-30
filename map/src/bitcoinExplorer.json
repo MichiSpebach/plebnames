@@ -1,0 +1,708 @@
+{
+	"id": "pe0oit9fubg",
+	"x": 28,
+	"y": 8,
+	"width": 20,
+	"height": 16,
+	"links": [
+		{
+			"id": "linkenal0ktffl8",
+			"from": {
+				"path": [
+					{
+						"boxId": "7siqoluu03o",
+						"boxName": "explorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "linkg7819dqlj38",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link2drjg7j4beg",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linko9fs41i67s",
+			"from": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "linkr4k8uqnpj0o",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 48
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 48
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "linkquipa588eqg",
+			"from": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "link2c2rulk94ho",
+			"from": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkdvie8g9kbhg",
+			"from": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkn4n2vgo8i7",
+			"from": {
+				"path": [
+					{
+						"boxId": "e3s7egc2kkg",
+						"boxName": "MockExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkq1gpmrh1t6g",
+			"from": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 52
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 52
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkehhmd9tk3fo",
+			"from": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "6m3fbfemj8g",
+						"boxName": "BtcscanExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "linkuvce7lcqcv8",
+			"from": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "fvqibeciooo",
+						"boxName": "BlockchainExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "links91vlgvgfjg",
+			"from": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "iiceh00s6c",
+						"boxName": "BlockstreamExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "linkpm9shdr67vo",
+			"from": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pe8i17f7ppg",
+						"boxName": "MempoolExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "links1kkgb52og8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fvqibeciooo",
+						"boxName": "BlockchainExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link60jukpl8oc8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fvqibeciooo",
+						"boxName": "BlockchainExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkle96pttp9kg",
+			"from": {
+				"path": [
+					{
+						"boxId": "fvqibeciooo",
+						"boxName": "BlockchainExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkjuam1upk5vg",
+			"from": {
+				"path": [
+					{
+						"boxId": "iiceh00s6c",
+						"boxName": "BlockstreamExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkvm490sqqo3g",
+			"from": {
+				"path": [
+					{
+						"boxId": "iiceh00s6c",
+						"boxName": "BlockstreamExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link8op0ki2vivg",
+			"from": {
+				"path": [
+					{
+						"boxId": "iiceh00s6c",
+						"boxName": "BlockstreamExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkafa4rbmu5d",
+			"from": {
+				"path": [
+					{
+						"boxId": "6m3fbfemj8g",
+						"boxName": "BtcscanExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkv3nfbbougno",
+			"from": {
+				"path": [
+					{
+						"boxId": "6m3fbfemj8g",
+						"boxName": "BtcscanExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkrj6gprvfoa8",
+			"from": {
+				"path": [
+					{
+						"boxId": "6m3fbfemj8g",
+						"boxName": "BtcscanExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link1lb9v7jtuug",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe8i17f7ppg",
+						"boxName": "MempoolExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linka2cestt3m2g",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe8i17f7ppg",
+						"boxName": "MempoolExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linklljefoahe7o",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe8i17f7ppg",
+						"boxName": "MempoolExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		}
+	],
+	"nodes": []
+}

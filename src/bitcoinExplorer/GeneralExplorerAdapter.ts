@@ -1,7 +1,7 @@
 import { ExplorerAdapter } from './explorerAdapter.ts'
 import { Transaction } from './Transaction.ts'
 import { Transactions } from './Transactions.ts'
-import * as util from './util.ts'
+import * as util from '../util.ts'
 
 export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 

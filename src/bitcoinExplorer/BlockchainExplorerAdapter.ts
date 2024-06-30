@@ -1,4 +1,4 @@
-import { GeneralExplorerAdapter } from './GeneralExplorerAdapter.ts'
+import { GeneralExplorerAdapter } from '../bitcoinExplorer/GeneralExplorerAdapter.ts'
 import { Transaction } from './Transaction.ts'
 import { Transactions } from './Transactions.ts'
 

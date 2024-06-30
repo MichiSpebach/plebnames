@@ -10,6 +10,12 @@
 			"from": {
 				"path": [
 					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 14,
+						"y": 24.5
+					},
+					{
 						"boxId": "7siqoluu03o",
 						"boxName": "explorerAdapter.test.ts",
 						"x": 50,
@@ -28,40 +34,20 @@
 				]
 			},
 			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
-			"id": "linkenal0ktffl8",
-			"from": {
-				"path": [
-					{
-						"boxId": "7siqoluu03o",
-						"boxName": "explorerAdapter.test.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "s5evb8gpen8",
-						"boxName": "explorerAdapter.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
 				"autoMaintained",
-				"test"
+				"hidden"
 			]
 		},
 		{
 			"id": "link8vnrlffk2ho",
 			"from": {
 				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 14,
+						"y": 56.5
+					},
 					{
 						"boxId": "s5evb8gpen8",
 						"boxName": "explorerAdapter.ts",
@@ -85,58 +71,6 @@
 			]
 		},
 		{
-			"id": "linkg7819dqlj38",
-			"from": {
-				"path": [
-					{
-						"boxId": "s5evb8gpen8",
-						"boxName": "explorerAdapter.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "ohf1htd9s88",
-						"boxName": "Transactions.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
-			"id": "link2drjg7j4beg",
-			"from": {
-				"path": [
-					{
-						"boxId": "s5evb8gpen8",
-						"boxName": "explorerAdapter.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "lf2vvouf0hg",
-						"boxName": "Transaction.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
 			"id": "link8tjpgfouak",
 			"from": {
 				"path": [
@@ -150,6 +84,12 @@
 			},
 			"to": {
 				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 14,
+						"y": 56.5
+					},
 					{
 						"boxId": "s5evb8gpen8",
 						"boxName": "explorerAdapter.ts",
@@ -179,32 +119,6 @@
 					{
 						"boxId": "aotef5rpauo",
 						"boxName": "util.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"tags": [
-				"autoMaintained"
-			]
-		},
-		{
-			"id": "linko9fs41i67s",
-			"from": {
-				"path": [
-					{
-						"boxId": "ohf1htd9s88",
-						"boxName": "Transactions.ts",
-						"x": 50,
-						"y": 50
-					}
-				]
-			},
-			"to": {
-				"path": [
-					{
-						"boxId": "lf2vvouf0hg",
-						"boxName": "Transaction.ts",
 						"x": 50,
 						"y": 50
 					}
@@ -258,6 +172,145 @@
 					{
 						"boxId": "2l7kitnvsj8",
 						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkj3dnhr0tep",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 62,
+						"y": 38
+					},
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "aotef5rpauo",
+						"boxName": "util.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkmm0dktld55o",
+			"from": {
+				"path": [
+					{
+						"boxId": "9tmhjc5frfo",
+						"boxName": "main.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "44ptdfdgjl",
+						"boxName": "PlebNameHistory.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkcg92kse1n1",
+			"from": {
+				"path": [
+					{
+						"boxId": "2ah2924k198",
+						"boxName": "PlebNameHistory.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "2l7kitnvsj8",
+						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link6j82cas51tg",
+			"from": {
+				"path": [
+					{
+						"boxId": "2ah2924k198",
+						"boxName": "PlebNameHistory.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "44ptdfdgjl",
+						"boxName": "PlebNameHistory.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "linkvibasa4rf5g",
+			"from": {
+				"path": [
+					{
+						"boxId": "44ptdfdgjl",
+						"boxName": "PlebNameHistory.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "aotef5rpauo",
+						"boxName": "util.ts",
 						"x": 50,
 						"y": 50
 					}

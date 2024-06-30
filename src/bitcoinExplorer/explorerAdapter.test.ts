@@ -1,4 +1,4 @@
-import { assertEquals } from './testUtil.test.ts'
+import { assertEquals } from '../testUtil.test.ts'
 import { explorerAdapter } from './explorerAdapter.ts'
 
 Deno.test('getFirstInputOfAddress', async () => {
