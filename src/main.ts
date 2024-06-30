@@ -1,5 +1,5 @@
 import { PlebNameHistory } from './PlebNameHistory.ts'
-import { explorerAdapter } from './explorerAdapter.ts'
+import { explorerAdapter } from './bitcoinExplorer/explorerAdapter.ts'
 import * as util from './util.ts'
 
 main()
