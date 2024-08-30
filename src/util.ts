@@ -2,6 +2,10 @@ import base58 from 'npm:bs58@6.0.0'
 import base58check from 'npm:bs58check@4.0.0'
 import { bech32 } from 'npm:bech32@2.0.0'
 
+export enum OpcodesHex {
+	OP_RETURN = '6a'
+}
+
 export const base58Chars: string[] = [
 	'1','2','3','4','5','6','7','8','9',
 	'A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z',

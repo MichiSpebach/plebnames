@@ -16,16 +16,16 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 
 	private index: number = -1
 
-	public getFirstInputOfAddress(address: string): Promise<{addr: string}|undefined> {
+	public getFirstInputOfAddress(address: string): Promise<{scriptpubkey_address: string}|undefined> {
 		return this.selectExplorer().getFirstInputOfAddress(address)
 	}
 	
-	public getInputsOfAddress(address: string): Promise<{addr: string}[]> {
+	public getInputsOfAddress(address: string): Promise<{scriptpubkey_address: string}[]> {
 		return this.selectExplorer().getInputsOfAddress(address)
 	}
 
-	public getOutScriptsOfAddress(address: string): Promise<string[]> {
-		return this.selectExplorer().getOutScriptsOfAddress(address)
+	public getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
+		return this.selectExplorer().getOpReturnOutScriptsOfAddress(address)
 	}
 	
 	private selectExplorer(): ExplorerAdapter {

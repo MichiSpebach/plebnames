@@ -107,7 +107,7 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 	const plebAddress: string = document.getElementById('plebAddress')!.textContent!
 	const name: string = getInputElement('name').value
 
-	const claimer: {addr: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(plebAddress))
+	const claimer: {scriptpubkey_address: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(plebAddress))
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
 	if (!claimer) {
 		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
@@ -115,9 +115,9 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 		showScriptOptions(name, '${addressUsedToSentToPlebAddress}')
 		return
 	}
-	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.addr}'.<br>`
+	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.scriptpubkey_address}'.<br>`
 	
-	const history = new PlebNameHistory(name, claimer.addr)
+	const history = new PlebNameHistory(name, claimer.scriptpubkey_address)
 	await followChanges(history)
 	const websiteOrUrl: string|undefined = history.getData().website
 	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {
@@ -145,7 +145,7 @@ async function followChanges(history: PlebNameHistory): Promise<void> {
 	let owner: string|undefined = undefined
 	while (owner !== history.getData().owner) {
 		owner = history.getData().owner
-		const scripts: string[] = await explorerAdapter.getOutScriptsOfAddress(owner)
+		const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress(owner)
 		document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: owner, scripts}, null, 4)+'\n'
 		for (const script of scripts) {
 			history.addChangeFromOpReturnScript(script)
