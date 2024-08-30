@@ -2,6 +2,7 @@ import { BlockchainExplorerAdapter } from './BlockchainExplorerAdapter.ts'
 import { BlockstreamExplorerAdapter } from './BlockstreamExplorerAdapter.ts'
 import { BtcscanExplorerAdapter } from './BtcscanExplorerAdapter.ts'
 import { MempoolExplorerAdapter } from './MempoolExplorerAdapter.ts'
+import { InputPrevout } from './Transaction.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 
 /** rotates between different Explorers to distribute the load and prevent http 429 too many requests */
@@ -16,11 +17,11 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 
 	private index: number = -1
 
-	public getFirstInputOfAddress(address: string): Promise<{scriptpubkey_address: string}|undefined> {
+	public getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
 		return this.selectExplorer().getFirstInputOfAddress(address)
 	}
 	
-	public getInputsOfAddress(address: string): Promise<{scriptpubkey_address: string}[]> {
+	public getInputsOfAddress(address: string): Promise<InputPrevout[]> {
 		return this.selectExplorer().getInputsOfAddress(address)
 	}
 

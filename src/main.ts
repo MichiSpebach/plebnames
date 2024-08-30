@@ -1,4 +1,5 @@
 import { PlebNameHistory } from './PlebNameHistory.ts'
+import { InputPrevout } from './bitcoinExplorer/Transaction.ts'
 import { explorerAdapter } from './bitcoinExplorer/explorerAdapter.ts'
 import * as util from './util.ts'
 
@@ -107,17 +108,18 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 	const plebAddress: string = document.getElementById('plebAddress')!.textContent!
 	const name: string = getInputElement('name').value
 
-	const claimer: {scriptpubkey_address: string}|undefined = (await explorerAdapter.getFirstInputOfAddress(plebAddress))
+	const claimerInput: InputPrevout|undefined = await explorerAdapter.getFirstInputOfAddress(plebAddress)
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
-	if (!claimer) {
+	if (!claimerInput) {
 		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
 		lookupResultElement.innerHTML += `You can claim it by sending a minimum amount of satoshis (atm 546) to '${plebAddress}'.`
 		showScriptOptions(name, '${addressUsedToSentToPlebAddress}')
 		return
 	}
-	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer.scriptpubkey_address}'.<br>`
+	const claimer: string = claimerInput.scriptpubkey_address ?? claimerInput.scriptpubkey
+	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer}'.<br>`
 	
-	const history = new PlebNameHistory(name, claimer.scriptpubkey_address)
+	const history = new PlebNameHistory(name, claimer)
 	await followChanges(history)
 	const websiteOrUrl: string|undefined = history.getData().website
 	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {

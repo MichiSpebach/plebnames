@@ -1,19 +1,21 @@
 import { assertEquals } from '../testUtil.test.ts'
 import { explorerAdapter } from './explorerAdapter.ts'
+import { InputPrevout } from './Transaction.ts'
 
 Deno.test('getFirstInputOfAddress', async () => {
-	const firstInput: {scriptpubkey_address: string}|undefined = await explorerAdapter.getFirstInputOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
+	const firstInput: InputPrevout|undefined = await explorerAdapter.getFirstInputOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
 	assertEquals(firstInput!.scriptpubkey_address, 'bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve')
+	assertEquals(firstInput!.scriptpubkey, '0014191709654a0b1e2ab10d9e4d80bf9f09d85cf6c9')
 })
 
 Deno.test('getInputsOfAddress', async () => {
-	const inputs: {scriptpubkey_address: string}[] = await explorerAdapter.getInputsOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
-	assertEquals(inputs.map(input => input.scriptpubkey_address), [
-		"bc1q8r5xfycn0fjs0tn70pffdgm83m326usetv34tg",
-		"bc1qmwhgqgusja6xauvg58lkxapu7tues6a5p2w0xs",
-		"bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy",
-		"bc1qs6y688m93my6xgn409h0ma3gu82qpypwtyynp6",
-		"bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve"
+	const inputs: InputPrevout[] = await explorerAdapter.getInputsOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
+	assertEquals(inputs.map(input => ({scriptpubkey_address: input.scriptpubkey_address, scriptpubkey: input.scriptpubkey})), [
+		{scriptpubkey_address: "bc1q8r5xfycn0fjs0tn70pffdgm83m326usetv34tg", scriptpubkey: '001438e86493137a6507ae7e785296a3678ee2ad7219'},
+		{scriptpubkey_address: "bc1qmwhgqgusja6xauvg58lkxapu7tues6a5p2w0xs", scriptpubkey: '0014dbae80239097746ef188a1ff63743cf2f9986bb4'},
+		{scriptpubkey_address: "bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy", scriptpubkey: '00142f4ba3eedabb02bb6e83b4ee0fe5006c8a322bb7'},
+		{scriptpubkey_address: "bc1qs6y688m93my6xgn409h0ma3gu82qpypwtyynp6", scriptpubkey: '00148689a39f658ec9a32275796efdf628e1d400902e'},
+		{scriptpubkey_address: "bc1qrytsje22pv0z4vgdnexcp0ulp8v9eakfkmw7ve", scriptpubkey: '0014191709654a0b1e2ab10d9e4d80bf9f09d85cf6c9'}
 	])
 })
 

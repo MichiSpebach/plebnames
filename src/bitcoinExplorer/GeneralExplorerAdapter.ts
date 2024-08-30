@@ -1,11 +1,11 @@
 import { ExplorerAdapter } from './explorerAdapter.ts'
-import { Transaction } from './Transaction.ts'
+import { Input, InputPrevout, Transaction } from './Transaction.ts'
 import { Transactions } from './Transactions.ts'
 import * as util from '../util.ts'
 
 export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 
-	public async getFirstInputOfAddress(address: string): Promise<{scriptpubkey_address: string}|undefined> {
+	public async getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		if (transactions.txs.length < 1) {
 			//throw new Error(`GeneralExplorerAdapter::getFirstInputOfAddress(${address}) failed: no transaction found for address.`)
@@ -21,16 +21,10 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 		return firstTransaction.vin[firstTransaction.vin.length-1].prevout // length-1 selects the latest address the sender worked with when multiple inputs
 	}
 	
-	public async getInputsOfAddress(address: string): Promise<{scriptpubkey_address: string}[]> {
+	public async getInputsOfAddress(address: string): Promise<InputPrevout[]> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
-		const transactionsInputs: {prevout: {scriptpubkey_address: string}}[] = transactions.txs.flatMap(transaction => transaction.vin)
-		const transactionsInputsPrevs: {scriptpubkey_address: string}[] = transactionsInputs.map(input => input.prevout)
-		for (const input of transactionsInputsPrevs) {
-			if (!input.scriptpubkey_address || typeof input.scriptpubkey_address !== 'string') {
-				throw new Error(`GeneralExplorerAdapter::getInputsOfAddress(${address}) failed: input.addr is ${input.scriptpubkey_address}`)
-			}
-		}
-		return transactionsInputsPrevs
+		const transactionsInputs: Input[] = transactions.txs.flatMap(transaction => transaction.vin)
+		return transactionsInputs.map(input => input.prevout)
 	}
 
 	public async getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
