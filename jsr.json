@@ -1,0 +1,5 @@
+{
+	"name": "@plebnames/core",
+	"version": "0.1.0",
+	"exports": "./src/util.ts"
+}

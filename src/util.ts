@@ -1,6 +1,6 @@
-import base58 from 'npm:bs58'
-import base58check from 'npm:bs58check'
-import { bech32 } from 'npm:bech32'
+import base58 from 'npm:bs58@6.0.0'
+import base58check from 'npm:bs58check@4.0.0'
+import { bech32 } from 'npm:bech32@2.0.0'
 
 export const base58Chars: string[] = [
 	'1','2','3','4','5','6','7','8','9',
