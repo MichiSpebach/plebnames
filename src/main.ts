@@ -31,7 +31,7 @@ async function main(): Promise<void> {
 	`
 
 	updateNamesAndPlebAddress()
-	if (urlRedirect) {
+	if (url) {
 		lookupPlebAddress({redirectToWebsiteOrUrl: urlRedirect})
 	}
 
@@ -102,11 +102,15 @@ function getNameFromUrl(url: string): string {
 }
 
 async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): Promise<void> {
-	const lookupResultElement: HTMLElement = getElement('lookupResult')
-	lookupResultElement.innerHTML = 'looking up...'
-
-	const plebAddress: string = document.getElementById('plebAddress')!.textContent!
 	const name: string = getInputElement('name').value
+	const plebAddress: string = getElement('plebAddress').textContent!
+	const lookupResultElement: HTMLElement = getElement('lookupResult')
+
+	if (plebAddress.length < 15) {
+		lookupResultElement.innerHTML = '<pre style="color:red">Input a name, then click lookup.</pre>'
+		return
+	}
+	lookupResultElement.innerHTML = 'looking up...'
 
 	const claimerInput: InputPrevout|undefined = await explorerAdapter.getFirstInputOfAddress(plebAddress)
 	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
@@ -160,6 +164,7 @@ async function followChanges(history: PlebNameHistory): Promise<void> {
 
 	document.getElementById('lookupResultData')!.innerHTML = `
 		The current owner is '${history.getData().owner}'<br>
+		The current Nostr npub is <a href="https://iris.to/${history.getData().nostr}" target="_blank">${history.getData().nostr}</a><br>
 		The current website is <a href="${history.getData().website}">${history.getData().website}</a><br>
 		The current lightningAddress is ${history.getData().lightningAddress}<br>
 		All current data:
@@ -172,6 +177,7 @@ function showScriptOptions(name: string, owner: string): void {
 		<div style="margin-top:8px; font-size:150%">Alter ${name}</div>
 		<div style="display:flex">
 			<select id="lookupResultSelect">
+				<option value="nostr">Nostr</option>
 				<option value="website">website</option>
 				<option value="owner">owner</option>
 				<option value="lightningAddress">lightningAddress</option>
@@ -224,6 +230,9 @@ function updateScriptOptions(name: string): void {
 		case 'owner':
 			valueElement.placeholder = 'bc1qtp8nlplz7myycp5vtyy7zd7a7c2xgkwx7hsssr'
 			break
+		case 'nostr':
+			valueElement.placeholder = 'npub023456789acdefghjklmnpqrstuvwxyz023456789acdefghjklmnpqrstu'
+			break
 		case 'website':
 			valueElement.placeholder = 'https://bitcoin.org'
 			break
@@ -239,6 +248,7 @@ function updateScriptOptions(name: string): void {
 type InputElementId = 'url'|'name'
 
 type ElementId = InputElementId |
+	'plebAddress'|
 	'lookup'|
 	'lookupResult'|
 	'lookupResultSelect'|

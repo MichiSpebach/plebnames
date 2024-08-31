@@ -56,6 +56,7 @@ export type Change = {
 export type PlebNameData = {
 	owner: string
 	linkTo?: string
+	nostr?: string
 	website?: string
 	lightningAddress?: string
 }
