@@ -1,6 +1,8 @@
 ### About PlebNames
 PlebNames are piggybacked names on Bitcoin. Just the Bitcoin chain and normal block explorers are required, no other server infrastructure or sidechain.\
-A PlebName is unique and is owned by one clear pleb at a time (or with multisig a group of plebs).
+A PlebName is unique and is owned by one clear pleb at a time (or with multisig a group of plebs).\
+The owner of a Plebname (the one who claimed the name first) can attach data to it, like a Lightning Address or Nostr npub.\
+Try it out at http://plebnames.org.
 
 ### Why PlebNames
 PlebNames give every pleb a clear unique name that can be spoken and easily remembered.\
