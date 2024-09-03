@@ -164,7 +164,7 @@ async function followChanges(history: PlebNameHistory): Promise<void> {
 
 	document.getElementById('lookupResultData')!.innerHTML = `
 		The current owner is '${history.getData().owner}'<br>
-		The current Nostr npub is <a href="https://iris.to/${history.getData().nostr}" target="_blank">${history.getData().nostr}</a><br>
+		The current Nostr npub is <a href="https://primal.net/p/${history.getData().nostr}" target="_blank">${history.getData().nostr}</a><br>
 		The current website is <a href="${history.getData().website}">${history.getData().website}</a><br>
 		The current lightningAddress is ${history.getData().lightningAddress}<br>
 		All current data:
@@ -196,6 +196,7 @@ function showScriptOptions(name: string, owner: string): void {
 		<div style="display:flex">
 			<pre id="lookupResultSelectProposedScript" style="margin:0 4px 0 0;border:1px solid; padding:4px 8px;"></pre>
 			<button id="lookupResultSelectProposedScriptCopy" style="cursor:pointer" title="copy">&#x1f4cb;</button>
+			<span id="lookupResultSelectProposedScriptCopyMessage"></span>
 		</div>
 		<div id="lookupResultSelectProposedScriptValueAscii"></div>
 	`
@@ -206,7 +207,16 @@ function showScriptOptions(name: string, owner: string): void {
 	}
 	getElement('lookupResultSelectInput').oninput = () => updateScriptOptions(name)
 	getElement('lookupResultSelectValue').oninput = () => updateScriptOptions(name)
-	getElement('lookupResultSelectProposedScriptCopy').onclick = () => navigator.clipboard.writeText(getElement('lookupResultSelectProposedScript').innerHTML)
+	getElement('lookupResultSelectProposedScriptCopy').onclick = async () => {
+		try {
+			await navigator.clipboard.writeText(getElement('lookupResultSelectProposedScript').innerHTML)
+			getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = 'copied!'
+			setTimeout(() => getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = '', 500)
+		} catch (error: unknown) {
+			getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = String(error), ' Just select and copy the content manually.'
+			setTimeout(() => getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = '', 5000)
+		}
+	}
 
 	updateScriptOptions(name)
 }
@@ -257,6 +267,7 @@ type ElementId = InputElementId |
 	'lookupResultSelectWarning'|
 	'lookupResultSelectProposedScript'|
 	'lookupResultSelectProposedScriptCopy'|
+	'lookupResultSelectProposedScriptCopyMessage'|
 	'lookupResultSelectProposedScriptValueAscii'
 
 function getInputElement(id: InputElementId): HTMLInputElement {
