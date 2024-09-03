@@ -213,7 +213,7 @@ function showScriptOptions(name: string, owner: string): void {
 			getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = 'copied!'
 			setTimeout(() => getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = '', 500)
 		} catch (error: unknown) {
-			getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = String(error), ' Just select and copy the content manually.'
+			getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = String(error)+'<br>Just select and copy the content manually.'
 			setTimeout(() => getElement('lookupResultSelectProposedScriptCopyMessage').innerHTML = '', 5000)
 		}
 	}
