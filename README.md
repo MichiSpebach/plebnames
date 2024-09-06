@@ -53,7 +53,8 @@ deno run --allow-env --allow-read --allow-run build.run.ts
 Just open [./website/index.html](./website/index.html) in a web browser (after you built the project).
 
 #### Start Chrome Extension
-In Chrome go to `chrome://extensions/`, on the top left click `Load unpacked` and select the `chromeExtension` folder of this repository.\
+
+In Chrome go to `chrome://extensions/` and ensure that on the top right 'Developer mode' is toggled on. After that click `Load unpacked` and select the `chromeExtension` folder of this repository.\
 Ensure that conflicting extensions are not running in the background (i.e. other extensions that redirect the same Top Level Domain).\
 For further information about Chrome Extensions see [https://developer.chrome.com/docs/extensions](https://developer.chrome.com/docs/extensions).
 
