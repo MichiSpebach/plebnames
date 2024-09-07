@@ -5,14 +5,14 @@ import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.9.0/mod.t
 await buildForChromeExtension()
 
 async function buildForChromeExtension(): Promise<void> {
-	const result: BuildResult = await build({outfile: 'chromeExtension/main.js'})
+	const result: BuildResult = await build({outfile: 'out/chromeExtension/main.js'})
 	console.log('buildForChromeExtension result:', result)
 }
 
 async function build(options: {outdir?: string, outfile?: string}): Promise<BuildResult> {
 	const result: BuildResult = await esbuild.build({
 		plugins: [...denoPlugins()],
-		entryPoints: ['./src/main.ts'],
+		entryPoints: ['./core/src/main.ts'],
 		bundle: true,
 		...options
 	})
