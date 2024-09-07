@@ -1,6 +1,5 @@
 import { PlebNameHistory } from './PlebNameHistory.ts'
-import { InputPrevout } from './bitcoinExplorer/Transaction.ts'
-import { explorerAdapter } from './bitcoinExplorer/explorerAdapter.ts'
+import { followNameHistory } from './bitcoinExplorer/explorerAdapter.ts'
 import * as util from './util.ts'
 
 main()
@@ -112,56 +111,42 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 	}
 	lookupResultElement.innerHTML = 'looking up...'
 
-	const claimerInput: InputPrevout|undefined = await explorerAdapter.getFirstInputOfAddress(plebAddress)
-	lookupResultElement.innerHTML = `<div style="font-size:150%">Information about ${name}</div>`
-	if (!claimerInput) {
-		lookupResultElement.innerHTML += `The name '${name}' is not claimed yet.<br>`
-		lookupResultElement.innerHTML += `You can claim it by sending a minimum amount of satoshis (atm 546) to '${plebAddress}'.`
+	let lookupHistoryElementsAdded: boolean = false
+	const history: PlebNameHistory|'unclaimed' = await followNameHistory(name, {
+		onAddressFetched: (history: PlebNameHistory, opReturnScripts: string[]) => {
+			if (!lookupHistoryElementsAdded) {
+				lookupResultElement.innerHTML = `
+					<div style="font-size:150%">Information about ${name}</div>
+					The name '${name}' was first claimed by '${history.getData().owner}'.<br>
+					<div id="lookupResultData">
+						looking up...
+					</div>
+					<details>
+						<summary style="cursor:pointer">History</summary>
+						<pre id="lookupResultHistory"></pre>
+					</details>
+					<details>
+						<summary style="cursor:pointer">All related OP_RETURN scripts</summary>
+						<pre id="lookupResultRelatedScripts"></pre>
+					</details>
+				`
+				lookupHistoryElementsAdded = true
+			}
+			document.getElementById('lookupResultHistory')!.innerHTML = JSON.stringify(history.getChanges(), null, 4)
+			document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: history.getData().owner, opReturnScripts}, null, 4)+'\n'
+		}
+	})
+
+	if (history === 'unclaimed') {
+		lookupResultElement.innerHTML = `
+			<div style="font-size:150%">Information about ${name}</div>
+			The name '${name}' is not claimed yet.<br>
+			You can claim it by sending a minimum amount of satoshis (atm 546) to '${plebAddress}'.
+		`
 		showScriptOptions(name, '${addressUsedToSentToPlebAddress}')
 		return
 	}
-	const claimer: string = claimerInput.scriptpubkey_address ?? claimerInput.scriptpubkey
-	lookupResultElement.innerHTML += `The name '${name}' was first claimed by '${claimer}'.<br>`
 	
-	const history = new PlebNameHistory(name, claimer)
-	await followChanges(history)
-	const websiteOrUrl: string|undefined = history.getData().website
-	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {
-		window.location.replace(websiteOrUrl)
-	} else {
-		showScriptOptions(history.name, history.getData().owner)
-	}
-}
-
-async function followChanges(history: PlebNameHistory): Promise<void> {
-	getElement('lookupResult').innerHTML += `
-		<div id="lookupResultData">
-			looking up...
-		</div>
-		<details>
-			<summary style="cursor:pointer">History</summary>
-			<pre id="lookupResultHistory"></pre>
-		</details>
-		<details>
-			<summary style="cursor:pointer">All related OP_RETURN scripts</summary>
-			<pre id="lookupResultRelatedScripts"></pre>
-		</details>
-	`
-
-	let owner: string|undefined = undefined
-	while (owner !== history.getData().owner) {
-		owner = history.getData().owner
-		const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress(owner)
-		document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: owner, scripts}, null, 4)+'\n'
-		for (const script of scripts) {
-			history.addChangeFromOpReturnScript(script)
-			document.getElementById('lookupResultHistory')!.innerHTML = JSON.stringify(history.getChanges(), null, 4)
-			if (owner !== history.getData().owner) {
-				break
-			}
-		}
-	}
-
 	document.getElementById('lookupResultData')!.innerHTML = `
 		The current owner is '${history.getData().owner}'<br>
 		The current Nostr npub is <a href="https://primal.net/p/${history.getData().nostr}" target="_blank">${history.getData().nostr}</a><br>
@@ -170,6 +155,13 @@ async function followChanges(history: PlebNameHistory): Promise<void> {
 		All current data:
 		<pre>${JSON.stringify(history.getData(), null, 4)}</pre>
 	`
+
+	const websiteOrUrl: string|undefined = history.getData().website
+	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {
+		window.location.replace(websiteOrUrl)
+	} else {
+		showScriptOptions(history.name, history.getData().owner)
+	}
 }
 
 function showScriptOptions(name: string, owner: string): void {
