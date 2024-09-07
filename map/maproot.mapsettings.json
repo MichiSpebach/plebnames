@@ -58,10 +58,16 @@
 			"to": {
 				"path": [
 					{
+						"boxId": "t8hmomgvhi",
+						"boxName": "core",
+						"x": 11.2,
+						"y": 35.04
+					},
+					{
 						"boxId": "6rji1h5kuhg",
 						"boxName": "src",
-						"x": 82,
-						"y": 18
+						"x": 12,
+						"y": 28
 					},
 					{
 						"boxId": "9tmhjc5frfo",
