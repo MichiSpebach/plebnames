@@ -1,0 +1,48 @@
+{
+	"id": "k9stprlirn8",
+	"x": 32,
+	"y": 8,
+	"width": 40,
+	"height": 20,
+	"links": [
+		{
+			"id": "link44qjjsakgbg",
+			"from": {
+				"path": [
+					{
+						"boxId": "r1nhr9d747",
+						"boxName": "website",
+						"x": 50,
+						"y": 52
+					},
+					{
+						"boxId": "1h2st257c48",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3vtsdc0sil8",
+						"boxName": "chromeExtension",
+						"x": 50,
+						"y": 68
+					},
+					{
+						"boxId": "6ooo0st6uj8",
+						"boxName": "main.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": []
+}
