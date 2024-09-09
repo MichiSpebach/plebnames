@@ -1,1 +1,4 @@
 chromeExtension/main.js
+
+.DS_Store
+node_modules
