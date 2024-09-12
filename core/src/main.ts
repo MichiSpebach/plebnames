@@ -131,9 +131,10 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 					</details>
 				`
 				lookupHistoryElementsAdded = true
+			} else {
+				document.getElementById('lookupResultHistory')!.innerHTML = JSON.stringify(history.getChanges(), null, 4)
+				document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: history.getData().owner, opReturnScripts}, null, 4)+'\n'
 			}
-			document.getElementById('lookupResultHistory')!.innerHTML = JSON.stringify(history.getChanges(), null, 4)
-			document.getElementById('lookupResultRelatedScripts')!.innerHTML += JSON.stringify({issuer: history.getData().owner, opReturnScripts}, null, 4)+'\n'
 		}
 	})
 

@@ -5,7 +5,7 @@ import { MempoolExplorerAdapter } from './MempoolExplorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 
-/** rotates between different Explorers to distribute the load and prevent http 429 too many requests */
+/** rotates between different Explorers to distribute the load and prevent http 429 (too many requests) */
 export class CombinedExplorerAdapter implements ExplorerAdapter {
 
 	private readonly explorers: ExplorerAdapter[] = [

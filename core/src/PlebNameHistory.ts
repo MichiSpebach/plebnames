@@ -2,8 +2,8 @@ import * as util from './util.ts'
 
 export class PlebNameHistory {
 	public readonly name: string
-	private readonly claim: Change & {data: PlebNameData}
-	private readonly changes: Change[] = []
+	private readonly claim: PlebNameChange & {data: PlebNameData}
+	private readonly changes: PlebNameChange[] = []
 	private data: PlebNameData
 
 	public constructor(name: string, claimerAddress: string) {
@@ -13,7 +13,7 @@ export class PlebNameHistory {
 	}
 
 	public addChangeFromOpReturnScript(opReturnScript: string): void {
-		const change: Change = {data: {}}
+		const change: PlebNameChange = {data: {}}
 		for (const instruction of opReturnScript.split(';')) {
 			const [name, keyAndValue]: string[] = this.splitStringIntoTwoParts(instruction, '.')
 			if (util.normalizeAsciiToBech32(name) !== util.normalizeAsciiToBech32(this.name)) {
@@ -33,12 +33,12 @@ export class PlebNameHistory {
 		return [text.substring(0, index), text.substring(index+1)]
 	}
 
-	public addChange(change: Change): void {
+	public addChange(change: PlebNameChange): void {
 		this.changes.push(change)
 		this.data = {...this.data, ...change.data}
 	}
 
-	public getChanges(): Change[] {
+	public getChanges(): PlebNameChange[] {
 		return this.changes
 	}
 
@@ -47,7 +47,7 @@ export class PlebNameHistory {
 	}
 }
 
-export type Change = {
+export type PlebNameChange = {
 	//blockNumber: number // TODO: important to prevent cycles
 	//transaction: string
 	data: Partial<PlebNameData>
