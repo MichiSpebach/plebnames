@@ -42,7 +42,7 @@ To get an overview of the code base try out Mammutmap: https://marketplace.visua
 
 #### Build
 ```
-deno run --allow-all build.run.ts
+deno run -A build.run.ts
 ```
 or more precise
 ```
