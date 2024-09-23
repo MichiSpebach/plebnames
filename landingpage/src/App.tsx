@@ -117,7 +117,7 @@ function App() {
 						Piggybacked names on Bitcoin, just Bitcoin!
 					</h2>
 
-					<div className="w-1/2 max-w-md mb-6">
+					<div className="w-full max-w-xs mb-6">
 						<SearchInput onSearch={handleSearch} />
 					</div>
 

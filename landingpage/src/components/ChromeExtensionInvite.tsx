@@ -20,8 +20,8 @@ export default function ChromeExtensionInvite() {
 		// <div className="fixed top-4 left-4 right-4 backdrop-blur bg-black bg-opacity-20 text-white p-4 rounded-lg shadow-lg">
 		<div className="fixed top-4 flex w-full justify-center">
 			<div className="max-w-7xl mx-8 w-full backdrop-blur bg-black bg-opacity-25 text-white p-4 rounded-lg shadow-lg">
-				<div className="flex items-center justify-between">
-					<div className="flex items-center space-x-4">
+				<div className="flex items-center justify-between flex-col md:flex-row gap-y-2">
+					<div className="flex items-center space-x-4 flex-col md:flex-row gap-y-2">
 						<img
 							src="./../../public/icon-chrome-small.png"
 							alt="Chrome Icon"
