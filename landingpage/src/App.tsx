@@ -109,7 +109,7 @@ function App() {
 				id="header"
 				className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white transition-all"
 			>
-				<div className="w-full max-w-7xl mx-auto p-8">
+				<div className="w-full max-w-7xl mx-auto p-8 overflow-hidden">
 					<h1 className="text-5xl md:text-7xl font-bold mb-3">
 						PlebNames
 					</h1>
@@ -139,7 +139,7 @@ function App() {
 								"{query}" is still unclaimed!
 							</h3>
 
-							<p className="text-lg">
+							<p className="text-lg break-words">
 								You can claim it by sending a minimum amount of
 								satoshis (atm 546) to '
 								{plebNames.util.generateBech32AddressWithPad(
@@ -148,6 +148,7 @@ function App() {
 									),
 								)}
 								'.
+								<br />
 								<br />
 								You're sending address will be the owner!
 							</p>
@@ -169,7 +170,7 @@ function App() {
 							<h3 className="font-bold text-2xl mb-2">
 								"{query}" is already claimed!
 							</h3>
-							<p className="text-xl">
+							<p className="text-xl break-words">
 								<span className="font-bold">Owner: </span>
 								<span className="font-mono">
 									{history.getData().owner}
