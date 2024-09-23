@@ -38,7 +38,7 @@ export default function ChromeExtensionInvite() {
 						</div>
 					</div>
 					<a
-						// href="https://chrome.google.com/webstore"
+						href="https://chromewebstore.google.com/detail/btc/ahjmobbhkjlllhcolchbadpjicolpkob"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="bg-white text-blue-500 font-bold px-4 py-2 rounded-md shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105"
