@@ -90,7 +90,6 @@ const extensions: Extension[] = [
 	},
 	{
 		name: 'Opera Extension',
-		// description: 'PlebNames for Opera browser. Coming Soon!',
 		description: (
 			<>
 				PlebNames for Opera browser.
@@ -102,7 +101,7 @@ const extensions: Extension[] = [
 		category: 'browser',
 		secondaryLink: {
 			label: GitHubIssueLabel,
-			link: 'https://github.com/MichiSpebach/plebnames',
+			link: 'https://github.com/MichiSpebach/plebnames/issues/8',
 		},
 	},
 	{
