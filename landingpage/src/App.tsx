@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import SearchInput from './components/SearchInput';
 import usePlebNameSearch, { StatusTypes } from './hooks/usePlebNameSearch';
 import ExtensionsGallery from './components/ExtensionsGallery';
+import AlterConfigForName from './components/AlterConfigForName';
 // import MemeGallery from './components/MemeGallery';
 
 function App() {
@@ -137,6 +138,13 @@ function App() {
 									</>
 								)}
 							</p>
+
+							<hr className="my-4" />
+
+							<AlterConfigForName
+								currentOwner={history.getData().owner}
+								queryString={queryString}
+							/>
 						</div>
 					)}
 				</div>
