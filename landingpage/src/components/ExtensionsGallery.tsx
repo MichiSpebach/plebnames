@@ -13,19 +13,20 @@
  */
 import React from 'react';
 // import { FaChrome, FaFirefox, Brave, FaOpera, FaSafari } from 'react-icons/fa';
+import { FaBolt } from 'react-icons/fa';
 import {
+	FaBrave,
 	FaChrome,
 	FaFirefox,
-	FaBrave,
+	FaGithub,
 	FaOpera,
 	FaSafari,
-	FaGithub,
-	// FaWallet,
-	// FaBolt, // different bolt icon, as normal `fa`
 } from 'react-icons/fa6';
-import { FaBolt } from 'react-icons/fa';
-import { BsWallet2 } from 'react-icons/bs';
-import { HiOutlineDesktopComputer } from 'react-icons/hi';
+import { HiComputerDesktop } from 'react-icons/hi2';
+
+// import { IoIosWallet } from 'react-icons/io';
+// import { HiMiniWallet } from 'react-icons/hi2';
+import { IoWallet } from 'react-icons/io5';
 
 type ButtonType = {
 	link: string;
@@ -35,7 +36,8 @@ type ButtonType = {
 
 interface Extension {
 	name: string;
-	description: string;
+	description: React.ReactNode;
+	/** Mainly text, but html styling tags are are possible */
 	icon: React.ReactNode;
 	/** Categorizing by type could be useful later. */
 	category: 'browser' | 'social' | 'payment' | 'other';
@@ -46,14 +48,14 @@ interface Extension {
 const GitHubRepoLabel = (
 	<>
 		<FaGithub className="mr-1" />
-		Github Repo
+		GitHub Repo
 	</>
 );
 
 const GitHubIssueLabel = (
 	<>
 		<FaGithub className="mr-1" />
-		Github Issue
+		GitHub Issue
 	</>
 );
 
@@ -88,11 +90,35 @@ const extensions: Extension[] = [
 	},
 	{
 		name: 'Opera Extension',
-		description: 'PlebNames for Opera browser. Coming Soon!',
+		// description: 'PlebNames for Opera browser. Coming Soon!',
+		description: (
+			<>
+				PlebNames for Opera browser.
+				<br />
+				<b>Coming Soon!</b>
+			</>
+		),
 		icon: <FaOpera className="text-4xl" />,
 		category: 'browser',
 		secondaryLink: {
-			label: GitHubRepoLabel,
+			label: GitHubIssueLabel,
+			link: 'https://github.com/MichiSpebach/plebnames',
+		},
+	},
+	{
+		name: 'Microsoft Edge Extension',
+		// description: 'PlebNames for Microsoft Edge. Coming Soon!',
+		description: (
+			<>
+				PlebNames for Microsoft Edge.
+				<br />
+				<b>Coming Soon!</b>
+			</>
+		),
+		icon: <FaOpera className="text-4xl" />,
+		category: 'browser',
+		secondaryLink: {
+			label: GitHubIssueLabel,
 			link: 'https://github.com/MichiSpebach/plebnames',
 		},
 	},
@@ -111,8 +137,25 @@ const extensions: Extension[] = [
 		},
 	},
 	{
+		name: 'Safari Extension',
+		description: 'PlebNames for Safari.',
+		icon: <FaSafari className="text-4xl" />,
+		category: 'browser',
+		secondaryLink: {
+			label: GitHubIssueLabel,
+			link: 'https://github.com/MichiSpebach/plebnames/issues/2',
+		},
+	},
+	{
 		name: 'Snort Nostr Client',
-		description: 'PlebNames integration for Snort Nostr Client. In Review!',
+		// description: 'PlebNames integration for Snort Nostr Client. In Review!',
+		description: (
+			<>
+				PlebNames integration for Snort Nostr Client.
+				<br />
+				<b>In Review!</b>
+			</>
+		),
 		icon: <FaBolt className="text-4xl" />,
 		category: 'social',
 		secondaryLink: {
@@ -120,33 +163,30 @@ const extensions: Extension[] = [
 			link: 'https://github.com/v0l/snort/issues/586',
 		},
 	},
-	// {
-	// 	name: 'Primal Nostr Client',
-	// 	description:
-	// 		'PlebNames integration for Primal Nostr Client.',
-	// 	icon: <FaBolt className="text-4xl" />,
-	// 	category: 'social',
-	// 	primaryLink: {
-	// 		label: 'GitHub Issue',
-	// 		link: '#',
-	// 	},
-	// },
-	// {
-	//     name: "Safari Extension",
-	//     description: "PlebNames for Safari (coming soon)",
-	//     icon: <FaSafari className="text-4xl" />,
-	//     category: "browser",
-	// },
+	{
+		name: 'Primal Nostr Clients',
+		description:
+			'PlebNames integration for all Primal Nostr Clients. Work in progress.',
+		icon: <FaBolt className="text-4xl" />,
+		category: 'social',
+		secondaryLink: {
+			label: GitHubIssueLabel,
+			link: 'https://github.com/PrimalHQ/primal-web-app/issues/95',
+		},
+	},
 	{
 		name: 'Wallet Integration',
 		description: 'PlebNames for Bitcoin wallets. Stay Tuned!',
-		icon: <BsWallet2 className="text-4xl" />,
+		// IoIosWallet; // Cool smooth
+		// HiMiniWallet; // Also smooth
+		// IoWallet; // Smooth but realistic
+		icon: <IoWallet className="text-4xl" />,
 		category: 'payment',
 	},
 	{
 		name: 'Other Applications',
 		description: 'PlebNames for various other applications',
-		icon: <HiOutlineDesktopComputer className="text-4xl" />,
+		icon: <HiComputerDesktop className="text-4xl" />,
 		category: 'other',
 	},
 ] as const;
@@ -159,29 +199,30 @@ const ExtensionTile: React.FC<Extension> = ({
 	primaryLink,
 	secondaryLink,
 }) => {
+	let boxClickHandler: React.MouseEventHandler<HTMLDivElement> | undefined;
+	if (primaryLink?.link) {
+		boxClickHandler = () => window.open(primaryLink.link, '_blank');
+	} else if (secondaryLink?.link) {
+		boxClickHandler = () => window.open(secondaryLink.link, '_blank');
+	}
+
 	return (
 		<div
-			className="flex cursor-pointer flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-md transition-shadow duration-300 hover:border-blue-500 hover:shadow-lg"
-			onClick={
-				primaryLink?.link
-					? () => window.open(primaryLink.link, '_blank')
-					: undefined
-			}
+			className="flex cursor-pointer flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:transform hover:border-blue-500 hover:shadow-xl"
+			onClick={boxClickHandler}
 		>
-			<div className="flex items-center">
-				{icon}
-				<h3 className="ml-4 text-xl font-semibold text-gray-800">
-					{name}
-				</h3>
+			<div className="mb-4 flex items-center">
+				<div className="mr-4 text-blue-500">{icon}</div>
+				<h3 className="text-2xl font-bold text-gray-800">{name}</h3>
 			</div>
 
-			<p className="mb-6 mt-4 text-gray-600">{description}</p>
+			<p className="mb-6 flex-grow text-gray-600">{description}</p>
 
 			<div className="mt-auto flex items-center justify-between">
 				{primaryLink?.link && (
 					<a
 						href={primaryLink?.link || undefined}
-						className="rounded-md bg-blue-500 px-4 py-2 font-bold text-white transition duration-300 hover:bg-blue-600 hover:text-white hover:shadow-lg"
+						className="rounded-full bg-blue-500 px-6 py-2 font-semibold text-white transition duration-300 hover:bg-blue-600 hover:text-white hover:shadow-lg"
 						onClick={(e) => e.stopPropagation()}
 						rel="noopener noreferrer"
 					>
@@ -192,7 +233,7 @@ const ExtensionTile: React.FC<Extension> = ({
 				{secondaryLink && (
 					<a
 						href={secondaryLink.link}
-						className="flex items-center text-gray-600 hover:text-blue-500"
+						className="flex items-center text-gray-500 transition duration-300 hover:text-blue-500"
 						target="_blank"
 						rel="noopener noreferrer"
 						onClick={(e) => e.stopPropagation()}
@@ -207,18 +248,21 @@ const ExtensionTile: React.FC<Extension> = ({
 
 function ExtensionsGallery() {
 	return (
-		<div className="bg-gradient-to-b from-white to-gray-100 py-12">
+		<section
+			id="extensionsGallery"
+			className="bg-gradient-to-b from-white to-gray-100 py-20"
+		>
 			<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-				<h2 className="mb-8 text-3xl font-extrabold text-gray-900">
-					Extensions Gallery
+				<h2 className="mb-12 text-center text-4xl font-extrabold text-gray-900">
+					Explore PlebNames Integrations
 				</h2>
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{extensions.map((extension, index) => (
 						<ExtensionTile key={index} {...extension} />
 					))}
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 }
 
