@@ -106,19 +106,12 @@ const extensions: Extension[] = [
 	},
 	{
 		name: 'Microsoft Edge Extension',
-		// description: 'PlebNames for Microsoft Edge. Coming Soon!',
-		description: (
-			<>
-				PlebNames for Microsoft Edge.
-				<br />
-				<b>Coming Soon!</b>
-			</>
-		),
+		description: 'PlebNames for Microsoft Edge. Coming Soon!',
 		icon: <FaOpera className="text-4xl" />,
 		category: 'browser',
 		secondaryLink: {
 			label: GitHubIssueLabel,
-			link: 'https://github.com/MichiSpebach/plebnames',
+			link: 'https://github.com/MichiSpebach/plebnames/issues/9',
 		},
 	},
 	{
