@@ -1,130 +1,40 @@
-import * as plebNames from '@plebnames/core';
-import { useState } from 'react';
-import { PiSpinnerGapBold } from 'react-icons/pi';
 import './App.css';
 
+import * as plebNames from 'plebnames';
+import { PiSpinnerGapBold } from 'react-icons/pi';
 import ChromeExtensionInvite from './components/ChromeExtensionInvite';
+import CollaborationBanner from './components/CollaborationBanner';
 import Footer from './components/Footer';
 import SearchInput from './components/SearchInput';
-
-/**
- * The different status's our query can have.
- */
-enum statusTypes {
-	/** When the User has not done a search. */
-	notSearched = 'not-searched',
-
-	/** Loading the data */
-	loading = 'loading',
-
-	/** Name is not claimed */
-	unclaimed = 'unclaimed',
-
-	/** Name is claimed */
-	claimed = 'claimed',
-}
-
-type DataTypes =
-	| {
-			status: statusTypes.claimed;
-			history: plebNames.PlebNameHistory;
-			query: string;
-	  }
-	| {
-			status: statusTypes.loading;
-			query: string;
-
-			// Null Types
-			history: null;
-	  }
-	| {
-			status: statusTypes.notSearched;
-
-			// Null Types
-			query: null;
-			history: null;
-	  }
-	| {
-			status: statusTypes.unclaimed;
-			query: string;
-
-			// Null Types
-			history: null;
-	  };
-
-/**
- * Hook for the plebName Search.
- */
-const usePlebNameSearch = () => {
-	const [data, setData] = useState<DataTypes>({
-		status: statusTypes.notSearched,
-		history: null,
-		query: null,
-	});
-
-	/** Handels Search Input */
-	const handleSearch = async (query: string) => {
-		if (query.length < 1) {
-			setData({
-				status: statusTypes.notSearched,
-				history: null,
-				query: null,
-			});
-			alert('Please enter a name.');
-			return;
-		}
-		setData({ status: statusTypes.loading, history: null, query });
-
-		console.log('Searching for:', query);
-
-		const history =
-			await plebNames.bitcoinExplorer.followNameHistory(query);
-
-		if (history === 'unclaimed') {
-			setData({
-				status: statusTypes.unclaimed,
-
-				/** No History object. */
-				history: null,
-				query: query,
-			});
-		} else {
-			setData({
-				status: statusTypes.claimed,
-				history,
-				query,
-			});
-		}
-	};
-
-	return { handleSearch, ...data };
-};
+import usePlebNameSearch, { StatusTypes } from './hooks/usePlebNameSearch';
+import ExtensionsGallery from './components/ExtensionsGallery';
+// import MemeGallery from './components/MemeGallery';
 
 function App() {
-	const { handleSearch, history, query, status } = usePlebNameSearch();
+	const { handleSearch, history, queryString, status } = usePlebNameSearch();
 
 	return (
 		<>
 			<section
 				id="header"
-				className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white transition-all"
+				className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 text-white transition-all"
 			>
-				<div className="w-full max-w-7xl mx-auto p-8 overflow-hidden">
-					<h1 className="text-5xl md:text-7xl font-bold mb-3">
+				<div className="mx-auto w-full max-w-7xl overflow-hidden p-8">
+					<h1 className="mb-3 text-5xl font-bold md:text-7xl">
 						PlebNames
 					</h1>
-					<h2 className="text-3xl md:text-5xl mb-12">
+					<h2 className="mb-12 text-3xl md:text-5xl">
 						Piggybacked names on Bitcoin, just Bitcoin!
 					</h2>
 
-					<div className="w-full max-w-xs mb-6">
+					<div className="mb-6 w-full max-w-xs">
 						<SearchInput onSearch={handleSearch} />
 					</div>
 
-					{status === statusTypes.loading && (
-						<div className="lex w-full flex-col gap-3 backdrop-blur bg-white bg-opacity-15 text-white p-4 rounded-xl shadow-lg">
-							<h3 className="font-bold text-2xl animate-pulse">
-								Loading data for "{query}" ...
+					{status === StatusTypes.Loading && (
+						<div className="lex w-full flex-col gap-3 rounded-xl bg-white bg-opacity-15 p-4 text-white shadow-lg backdrop-blur">
+							<h3 className="animate-pulse text-2xl font-bold">
+								Loading data for "{queryString}" ...
 							</h3>
 							<PiSpinnerGapBold
 								size={34}
@@ -133,18 +43,18 @@ function App() {
 						</div>
 					)}
 
-					{status === statusTypes.unclaimed && (
-						<div className="flex w-full flex-col gap-3 backdrop-blur bg-white bg-opacity-15 text-white p-4 rounded-xl shadow-lg">
-							<h3 className="font-bold text-2xl mb-2">
-								"{query}" is still unclaimed!
+					{status === StatusTypes.Unclaimed && (
+						<div className="flex w-full flex-col gap-3 rounded-xl bg-white bg-opacity-15 p-4 text-white shadow-lg backdrop-blur">
+							<h3 className="mb-2 text-2xl font-bold">
+								"{queryString}" is still unclaimed!
 							</h3>
 
-							<p className="text-lg break-words">
+							<p className="break-words text-lg">
 								You can claim it by sending a minimum amount of
 								satoshis (atm 546) to '
 								{plebNames.util.generateBech32AddressWithPad(
 									plebNames.util.normalizeAsciiToBech32(
-										query,
+										queryString,
 									),
 								)}
 								'.
@@ -165,12 +75,12 @@ function App() {
 						</div>
 					)}
 
-					{status === statusTypes.claimed && (
-						<div className="flex w-full flex-col backdrop-blur bg-white bg-opacity-15 text-white p-4 rounded-lg shadow-lg">
-							<h3 className="font-bold text-2xl mb-2">
-								"{query}" is already claimed!
+					{status === StatusTypes.Claimed && (
+						<div className="flex w-full flex-col rounded-lg bg-white bg-opacity-15 p-4 text-white shadow-lg backdrop-blur">
+							<h3 className="mb-2 text-2xl font-bold">
+								"{queryString}" is already claimed!
 							</h3>
-							<p className="text-xl break-words">
+							<p className="break-words text-xl">
 								<span className="font-bold">Owner: </span>
 								<span className="font-mono">
 									{history.getData().owner}
@@ -234,13 +144,14 @@ function App() {
 
 			<ChromeExtensionInvite />
 
-			<main
-				// So its not to wide an wide-screen monitors
-				className="w-full max-w-7xl mx-auto p-8"
-			>
+			<CollaborationBanner />
+
+			<ExtensionsGallery />
+
+			<main className="mx-auto w-full max-w-7xl p-8">
 				<section>
-					<h2 className="text-lg md:text-xl font-bold mb-1">
-						In Detail:
+					<h2 className="mb-1 text-2xl font-bold md:text-3xl">
+						In Detail
 					</h2>
 					<p className="text-xl">
 						<b>The core Philosophy</b>
@@ -248,21 +159,14 @@ function App() {
 						Only normal Bitcoin explorers are required, no other
 						server infrastructure or sidechain.
 						<br />
-						<br />
-						<br />
-						This section will explore in detail how plebnames work.
-						<br />
 						- No Token, No pre-mine, no Regulation, no Company. Pure
 						Freedom.
 						<br />
-						- Listing of the different UseCases
-						<br />
-						- Compare Tabelle (between the classical system.)
-						<br />
-						- Link zu den Extensions und Integration.
-						<br />- Memes
+						{/* - Listing of the different UseCases
+						<br />- Compare Tabelle (between the classic system.) */}
 					</p>
 				</section>
+				{/* <MemeGallery /> */}
 			</main>
 
 			<Footer />

@@ -40,13 +40,13 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
 				placeholder="Search names..."
 				value={query}
 				onChange={handleInputChange}
-				className="w-full py-4 pl-6 pr-16 text-xl rounded-full border border-gray-100 bg-white/20 placeholder-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+				className="w-full rounded-full border border-gray-100 bg-white/20 py-4 pl-6 pr-16 text-xl placeholder-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
 			/>
-			<div className="absolute aspect-square h-full right-0 flex align-middle bg-red-500/0">
-				<div className="w-full h-full flex items-center justify-center p-1 hover:p-0 transition-all bg-green-500/0">
+			<div className="absolute right-0 flex aspect-square h-full bg-red-500/0 align-middle">
+				<div className="flex h-full w-full items-center justify-center bg-green-500/0 p-1 transition-all hover:p-0">
 					<button
 						type="submit"
-						className="flex-1 flex justify-center items-center text-white bg-amber-500 rounded-full"
+						className="flex flex-1 items-center justify-center rounded-full bg-amber-500 text-white"
 						style={{
 							aspectRatio: '1', // Keeps the button circular
 						}}

@@ -11,9 +11,7 @@
 		"myPrettier": "prettier --write '**/*.{ts,tsx,js,jsx,json}'"
 	},
 	"dependencies": {
-		"@plebnames/core": "npm:@jsr/plebnames__core@^0.2.1",
-		"@std/encoding": "npm:@jsr/std__encoding@^1.0.5",
-		"jsr": "^0.13.2",
+		"plebnames": "^0.2.4",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-icons": "^5.3.0",
@@ -31,6 +29,7 @@
 		"globals": "^15.9.0",
 		"postcss": "^8.4.47",
 		"prettier": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.8",
 		"tailwindcss": "^3.4.12",
 		"typescript": "^5.5.3",
 		"typescript-eslint": "^8.0.1",
@@ -46,6 +45,9 @@
 		"arrowParens": "always",
 		"bracketSameLine": false,
 		"endOfLine": "lf",
-		"quoteProps": "as-needed"
+		"quoteProps": "as-needed",
+		"plugins": [
+			"prettier-plugin-tailwindcss"
+		]
 	}
 }

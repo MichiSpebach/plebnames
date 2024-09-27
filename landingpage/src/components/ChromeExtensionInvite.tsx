@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * TODO: Refactor this into some generic BrowserExtension Invite banner, not only for chrome.
+ */
 export default function ChromeExtensionInvite() {
 	const [isChrome, setIsChrome] = useState(false);
 
 	useEffect(() => {
-		// Check if the browser is Chrome
 		const isChromeBrowser =
 			/Chrome/.test(navigator.userAgent) &&
 			/Google Inc/.test(navigator.vendor);
@@ -12,20 +14,20 @@ export default function ChromeExtensionInvite() {
 	}, []);
 
 	if (!isChrome) {
-		return null; // Don't show the banner if it's not Chrome
+		return null;
 	}
 
 	return (
 		// <div className="fixed top-4 left-4 right-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-lg shadow-lg">
 		// <div className="fixed top-4 left-4 right-4 backdrop-blur bg-black bg-opacity-20 text-white p-4 rounded-lg shadow-lg">
 		<div className="fixed top-4 flex w-full justify-center">
-			<div className="max-w-7xl mx-8 w-full backdrop-blur bg-black bg-opacity-25 text-white p-4 rounded-lg shadow-lg">
-				<div className="flex items-center justify-between flex-col md:flex-row gap-y-2">
-					<div className="flex items-center space-x-4 flex-col md:flex-row gap-y-2">
+			<div className="mx-8 w-full max-w-7xl rounded-lg bg-black bg-opacity-25 p-4 text-white shadow-lg backdrop-blur">
+				<div className="flex flex-col items-center justify-between gap-y-2 md:flex-row">
+					<div className="flex flex-col items-center gap-y-2 space-x-4 md:flex-row">
 						<img
 							src="./../../public/icon-chrome-small.png"
 							alt="Chrome Icon"
-							className="w-10 h-10"
+							className="h-10 w-10"
 						/>
 						<div>
 							<h3 className="text-lg font-semibold">
@@ -41,7 +43,7 @@ export default function ChromeExtensionInvite() {
 						href="https://chromewebstore.google.com/detail/btc/ahjmobbhkjlllhcolchbadpjicolpkob"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="bg-white text-blue-500 font-bold px-4 py-2 rounded-md shadow-lg hover:bg-gray-100 transition-transform transform hover:scale-105"
+						className="transform rounded-md bg-white px-4 py-2 font-bold text-blue-500 shadow-lg transition-transform hover:scale-105 hover:bg-gray-100"
 					>
 						Add Extension
 					</a>
