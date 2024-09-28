@@ -1,4 +1,5 @@
 import { FaBolt, FaGithub } from 'react-icons/fa';
+import { MAIN_REPO_LINK } from '../constants/links';
 
 /**
  * Renders the footer component for the entire web page.
@@ -22,7 +23,7 @@ function Footer() {
 					<div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
 						<a
 							target="_blank"
-							href="http://github.com/MichiSpebach/plebnames"
+							href={MAIN_REPO_LINK}
 							rel="noopener noreferrer"
 							className="link-underline inline-flex items-center space-x-2 text-white transition-colors duration-200 ease-in-out hover:text-blue-200"
 						>

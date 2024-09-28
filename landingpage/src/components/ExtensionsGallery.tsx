@@ -27,6 +27,11 @@ import { HiComputerDesktop } from 'react-icons/hi2';
 // import { IoIosWallet } from 'react-icons/io';
 // import { HiMiniWallet } from 'react-icons/hi2';
 import { IoWallet } from 'react-icons/io5';
+import {
+	BRAVE_EXTENSION_LINK,
+	CHROME_WEB_STORE_LINK,
+	MAIN_REPO_LINK,
+} from '../constants/links';
 
 type ButtonType = {
 	link: string;
@@ -67,11 +72,11 @@ const extensions: Extension[] = [
 		category: 'browser',
 		primaryLink: {
 			label: 'Add Extension',
-			link: 'https://chromewebstore.google.com/detail/btc/ahjmobbhkjlllhcolchbadpjicolpkob',
+			link: CHROME_WEB_STORE_LINK,
 		},
 		secondaryLink: {
 			label: GitHubRepoLabel,
-			link: 'https://github.com/MichiSpebach/plebnames',
+			link: MAIN_REPO_LINK,
 		},
 	},
 	{
@@ -81,11 +86,11 @@ const extensions: Extension[] = [
 		category: 'browser',
 		primaryLink: {
 			label: 'Add Extension',
-			link: 'https://chromewebstore.google.com/detail/btc/ahjmobbhkjlllhcolchbadpjicolpkob',
+			link: BRAVE_EXTENSION_LINK,
 		},
 		secondaryLink: {
 			label: GitHubRepoLabel,
-			link: 'https://github.com/MichiSpebach/plebnames',
+			link: MAIN_REPO_LINK,
 		},
 	},
 	{
@@ -210,7 +215,7 @@ const ExtensionTile: React.FC<Extension> = ({
 
 			<p className="mb-6 flex-grow text-gray-600">{description}</p>
 
-			<div className="mt-auto flex items-center justify-between">
+			<div className="mt-auto flex flex-wrap justify-between gap-x-3 gap-y-4">
 				{primaryLink?.link && (
 					<a
 						href={primaryLink?.link || undefined}
@@ -225,7 +230,11 @@ const ExtensionTile: React.FC<Extension> = ({
 				{secondaryLink && (
 					<a
 						href={secondaryLink.link}
-						className="flex items-center text-gray-500 transition duration-300 hover:text-blue-500"
+						className="ml-2 flex items-center text-gray-500 transition duration-300 hover:text-blue-500"
+						style={{
+							/** Visual balancing */
+							marginLeft: primaryLink?.link ? '0.4rem' : '0',
+						}}
 						target="_blank"
 						rel="noopener noreferrer"
 						onClick={(e) => e.stopPropagation()}
