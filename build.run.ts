@@ -16,6 +16,6 @@ async function build(options: {outdir?: string, outfile?: string}): Promise<Buil
 		bundle: true,
 		...options
 	})
-	esbuild.stop()
+	await esbuild.stop()
 	return result
 }

@@ -27,7 +27,7 @@ async function buildForNpmLibrary(): Promise<void> {
 			outfile: './index.js',
 			external: ['npm:bech32@2.0.0'],
 		})
-		esbuild.stop()
+		await esbuild.stop()
 		console.log('esbuild result:', result)
 	
 		console.log('replacing Deno imports with package.json imports')

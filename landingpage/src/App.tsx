@@ -61,7 +61,7 @@ function App() {
 								'.
 								<br />
 								<br />
-								You're sending address will be the owner!
+								Your sending address will be the owner!
 							</p>
 
 							{/* <button
