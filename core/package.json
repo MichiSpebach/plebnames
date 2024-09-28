@@ -1,0 +1,23 @@
+{
+	"name": "plebnames",
+	"version": "0.2.4",
+	"license": "MIT",
+	"main": "./index.js",
+	"types": "./index.d.ts",
+	"files": [
+		"./index.js",
+		"./index.d.ts",
+		"./dist"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MichiSpebach/plebnames.git"
+	},
+	"bugs": {
+		"url": "https://github.com/MichiSpebach/plebnames/issues"
+	},
+	"homepage": "https://github.com/MichiSpebach/plebnames#readme",
+	"dependencies": {
+		"bech32": "^2.0.0"
+	}
+}

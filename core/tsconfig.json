@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"outDir": "./dist",
+		"allowImportingTsExtensions": true,
+		"declaration": true,
+		"emitDeclarationOnly": true
+	},
+	"include": ["./src"],
+	"exclude": ["**/*.test.ts"]
+}
