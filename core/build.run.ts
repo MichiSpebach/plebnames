@@ -26,7 +26,6 @@ async function buildForNpmLibrary(): Promise<void> {
 			bundle: true,
 			outfile: './index.js',
 			external: ['npm:bech32@2.0.0'],
-			tsconfig: 'tsconfig.json'
 		})
 		esbuild.stop()
 		console.log('esbuild result:', result)
@@ -44,7 +43,7 @@ async function buildForNpmLibrary(): Promise<void> {
 	async function generateDtsFiles(): Promise<void> {
 		console.log('generating .d.ts files with tsc')
 		try {
-			console.log(await exec('tsc'))
+			console.log(await exec('tsc --project tsconfig.generateDts.json'))
 		} catch (error) {
 			// TODO: works nonetheless, but fix this error
 			console.warn(error)

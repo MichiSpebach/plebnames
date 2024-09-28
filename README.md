@@ -4,6 +4,27 @@ A PlebName is unique and is owned by one clear pleb at a time (or with multisig 
 The owner of a Plebname (the one who claimed the name first) can attach data to it, like a Lightning Address or Nostr npub.\
 Try it out at http://plebnames.org.
 
+### Usage of core library
+```
+npm install plebnames
+```
+```TypeScript
+import { bitcoinExplorer } from 'plebnames'
+//import { bitcoinExplorer } from 'jsr:@plebnames/core@0.2.1' // or 'npm:plebnames@0.2.4' for Deno
+
+const nameHistory: PlebNameHistory|'unclaimed' = await bitcoinExplorer.followNameHistory('test')
+if (nameHistory === 'unclaimed') {
+	console.log('Name is not claimed yet.')
+} else {
+	console.log(nameHistory.getData())
+	// {
+	// 	owner: "bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w",
+	// 	nostr: "npub1pcqz0y5zt6cfafazcu6h2vf9trghshxhdwypm0g8jf2nmuhmd6rqdcd82u",
+	// 	website: "https://bitcoin.org"
+	// }
+}
+```
+
 ### Why PlebNames
 PlebNames give every pleb a clear unique name that can be spoken and easily remembered.\
 For example when doing a transaction: Instead of typing in a long address you just type in the PlebName of a pleb. The wallet then looks in the Bitcoin mainchain to whom the PlebName belongs and resolves the PlebName to the actual address.
