@@ -61,7 +61,9 @@ function App() {
 								'.
 								<br />
 								<br />
-								Your sending address will be the owner!
+								Your sending address will act as the owner, so
+								ensure it's a custodial wallet address and{' '}
+								<b>avoid using non-custodial addresses.</b>
 							</p>
 
 							{/* <button
