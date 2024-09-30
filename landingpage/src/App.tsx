@@ -2,7 +2,7 @@ import './App.css';
 
 import * as plebNames from 'plebnames';
 import { PiSpinnerGapBold } from 'react-icons/pi';
-import ChromeExtensionInvite from './components/ChromeExtensionInvite';
+import ChromeExtensionInvite from './components/BrowserExtensionBanner';
 import CollaborationBanner from './components/CollaborationBanner';
 import Footer from './components/Footer';
 import SearchInput from './components/SearchInput';
