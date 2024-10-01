@@ -1,8 +1,8 @@
-import { DenoDir } from "https://deno.land/x/deno_cache@0.6.2/mod.ts";
 import { assertEquals, assertObjectMatch } from '../testUtil.test.ts'
 import { explorerAdapter } from './explorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
 import { followNameHistory } from "./explorerAdapter.ts";
+import { PlebNameHistory } from '../PlebNameHistory.ts'
 
 Deno.test('getFirstInputOfAddress', async () => {
 	const firstInput: InputPrevout | undefined = await explorerAdapter.getFirstInputOfAddress('bc1q9a968mk6hvptkm5rknhqlegqdj9ry2ahfsjssy')
@@ -46,7 +46,7 @@ Deno.test('getOutScriptsOfAddress Bech32 no authered scripts', async () => {
 
 Deno.test('followNameHistory', async () => {
 	const result = await followNameHistory('test');
-	assertObjectMatch(result as Record<PropertyKey, any>, {
+	assertObjectMatch(result as PlebNameHistory, {
 		name: "test",
 		claim: {
 		  data: {
