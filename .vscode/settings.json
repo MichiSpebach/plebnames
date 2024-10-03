@@ -1,5 +1,4 @@
 {
 	"deno.enable": true,
-	"deno.disablePaths": ["./landingpage/src/"],
-	"deno.config": "tsconfig.json"
+	"deno.disablePaths": ["./landingpage/src/"]
 }

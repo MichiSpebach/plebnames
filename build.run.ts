@@ -5,7 +5,7 @@ import { denoPlugins } from 'https://deno.land/x/esbuild_deno_loader@0.9.0/mod.t
 await buildForChromeExtension()
 
 async function buildForChromeExtension(): Promise<void> {
-	const result: BuildResult = await build({outfile: 'out/chromeExtension/main.js'})
+	const result: BuildResult = await build({outfile: './dist/chromeExtension/main.js'})
 	console.log('buildForChromeExtension result:', result)
 }
 
