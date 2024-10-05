@@ -58,16 +58,6 @@ export function addPrefixAndChecksumToBech32Hex(bech32InHex: string): string {
 	return bech32.encode('bc', [0, ...bytes])
 }
 
-export function normalizeAsciiToBase58(ascii: string): string {
-	let base58: string = ''
-	for (const char of ascii.replaceAll('l', 'L').replaceAll('O', 'o').replaceAll('0', 'o')) {
-		if (base58Chars.includes(char)) {
-			base58 += char
-		}
-	}
-	return base58
-}
-
 export function bytesToHex(bytes: Uint8Array): string {
 	let hex: string = ''
 	for (const byte of bytes) {
