@@ -7,7 +7,7 @@ const ClaimedContent: React.FC<{
 }> = ({ history, queryString }) => {
 	return (
 		<>
-			<h3 className="mb-2 text-2xl font-bold">
+			<h3 className="mb-2 text-2xl font-bold text-blue-950">
 				"{queryString}" is already claimed!
 			</h3>
 
@@ -29,7 +29,7 @@ const ClaimedContent: React.FC<{
 						<a
 							href={history.getData().linkTo}
 							rel="noopener noreferrer"
-							className="text-white underline"
+							className="text text-blue-950 underline"
 							title={`Link to ${history.getData().linkTo}`}
 						>
 							{history.getData().linkTo}
@@ -43,7 +43,7 @@ const ClaimedContent: React.FC<{
 						<a
 							href={history.getData().website}
 							rel="noopener noreferrer"
-							className="text-white underline"
+							className="underline"
 							title={`Website link to ${history.getData().website}`}
 						>
 							{history.getData().website}
