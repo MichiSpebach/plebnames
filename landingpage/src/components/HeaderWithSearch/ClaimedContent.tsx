@@ -1,5 +1,4 @@
 import React from 'react';
-import AlterConfigForName from '../AlterConfigForName';
 import { PlebNameHistory } from 'plebnames';
 
 const ClaimedContent: React.FC<{

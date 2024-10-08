@@ -41,7 +41,7 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 					</span>
 
 					<span className="inline-flex bg-green-300">
-						{addressStruct.fill.map((item, i, arr) => (
+						{addressStruct.fill.map((item) => (
 							<span
 								className="inline-flex items-center justify-center"
 								style={{

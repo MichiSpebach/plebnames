@@ -192,7 +192,7 @@ const ExtensionTile: React.FC<Extension> = ({
 	name,
 	description,
 	icon,
-	category,
+	// category,
 	primaryLink,
 	secondaryLink,
 }) => {

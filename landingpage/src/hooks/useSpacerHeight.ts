@@ -44,7 +44,7 @@ const useSpacerHeight = (
 
 		window.addEventListener('resize', throttledUpdate);
 
-		const resizeObserver = new ResizeObserver((entries) => {
+		const resizeObserver = new ResizeObserver(() => {
 			throttledUpdate();
 		});
 
