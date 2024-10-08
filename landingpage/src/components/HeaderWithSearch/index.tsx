@@ -5,17 +5,21 @@ import usePlebNameSearch, { StatusTypes } from '../../hooks/usePlebNameSearch';
 import useSpacerHeight from '../../hooks/useSpacerHeight';
 import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
-import PAExplanationView from './PAExplanationView';
+// import PAExplanationView from './PAExplanationView';
 import './../../App.css';
 import AlterConfigForName from '../AlterConfigForName';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
 
-// Cancel Button
 function HeaderWithSearch() {
 	let { handleSearch, data } = usePlebNameSearch();
-	const { history, paExplanation, queryString, status } = data;
+	const {
+		history,
+		// paExplanation,
+		queryString,
+		status,
+	} = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
 	const spacerHeight = useSpacerHeight(overflowBoxRef, [status]);
@@ -97,10 +101,10 @@ function HeaderWithSearch() {
 									address and{' '}
 									<b>avoid using custodial addresses.</b>
 								</p>
-
+								{/* 
 								<MyHr />
 
-								<PAExplanationView {...paExplanation} />
+								<PAExplanationView {...paExplanation} /> */}
 							</>
 						)}
 
@@ -113,9 +117,9 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<PAExplanationView {...paExplanation} />
+								{/* <PAExplanationView {...paExplanation} />
 
-								<MyHr />
+								<MyHr /> */}
 
 								<AlterConfigForName
 									currentOwner={history.getData().owner}
