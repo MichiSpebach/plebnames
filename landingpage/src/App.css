@@ -19,14 +19,19 @@
 	select {
 		width: 150px;
 		padding: 5px 35px 5px 5px;
+
+		font-weight: 600;
+		font-style: monospace;
 		font-size: 16px;
+
 		border: 1px solid #ccc;
 		height: 34px;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
-		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%23000' d='M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z'/%3E%3C/svg%3E")
-			right 10px center no-repeat #eee;
+		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 8 8'%3E%3Cpath fill='%23000' d='M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z'/%3E%3C/svg%3E")
+			right 10px bottom 8px no-repeat #eee;
+		background-size: 12px 12px;
 		color: hsl(0, 0%, 12%) !important;
 	}
 
@@ -43,4 +48,12 @@
 			padding: 5px\9;
 		}
 	}
+}
+
+/* Result overflow box for the search result in the header. */
+
+/* This is done, as addresses have a problem with breaking */
+#resultOverflowBox span,
+#resultOverflowBox p {
+	overflow-wrap: break-word;
 }

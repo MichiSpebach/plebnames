@@ -41,17 +41,17 @@ export type PlebAddressExplainedType = {
  *
  * TODO: Tests dafür schreiben
  */
-function getFillAndOverflow({
+const getFillAndOverflow = ({
 	normalizedName,
 }: {
-	/** Make sure that its the normalized name */
+	/** !The normalized name */
 	normalizedName: string;
 }): {
 	/** Chunks of the name, without the overflow */
 	fill: string[];
 	/** When null, than this PlebAddress has no overflow, as it perfectly fits (Rare case) */
 	overflow: string | null;
-} {
+} => {
 	const paddedString = ''.padEnd(32, normalizedName);
 	const chunkSize = normalizedName.length;
 
@@ -74,7 +74,7 @@ function getFillAndOverflow({
 		fill,
 		overflow,
 	};
-}
+};
 
 export default function generatePAExplanationForName(
 	name: string,

@@ -19,7 +19,7 @@ function Footer() {
 
 			{/* Different idea <div className="container mx-auto px-4 relative z-10 bg-red-400"> */}
 			<div className="relative z-10 flex w-full">
-				<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 p-8 md:flex-row">
+				<div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-6 px-4 py-8 sm:px-6 md:flex-row lg:px-8">
 					<div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
 						<a
 							target="_blank"

@@ -41,6 +41,12 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
 				value={query}
 				onChange={handleInputChange}
 				className="w-full rounded-full border border-gray-100 bg-white/15 py-4 pl-6 pr-16 text-xl placeholder-white transition focus:border-transparent focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-amber-500"
+				// style={{
+				// 	borderTopLeftRadius: '2rem',
+				// 	borderTopRightRadius: '2rem',
+				// 	borderBottomLeftRadius: '2rem',
+				// 	borderBottomRightRadius: '0rem',
+				// }}
 			/>
 			<div className="absolute right-0 flex aspect-square h-full bg-red-500/0 align-middle">
 				<div className="flex h-full w-full items-center justify-center bg-green-500/0 p-1 transition-all hover:p-0">
