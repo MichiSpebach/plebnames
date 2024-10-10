@@ -39,11 +39,12 @@ function Footer() {
 							</span>
 						</a>
 					</div>
+
 					<div className="text-center text-white md:text-right">
-						<p className="text-sm">
+						<p className="text-base md:text-sm">
 							In Bitcoin We Etch, In Freedom We Trust.
 						</p>
-						<p className="mt-1 text-xs text-gray-300">
+						<p className="mt-1 text-base text-gray-300 md:text-xs">
 							Empowering the plebs with Bitcoin-native naming.
 						</p>
 					</div>

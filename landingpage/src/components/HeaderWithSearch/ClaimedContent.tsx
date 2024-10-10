@@ -11,7 +11,7 @@ const ClaimedContent: React.FC<{
 				"{queryString}" is already claimed!
 			</h3>
 
-			<p className="break-words text-xl">
+			<p className="break-words text-lg">
 				<span className="font-bold">Owner: </span>
 				<span className="font-mono">{history.getData().owner}</span>
 				<br />
