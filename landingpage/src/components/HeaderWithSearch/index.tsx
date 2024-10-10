@@ -54,15 +54,20 @@ function HeaderWithSearch() {
 					className="absolute left-0 right-0 top-full"
 					style={{
 						top: 'calc(100% - 0.8rem)',
-						display:
-							status === StatusTypes.NotSearched
-								? 'none'
-								: undefined,
 					}}
 				>
 					{/* <div className="p-4 mx-8  flex-1 flex flex-col gap-3 rounded-xl bg-white text-blue-950 shadow-md"> */}
 					{/* <div className="p-4 mx-8  flex-1 flex flex-col gap-3 rounded-xl bg-gradient-to-l from-indigo-100 to-indigo-900 text-white shadow-md"> */}
-					<div className="relative mx-4 flex flex-1 flex-col rounded-xl border border-gray-200 bg-white p-4 text-blue-950 shadow-sm sm:mx-6 lg:mx-8">
+					<div
+						className="relative mx-4 flex flex-1 flex-col rounded-xl border border-gray-200 bg-white p-4 text-blue-950 shadow-sm sm:mx-6 lg:mx-8"
+						style={
+							status === StatusTypes.NotSearched
+								? {
+										display: 'none',
+									}
+								: undefined
+						}
+					>
 						{status === StatusTypes.Loading && (
 							<>
 								<h3 className="animate-pulse text-2xl font-bold">
