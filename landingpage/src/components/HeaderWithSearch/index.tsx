@@ -23,7 +23,7 @@ function HeaderWithSearch() {
 	return (
 		<section
 			id="header"
-			className="flex h-lvh flex-col items-center justify-center overflow-y-visible bg-gradient-to-r from-blue-500 to-indigo-600 text-white transition-all"
+			className="flex h-lvh flex-col items-center justify-center overflow-y-visible bg-gradient-to-b from-blue-500 to-indigo-600 text-white transition-all"
 			style={{
 				marginBottom: spacerHeight,
 			}}
