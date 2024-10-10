@@ -5,21 +5,17 @@ import usePlebNameSearch, { StatusTypes } from '../../hooks/usePlebNameSearch';
 import useSpacerHeight from '../../hooks/useSpacerHeight';
 import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
-// import PAExplanationView from './PAExplanationView';
+import PAExplanationView from './PAExplanationView';
 import './../../App.css';
 import AlterConfigForName from '../AlterConfigForName';
+import MarkedTextWithCopy from '../MarkedTextWithCopy';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
 
 function HeaderWithSearch() {
 	let { handleSearch, data } = usePlebNameSearch();
-	const {
-		history,
-		// paExplanation,
-		queryString,
-		status,
-	} = data;
+	const { history, paExplanation, queryString, status } = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
 	const spacerHeight = useSpacerHeight(overflowBoxRef, [status]);
@@ -66,7 +62,7 @@ function HeaderWithSearch() {
 				>
 					{/* <div className="p-4 mx-8  flex-1 flex flex-col gap-3 rounded-xl bg-white text-blue-950 shadow-md"> */}
 					{/* <div className="p-4 mx-8  flex-1 flex flex-col gap-3 rounded-xl bg-gradient-to-l from-indigo-100 to-indigo-900 text-white shadow-md"> */}
-					<div className="mx-4 flex flex-1 flex-col rounded-xl border border-gray-200 bg-white p-4 text-blue-950 shadow-sm sm:mx-6 lg:mx-8">
+					<div className="relative mx-4 flex flex-1 flex-col rounded-xl border border-gray-200 bg-white p-4 text-blue-950 shadow-sm sm:mx-6 lg:mx-8">
 						{status === StatusTypes.Loading && (
 							<>
 								<h3 className="animate-pulse text-2xl font-bold">
@@ -87,13 +83,14 @@ function HeaderWithSearch() {
 
 								<p className="break-words text-lg">
 									You can claim it by sending a minimum amount
-									of satoshis (atm 546) to '
-									{util.generateBech32AddressWithPad(
-										util.normalizeAsciiToBech32(
-											queryString,
-										),
-									)}
-									'.
+									of satoshis (atm 546) to{' '}
+									<MarkedTextWithCopy clickToCopy>
+										{util.generateBech32AddressWithPad(
+											util.normalizeAsciiToBech32(
+												queryString,
+											),
+										)}
+									</MarkedTextWithCopy>
 									<br />
 									<br />
 									Your sending address will act as the owner,
@@ -101,10 +98,10 @@ function HeaderWithSearch() {
 									address and{' '}
 									<b>avoid using custodial addresses.</b>
 								</p>
-								{/* 
+
 								<MyHr />
 
-								<PAExplanationView {...paExplanation} /> */}
+								<PAExplanationView {...paExplanation} />
 							</>
 						)}
 
@@ -117,9 +114,9 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								{/* <PAExplanationView {...paExplanation} />
+								<PAExplanationView {...paExplanation} />
 
-								<MyHr /> */}
+								<MyHr />
 
 								<AlterConfigForName
 									currentOwner={history.getData().owner}
