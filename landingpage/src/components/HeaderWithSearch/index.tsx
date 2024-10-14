@@ -9,6 +9,7 @@ import PAExplanationView from './PAExplanationView';
 import './../../App.css';
 import AlterConfigForName from '../AlterConfigForName';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
+import { generateClaimNameTransaction } from './claimNameTransactionGenerator';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -95,6 +96,11 @@ function HeaderWithSearch() {
 												queryString,
 											),
 										)}
+									</MarkedTextWithCopy>
+									<br />
+									Or import below transaction into your wallet (e.g. Electrum or Sparrow):
+									<MarkedTextWithCopy clickToCopy>
+										{generateClaimNameTransaction(queryString).toHex()}
 									</MarkedTextWithCopy>
 									<br />
 									<br />
