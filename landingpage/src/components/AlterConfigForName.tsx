@@ -78,7 +78,7 @@ const AlterConfigForName: React.FC<{
 		<DropDownContent
 			title={
 				<>
-					Modify Entries for:{' '}
+					Inscribe Entries for:{' '}
 					<span className="font-mono">'{queryString}'</span>
 				</>
 			}
@@ -129,7 +129,7 @@ const AlterConfigForName: React.FC<{
 			</div>
 
 			{!healthyInput && (
-				<p className="mb-3 mt-5 rounded-md bg-red-300 p-2 text-black">
+				<p className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
 					Please ensure all fields are filled in!
 				</p>
 			)}
