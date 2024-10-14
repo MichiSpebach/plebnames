@@ -9,7 +9,7 @@ import PAExplanationView from './PAExplanationView';
 import './../../App.css';
 import AlterConfigForName from '../AlterConfigForName';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
-import { generateClaimNameTransaction } from './claimNameTransactionGenerator';
+import { TransactionTool } from '../TransactionTool';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -99,10 +99,7 @@ function HeaderWithSearch() {
 									</MarkedTextWithCopy>
 									<br />
 									Or import below transaction into your wallet (e.g. Electrum or Sparrow):
-									<MarkedTextWithCopy clickToCopy>
-										{generateClaimNameTransaction(queryString).toHex()}
-									</MarkedTextWithCopy>
-									<br />
+									<TransactionTool mode='claimAndInscribe' name={queryString} />
 									<br />
 									Your sending address will act as the owner,
 									so ensure it's your own non-custodial wallet
