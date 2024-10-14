@@ -1,0 +1,476 @@
+{
+	"id": "qa265emtpho",
+	"x": 16,
+	"y": 56,
+	"width": 36,
+	"height": 40,
+	"links": [
+		{
+			"id": "linkf271us7fd0o",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "qvddn01rdj8",
+						"boxName": "App.css",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkj420p9q0ij",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 82,
+						"y": 18
+					},
+					{
+						"boxId": "7pl9ddsn2h8",
+						"boxName": "CollaborationBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linke9ntgss7sgg",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 50,
+						"y": 18
+					},
+					{
+						"boxId": "l9r6l36scu",
+						"boxName": "BrowserExtensionBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkrd14k0g8cb8",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 18,
+						"y": 50
+					},
+					{
+						"boxId": "8tb179kl9co",
+						"boxName": "ExtensionsGallery.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link76btfacso28",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 82,
+						"y": 50
+					},
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkmadok2tfu7",
+			"from": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 50,
+						"y": 50
+					},
+					{
+						"boxId": "gvaj7vej2j",
+						"boxName": "Footer.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linknj56ame9sb8",
+			"from": {
+				"path": [
+					{
+						"boxId": "o56dhphkntg",
+						"boxName": "main.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "m2ijbendmp8",
+						"boxName": "App.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkop0rhkdikgg",
+			"from": {
+				"path": [
+					{
+						"boxId": "o56dhphkntg",
+						"boxName": "main.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "bgblsgam8ko",
+						"boxName": "index.css",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkpuorq4spu1o",
+			"from": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 18,
+						"y": 52
+					},
+					{
+						"boxId": "l9r6l36scu",
+						"boxName": "BrowserExtensionBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ocau1f4sa4",
+						"boxName": "utils",
+						"x": 74,
+						"y": 26
+					},
+					{
+						"boxId": "eku4aphatsg",
+						"boxName": "UAParserTypes.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkrd75mmmpt28",
+			"from": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 100,
+						"y": 36
+					},
+					{
+						"boxId": "node9jti4osbas8",
+						"boxName": "nodenode9jti4osbas8",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ibus5417pio",
+						"boxName": "constants",
+						"x": 50,
+						"y": 52
+					},
+					{
+						"boxId": "6vlvl1e7gao",
+						"boxName": "links.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link2nsfndisbeo",
+			"from": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 10.8,
+						"y": 17.44
+					},
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 18
+					},
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "qvddn01rdj8",
+						"boxName": "App.css",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkamhq8cbh1mo",
+			"from": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 100,
+						"y": 40.054
+					},
+					{
+						"boxId": "nodeuk3c6i5sr8g",
+						"boxName": "nodenodeuk3c6i5sr8g",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "tp0o0bfegmo",
+						"boxName": "hooks",
+						"x": 26,
+						"y": 26
+					},
+					{
+						"boxId": "hiapkltgfa",
+						"boxName": "usePlebNameSearch.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link0i7am6f1gc8",
+			"from": {
+				"path": [
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 100,
+						"y": 40.054
+					},
+					{
+						"boxId": "nodeuk3c6i5sr8g",
+						"boxName": "nodenodeuk3c6i5sr8g",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "tp0o0bfegmo",
+						"boxName": "hooks",
+						"x": 74,
+						"y": 26
+					},
+					{
+						"boxId": "81h57cguvm",
+						"boxName": "useSpacerHeight.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link16qup15ptt8",
+			"from": {
+				"path": [
+					{
+						"boxId": "tp0o0bfegmo",
+						"boxName": "hooks",
+						"x": 26,
+						"y": 26
+					},
+					{
+						"boxId": "hiapkltgfa",
+						"boxName": "usePlebNameSearch.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ocau1f4sa4",
+						"boxName": "utils",
+						"x": 78,
+						"y": 26
+					},
+					{
+						"boxId": "u71amnhbnr",
+						"boxName": "explainPlebAddress.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": []
+}

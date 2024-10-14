@@ -1,0 +1,172 @@
+{
+	"id": "fsasevpd1q",
+	"x": 8,
+	"y": 16,
+	"width": 20,
+	"height": 8,
+	"links": [
+		{
+			"id": "linke771kge6ffo",
+			"from": {
+				"path": [
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "4thrsd899lg",
+						"boxName": "PAExplanationView.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkuof3a52p7ag",
+			"from": {
+				"path": [
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "tdhnufchkvo",
+						"boxName": "ClaimedContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkp8njgcn8le8",
+			"from": {
+				"path": [
+					{
+						"boxId": "4thrsd899lg",
+						"boxName": "PAExplanationView.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "esbs3iflq28",
+						"boxName": "DropDownContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkoit5popvit",
+			"from": {
+				"path": [
+					{
+						"boxId": "4thrsd899lg",
+						"boxName": "PAExplanationView.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "p8t7ujqic0g",
+						"boxName": "PALegend.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkvs076f36t4o",
+			"from": {
+				"path": [
+					{
+						"boxId": "4thrsd899lg",
+						"boxName": "PAExplanationView.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node561m2os8rt",
+						"boxName": "nodenode561m2os8rt",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link123tv1ciij8",
+			"from": {
+				"path": [
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node561m2os8rt",
+						"boxName": "nodenode561m2os8rt",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": [
+		{
+			"id": "node561m2os8rt",
+			"x": 100,
+			"y": 39.70588235294116
+		}
+	]
+}

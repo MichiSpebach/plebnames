@@ -178,7 +178,7 @@
 	"linkTags": [
 		{
 			"name": "autoMaintained",
-			"count": 44,
+			"count": 83,
 			"appearance": {}
 		},
 		{
@@ -207,6 +207,13 @@
 			"count": 7,
 			"appearance": {
 				"color": "aqua"
+			}
+		},
+		{
+			"name": "cycle",
+			"count": 2,
+			"appearance": {
+				"color": "red"
 			}
 		}
 	],

@@ -4,6 +4,219 @@
 	"y": 8,
 	"width": 48,
 	"height": 24,
-	"links": [],
+	"links": [
+		{
+			"id": "linkn156ebt1cto",
+			"from": {
+				"path": [
+					{
+						"boxId": "06ubfot69qo",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "qa265emtpho",
+						"boxName": "src",
+						"x": 18,
+						"y": 82
+					},
+					{
+						"boxId": "o56dhphkntg",
+						"boxName": "main.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link4qlj21484ao",
+			"from": {
+				"path": [
+					{
+						"boxId": "3ddbltttkno",
+						"boxName": "README.md",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "6n2jud4f65g",
+						"boxName": "tsconfig.node.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkivsp254ufp8",
+			"from": {
+				"path": [
+					{
+						"boxId": "3ddbltttkno",
+						"boxName": "README.md",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "8dke2518hlg",
+						"boxName": "tsconfig.app.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkljceeuhj8j8",
+			"from": {
+				"path": [
+					{
+						"boxId": "3fsa392c79g",
+						"boxName": "tailwind.config.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "06ubfot69qo",
+						"boxName": "index.html",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkrevkfvbfo4o",
+			"from": {
+				"path": [
+					{
+						"boxId": "tjl12q7kvc",
+						"boxName": "tsconfig.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "6n2jud4f65g",
+						"boxName": "tsconfig.node.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkvq51gnmjfi",
+			"from": {
+				"path": [
+					{
+						"boxId": "tjl12q7kvc",
+						"boxName": "tsconfig.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "8dke2518hlg",
+						"boxName": "tsconfig.app.json",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkd4ua3n2jbko",
+			"from": {
+				"path": [
+					{
+						"boxId": "qa265emtpho",
+						"boxName": "src",
+						"x": 59.6,
+						"y": 28.8
+					},
+					{
+						"boxId": "d95no6j98dg",
+						"boxName": "components",
+						"x": 18,
+						"y": 52
+					},
+					{
+						"boxId": "l9r6l36scu",
+						"boxName": "BrowserExtensionBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "iio7j1dpgvo",
+						"boxName": "public",
+						"x": 18.027,
+						"y": 96
+					},
+					{
+						"boxId": "i2g5k4uc0ro",
+						"boxName": "browser-icons",
+						"x": 15.247,
+						"y": 100
+					},
+					{
+						"boxId": "nodehvdh1sn0hc",
+						"boxName": "nodenodehvdh1sn0hc",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
 	"nodes": []
 }

@@ -1,0 +1,287 @@
+{
+	"id": "d95no6j98dg",
+	"x": 56,
+	"y": 8,
+	"width": 20,
+	"height": 40,
+	"links": [
+		{
+			"id": "linkc8ap4i05te8",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvbk9q08ko8",
+						"boxName": "AlterConfigForName.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 82,
+						"y": 18
+					},
+					{
+						"boxId": "esbs3iflq28",
+						"boxName": "DropDownContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"cycle"
+			]
+		},
+		{
+			"id": "link7h8cboaeqj8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 18
+					},
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "1kioivuol9o",
+						"boxName": "SearchInput.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linki338tn5u6o",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 18
+					},
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pvbk9q08ko8",
+						"boxName": "AlterConfigForName.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"cycle"
+			]
+		},
+		{
+			"id": "link4iu019gsbu8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 100,
+						"y": 39.706
+					},
+					{
+						"boxId": "node561m2os8rt",
+						"boxName": "nodenode561m2os8rt",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pne44qhpikg",
+						"boxName": "MarkedTextWithCopy.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkm2lsfi8kdao",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 18
+					},
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "nodeuk3c6i5sr8g",
+						"boxName": "nodenodeuk3c6i5sr8g",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkm2co3vm6b8",
+			"from": {
+				"path": [
+					{
+						"boxId": "gvaj7vej2j",
+						"boxName": "Footer.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node9jti4osbas8",
+						"boxName": "nodenode9jti4osbas8",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link5e5809n40m8",
+			"from": {
+				"path": [
+					{
+						"boxId": "l9r6l36scu",
+						"boxName": "BrowserExtensionBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node9jti4osbas8",
+						"boxName": "nodenode9jti4osbas8",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link1sm4maj0q3o",
+			"from": {
+				"path": [
+					{
+						"boxId": "7pl9ddsn2h8",
+						"boxName": "CollaborationBanner.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node9jti4osbas8",
+						"boxName": "nodenode9jti4osbas8",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkm3q5fgd1ddg",
+			"from": {
+				"path": [
+					{
+						"boxId": "8tb179kl9co",
+						"boxName": "ExtensionsGallery.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "node9jti4osbas8",
+						"boxName": "nodenode9jti4osbas8",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": [
+		{
+			"id": "nodeuk3c6i5sr8g",
+			"x": 100,
+			"y": 44
+		},
+		{
+			"id": "node9jti4osbas8",
+			"x": 100,
+			"y": 36
+		}
+	]
+}

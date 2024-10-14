@@ -1,0 +1,94 @@
+{
+	"id": "i2g5k4uc0ro",
+	"x": 4,
+	"y": 8,
+	"width": 92,
+	"height": 88,
+	"links": [
+		{
+			"id": "linkdbhmresj428",
+			"from": {
+				"path": [
+					{
+						"boxId": "nodehvdh1sn0hc",
+						"boxName": "nodenodehvdh1sn0hc",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ijgd8s95s68",
+						"boxName": "brave-icon.png",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link3gqa16d838g",
+			"from": {
+				"path": [
+					{
+						"boxId": "nodehvdh1sn0hc",
+						"boxName": "nodenodehvdh1sn0hc",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "f7hjcit02mo",
+						"boxName": "chromium-icon.png",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkjcguokin9g",
+			"from": {
+				"path": [
+					{
+						"boxId": "nodehvdh1sn0hc",
+						"boxName": "nodenodehvdh1sn0hc",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "f75nlr47ai8",
+						"boxName": "google-chrome-icon.png",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": [
+		{
+			"id": "nodehvdh1sn0hc",
+			"x": 15.246773533677985,
+			"y": 100
+		}
+	]
+}
