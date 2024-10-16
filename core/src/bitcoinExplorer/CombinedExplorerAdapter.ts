@@ -27,8 +27,8 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 		return this.selectExplorer().getInputsOfAddress(address)
 	}
 	
-	public getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
-		return this.selectExplorer().getOpReturnOutScriptsOfAddress(address)
+	public getOpReturnScriptsOfAddress(address: string): Promise<string[]> {
+		return this.selectExplorer().getOpReturnScriptsOfAddress(address)
 	}
 
 	public getTransactionsOfAddress(address: string): Promise<Transactions> {

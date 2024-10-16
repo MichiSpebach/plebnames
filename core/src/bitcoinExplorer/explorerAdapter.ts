@@ -8,7 +8,7 @@ import { PlebNameHistory } from '../PlebNameHistory.ts'
 export interface ExplorerAdapter {
 	getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined>
 	getInputsOfAddress(address: string): Promise<InputPrevout[]>
-	getOpReturnOutScriptsOfAddress(address: string): Promise<string[]>
+	getOpReturnScriptsOfAddress(address: string): Promise<string[]>
 	getTransactionsOfAddress(address: string): Promise<Transactions>
 	getUtxosOfAddress(address: string): Promise<UTXO[]>
 }
@@ -34,7 +34,7 @@ export async function followNameHistory(name: string, options?: {
 	let owner: string|undefined = undefined
 	while (owner !== history.getData().owner) {
 		owner = history.getData().owner
-		const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress(owner)
+		const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress(owner)
 		for (const script of scripts) {
 			history.addChangeFromOpReturnScript(script)
 			if (owner !== history.getData().owner) {

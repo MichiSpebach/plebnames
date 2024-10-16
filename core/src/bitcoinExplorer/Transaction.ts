@@ -10,10 +10,12 @@ export type Input = {
 export class Transaction {
 	public readonly vin: Input[]
 	public readonly vout: {scriptpubkey: string}[]
+	public readonly status: {block_height: number}
 
-	private constructor(inputs: Input[], outputs: {scriptpubkey: string}[]) {
+	private constructor(inputs: Input[], outputs: {scriptpubkey: string}[], status: {block_height: number}) {
 		this.vin = inputs
 		this.vout = outputs
+		this.status = status
 	}
 
 	public static fromBlockstreamOrMempoolTransaction(blockstreamTransaction: any): Transaction {
@@ -34,14 +36,15 @@ export class Transaction {
 			}),
 			blockchainTransaction.out.map((output: any) => {
 				return {scriptpubkey: output.script}
-			})
+			}),
+			{block_height: blockchainTransaction.block_height}
 		)
 		transaction.validate()
 		return transaction
 	}
 
 	/**
-	 * TODO use e.g. Zod
+	 * TODO use e.g. Zod?
 	 */
 	private validate(): void {
 		for (const input of this.vin) {
@@ -60,6 +63,9 @@ export class Transaction {
 			if (typeof output.scriptpubkey !== 'string') {
 				console.warn(`typeof output.scriptpubkey !== 'string', output is: ${JSON.stringify(output)}`)
 			}
+		}
+		if (typeof this.status?.block_height !== 'number') {
+			console.warn(`typeof status?.block_height !== 'number', status is: ${JSON.stringify(this.status)}`)
 		}
 	}
 }

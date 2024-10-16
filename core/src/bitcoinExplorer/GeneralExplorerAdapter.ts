@@ -28,7 +28,7 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 		return transactionsInputs.map(input => input.prevout)
 	}
 
-	public async getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
+	public async getOpReturnScriptsOfAddress(address: string): Promise<string[]> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		const authoredTransactions: Transaction[] = transactions.txs.filter(transaction => transaction.vin.find(input => input.prevout.scriptpubkey_address === address))
 		const outputs: {scriptpubkey: string}[] = authoredTransactions.flatMap(transaction => transaction.vout)

@@ -21,25 +21,25 @@ Deno.test('getInputsOfAddress', async () => {
 	])
 })
 
-Deno.test('getOutScriptsOfAddress Base58 P2PKH', async () => {
+Deno.test('getOpReturnScriptsOfAddress Base58 P2PKH', async () => {
 	// does only work with BlockchainExplorerAdapter, the others index the address as P2PK and not as P2PKH
 	(explorerAdapter as any).index = 0 // so next index will be one, the index of the BlockchainExplorerAdapter
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
 	assertEquals(scripts, ['EW Merry Christmas !!!'])
 })
 
-Deno.test('getOutScriptsOfAddress Base58 P2PKH no authered scripts', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
+Deno.test('getOpReturnScriptsOfAddress Base58 P2PKH no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
 	assertEquals(scripts, [])
 })
 
-Deno.test('getOutScriptsOfAddress Bech32', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d')
+Deno.test('getOpReturnScriptsOfAddress Bech32', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d')
 	assertEquals(scripts, ['EW Running bitcoin'])
 })
 
-Deno.test('getOutScriptsOfAddress Bech32 no authered scripts', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
+Deno.test('getOpReturnScriptsOfAddress Bech32 no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
 	assertEquals(scripts, [])
 })
 
