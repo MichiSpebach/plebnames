@@ -51,7 +51,7 @@ function generateOverflowDescription(
 				? 'One segment of this length fits'
 				: `${segmentCount} segments of this length fit`;
 
-		return `No overflow detected. The normalized fill is ${fillDescription} long. ${segmentDescription} exactly into 32 characters, so their is no overflow.`;
+		return `No overflow detected. The normalized fill is ${fillDescription} long. ${segmentDescription} exactly into 32 characters, so there is no overflow.`;
 	}
 
 	return (
@@ -74,46 +74,45 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 	normalizedName,
 	plebAddress,
 }) => (
-	<DropDownContent title={'Structure of the PlebAddress'}>
+	<DropDownContent title={'The PlebAddress Explained'}>
 		<p>
 			Your input name <span className="font-mono">'{inputName}'</span> is
 			automatically normalized, meaning certain characters are adjusted or
 			mapped for you. After normalization, your name becomes{' '}
 			<span className="font-mono">'{normalizedName}'</span>, which is used
 			to generate a Bech32 address. To achieve this, the normalized name
-			is repeated until it reaches exactly 32 characters, with any extra
-			characters beyond this limit being ignored.
+			is repeated until it reaches exactly 32 characters.
 			<br />
 			<br />
 			Finally, we add the prefix <span className="font-mono">
 				'bc1q'
 			</span>{' '}
-			and calculate a checksum to ensure the address is valid, resulting
-			in your <i>valid</i> Bitcoin PlebAddress:
+			and calculate the checksum to ensure the address is valid, resulting
+			in a valid Bitcoin Address that we call PlebAddress:
 			<MarkedTextWithCopy clickToCopy>{plebAddress}</MarkedTextWithCopy>
 			<br />
 			<br />
-			Note that we do not have access to the private key for this address.
-			However, the private key is not required for identifying the owner
-			or reading the name's configuration. To determine ownership and
-			retrieve the related configuration, we look up who initially claimed
-			the name by sending at least one satoshi to the pleb-address. Once
-			we find the original transaction, we track ownership changes, if
-			any, and can access the configuration tied to the name.
+			Note that nobody has the private key for this address. However, the
+			private key is not required for identifying the owner or reading the
+			name's configuration. To determine ownership and retrieve the
+			related configuration, we look up who initially claimed the name by
+			sending at least one satoshi to the pleb-address. Once we find the
+			original transaction, we track ownership changes, if any, and can
+			access the configuration tied to the name.
 			<br />
 			<br />
 			If the current owner wishes to modify the name's configuration after
-			it has been claimed, they can use the "Modify Entries" tool below.
+			it has been claimed, they can use the "Inscribe Entries" tool below.
 			<br />
 			This tool generates an OP_RETURN template that references the
-			PlebAddress and specifies the desired changes, enabling the owner to
+			PlebName and specifies the desired changes, enabling the owner to
 			update the configuration on-chain.
 			<br />
 			<br />
 		</p>
 
 		<span className="pb-2 text-lg font-bold">
-			Address Structure Explained:
+			PlebAddress Structure Explained:
 		</span>
 
 		<span
