@@ -14,7 +14,9 @@ function App() {
 
 			<ChromeExtensionInvite />
 
-			<CollaborationBanner />
+			<div id="scroll-to-after-header">
+				<CollaborationBanner />
+			</div>
 
 			<ExtensionsGallery />
 
