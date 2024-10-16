@@ -21,7 +21,6 @@ Deno.test('getInputsOfAddress', async () => {
 	])
 })
 
-
 Deno.test('getOutScriptsOfAddress Base58 P2PKH', async () => {
 	// does only work with BlockchainExplorerAdapter, the others index the address as P2PK and not as P2PKH
 	(explorerAdapter as any).index = 0 // so next index will be one, the index of the BlockchainExplorerAdapter
@@ -42,6 +41,34 @@ Deno.test('getOutScriptsOfAddress Bech32', async () => {
 Deno.test('getOutScriptsOfAddress Bech32 no authered scripts', async () => {
 	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
 	assertEquals(scripts, [])
+})
+
+Deno.test('getUtxosOfAddress', async () => {
+	const utxos = await explorerAdapter.getUtxosOfAddress('bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w')
+	assertEquals(utxos.map(utxo => ({
+		txid: utxo.txid,
+		vout: utxo.vout,
+		value: utxo.value,
+		status: {/*block_height: utxo.status.block_height*/}
+	})), [
+		{
+			txid: '40b307055c5d4128873d403dc0bb2d902c1beb8176530fc1f286a0ae20e7ce72',
+			vout: 0,
+			value: 100000,
+			status: {
+				//block_height: 856064
+			}
+		},
+		{
+			txid: '683fe2d28f1ef151b2c7285cdce0eaf608034df13d95c9ba01aeb256243a7d77',
+			vout: 1,
+			value: 49396,
+			status: {
+				//block_height: 859262
+			}
+		}
+	])
+	assertEquals(utxos[0].status.block_height - utxos[1].status.block_height, 856064 - 859262) // TODO: compare block_height above as soon as implemented in BlockchainExplorerAdapter.ts
 })
 
 Deno.test('followNameHistory', async () => {
@@ -72,5 +99,3 @@ Deno.test('followNameHistory', async () => {
 		},
 	  })
 })
-
-
