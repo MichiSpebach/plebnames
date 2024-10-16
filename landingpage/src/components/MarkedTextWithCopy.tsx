@@ -42,10 +42,17 @@ const MarkedTextWithCopy: React.FC<{
 			style={{
 				wordBreak: 'break-all',
 			}}
+			aria-label={clickToCopy ? 'Click to copy text' : undefined}
+			title={clickToCopy ? 'Click to copy this text' : undefined}
 		>
 			{children}
 			{clickToCopy && (
-				<span className="inline-flex items-center justify-center pl-2 align-middle text-sm">
+				<span
+					className="inline-flex items-center justify-center pl-2 align-middle text-sm"
+					aria-live="polite"
+					aria-label={copied ? 'Text copied' : 'Copy text'}
+					title={copied ? 'Text copied' : 'Copy to clipboard'}
+				>
 					{copied ? (
 						<Check className="text-green-500" aria-hidden="true" />
 					) : (
