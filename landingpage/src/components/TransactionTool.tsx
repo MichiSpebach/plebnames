@@ -1,5 +1,5 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
-import { util } from 'plebnames'
+import { bitcoinExplorer, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
 
@@ -10,7 +10,9 @@ interface TransactionToolProps {
 
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) => {
 	const [senderAddress, setSenderAddress] = useState('')
-	const [senderUtxo, setSenderUtxo] = useState<{hash: string, index: number}|Error|'fetching'>('fetching')
+	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
+	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
+	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
 	const [inscriptions, setInscriptions] = useState([''])
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
@@ -19,20 +21,32 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 	} | undefined>(undefined)
 
 	useEffect(() => {
-		try {
-			setSenderUtxo({hash: util.asciiToHex(senderAddress).substring(0, 64), index: 0}) // TODO: bitcoinExplorer.getOldestUtxoOfAddress(address).then(...)
-		} catch (error: unknown) {
-			setSenderUtxo(toError(error))
-		}
-	}, [senderAddress])
-
-	useEffect(() => {
-		if (senderUtxo !== 'fetching' && !(senderUtxo instanceof Error)) {
-			setTransaction(generateTransaction({name, senderAddress, senderUtxo, inscriptions, mode}))
-		}
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions, mode})
+		setTransaction(tx)
+		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
 	}, [name, senderAddress, senderUtxo, inscriptions, mode])
 
-	const validTransaction: boolean = !!inscriptions[0] && !transaction?.senderAddressError && !transaction?.senderUtxoError
+	useEffect(() => {
+		if (!validSenderAddress) {
+			setSenderUtxoStatus('addressNeeded')
+			return
+		}
+		setSenderUtxoStatus('fetching')
+		bitcoinExplorer.explorerAdapter.getUtxosOfAddress(validSenderAddress).then(utxos => {
+			if (utxos.length < 1) {
+				setSenderUtxoStatus(new Error(`Address does not have unspent transaction outputs (UTXOs), send something to '${validSenderAddress}' first.`))
+				setSenderUtxo(undefined)
+			} else {
+				setSenderUtxoStatus('ok')
+				setSenderUtxo(utxos[0])
+			}
+		}).catch(error => {
+			setSenderUtxoStatus(toError(error))
+			setSenderUtxo(undefined)
+		})
+	}, [validSenderAddress])
+
+	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
 		<div>
@@ -60,7 +74,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 					className="bg-white/15 border"
 				/>
 			</label>
-			<div style={validTransaction ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
+			<div style={validTransaction && inscriptions[0] ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}
 				</MarkedTextWithCopy>
@@ -69,10 +83,10 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 				? <div>Input 'Your Address' to generate a valid transaction.</div>
 				: <div>
 					{transaction?.senderAddressError && <div>{String(transaction.senderAddressError)}</div>}
-					{senderUtxo === 'fetching' && <div>Fetching UTXO...</div>}
-					{senderUtxo instanceof Error && <div>Error while fetching UTXO from 'Your Address': {String(senderUtxo)}</div>}
-					{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {String(transaction.senderUtxoError)}</div>}
-					{!inscriptions[0] && !transaction?.senderAddressError && !transaction?.senderUtxoError && <div>Input at least one 'Inscription'.</div>}
+					{senderUtxoStatus === 'fetching' && <div>Fetching UTXO...</div>}
+					{senderUtxoStatus instanceof Error && <div>Error while fetching UTXO from 'Your Address': {senderUtxoStatus.message}</div>}
+					{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {transaction.senderUtxoError.message}</div>}
+					{!inscriptions[0] && validTransaction && <div>Input at least one 'Inscription'.</div>}
 				</div>
 			}
 		</div>
@@ -82,8 +96,9 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 function generateTransaction(options: {
 	name: string
 	senderAddress: string
-	senderUtxo: {hash: string, index: number}
+	senderUtxo?: bitcoinExplorer.UTXO
 	inscriptions: string[]
+	//minerFeeInSatsPerVByte: number TODO
 	mode: 'claimAndInscribe'|'inscribe'
 }): {
 	transaction: {toHex: () => string}
@@ -98,10 +113,11 @@ function generateTransaction(options: {
 	let senderUtxoError: Error|undefined = undefined
 
 	try {
-		transaction.addInput(options.senderUtxo)
+		transaction.addInput({hash: options.senderUtxo!.txid, index: options.senderUtxo!.vout})
 	} catch (error: unknown) {
 		senderUtxoError = toError(error)
 	}
+	let restValueInSats: number = options.senderUtxo?.value ?? 21_000_000*10**8
 
 	if (options.mode === 'claimAndInscribe') {
 		const plebAddress = util.generateBech32AddressWithPad(util.normalizeAsciiToBech32(options.name))
@@ -109,14 +125,16 @@ function generateTransaction(options: {
 			address: plebAddress,
 			value: BigInt(546)
 		})
+		restValueInSats -= 546
 	}
 
 	for (const inscription of options.inscriptions) {
-		transaction.addOutput({script: new Uint8Array([script.OPS['OP_RETURN'], ...asciiToBytes(inscription)]), value: BigInt(0)})
+		transaction.addOutput({script: new Uint8Array([script.OPS['OP_RETURN'], ...util.asciiToBytes(inscription)]), value: BigInt(0)})
 	}
 
+	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
 	try {
-		transaction.addOutput({address: options.senderAddress, value: BigInt(21_000_000*10**8)}) // TODO: transfer rest to sender
+		transaction.addOutput({address: options.senderAddress, value: BigInt(restValueInSats)})
 	} catch (error: unknown) {
 		senderAddressError = toError(error)
 	}
@@ -133,9 +151,4 @@ function toError(errorOfUnknownType: unknown): Error {
 		return errorOfUnknownType
 	}
 	return new Error(String(errorOfUnknownType))
-}
-
-/** @deprecated add this to util instead */
-function asciiToBytes(ascii: string): Uint8Array {
-	return util.hexToBytes(util.asciiToHex(ascii))
 }
