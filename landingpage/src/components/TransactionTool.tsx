@@ -129,7 +129,11 @@ function generateTransaction(options: {
 	}
 
 	for (const inscription of options.inscriptions) {
-		transaction.addOutput({script: new Uint8Array([script.OPS['OP_RETURN'], ...util.asciiToBytes(inscription)]), value: BigInt(0)})
+		const opReturnData: Uint8Array = util.asciiToBytes(inscription)
+		transaction.addOutput({ // TODO: handle case for opReturnData.length > 75
+			script: new Uint8Array([script.OPS['OP_RETURN'], opReturnData.length, ...opReturnData]),
+			value: BigInt(0)
+		})
 	}
 
 	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
