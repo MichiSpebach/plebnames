@@ -2,13 +2,14 @@ import { util } from 'plebnames';
 import { useRef } from 'react';
 import { PiSpinnerGapBold } from 'react-icons/pi';
 import usePlebNameSearch, { StatusTypes } from '../../hooks/usePlebNameSearch';
-import useSpacerHeight from '../../hooks/useSpacerHeight';
+import useHeaderSpacer from '@/src/hooks/useHeaderSpacer';
 import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
 import PAExplanationView from './PAExplanationView';
 import './../../App.css';
 import AlterConfigForName from '../AlterConfigForName';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
+import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
 
 /* <hr className="my-3" /> */
@@ -19,7 +20,9 @@ function HeaderWithSearch() {
 	const { history, paExplanation, queryString, status } = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
-	const spacerHeight = useSpacerHeight(overflowBoxRef, [status]);
+	const { spacerHeight, fitsInHeader } = useHeaderSpacer(overflowBoxRef, [
+		status,
+	]);
 
 	return (
 		<section
@@ -135,6 +138,11 @@ function HeaderWithSearch() {
 					</div>
 				</div>
 			</div>
+
+			<ScrollToNextSectionButton
+				isVisible={fitsInHeader}
+				to="scroll-to-after-header"
+			/>
 		</section>
 	);
 	{

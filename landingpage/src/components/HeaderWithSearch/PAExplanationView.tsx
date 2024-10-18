@@ -3,6 +3,7 @@ import {
 	PlebAddressExplainedType,
 } from '@/src/utils/explainPlebAddress';
 import React from 'react';
+import Bech32AddressLink from '../Bech32AddressLink';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import DropDownContent from './DropDownContent';
 import PALegend from './PALegend';
@@ -80,8 +81,8 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 			automatically normalized, meaning certain characters are adjusted or
 			mapped for you. After normalization, your name becomes{' '}
 			<span className="font-mono">'{normalizedName}'</span>, which is used
-			to generate a Bech32 address. To achieve this, the normalized name
-			is repeated until it reaches exactly 32 characters.
+			to generate a <Bech32AddressLink />. To achieve this, the normalized
+			name is repeated until it reaches exactly 32 characters.
 			<br />
 			<br />
 			Finally, we add the prefix <span className="font-mono">
@@ -181,7 +182,7 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 							<MarkedTextWithCopy clickToCopy>
 								bc1q
 							</MarkedTextWithCopy>{' '}
-							consistently indicates a Bech32 address.
+							consistently indicates a <Bech32AddressLink />.
 						</>
 					),
 				},

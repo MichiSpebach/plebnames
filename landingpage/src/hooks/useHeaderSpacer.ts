@@ -3,17 +3,22 @@ import { throttle } from 'lodash';
 
 /**
  * This hook calculates the height of a spacer element based on the height of the viewport and the height of the lvh element.
- * @param ref
- * @param dependencies Array of dependencies, which would trigger by change a recalculation.
+ * It also determines if the header fits within the available space.
+ * @param ref RefObject to the header element
+ * @param dependencies Array of dependencies, which would trigger a recalculation when changed.
+ * @returns An object containing the spacer height and whether the header fits
  */
-const useSpacerHeight = (
+const useHeaderSpacer = (
 	ref: RefObject<HTMLDivElement>,
 	dependencies: unknown[] = [],
-): number => {
+): { spacerHeight: number; fitsInHeader: boolean } => {
 	const [spacerHeight, setSpacerHeight] = useState<number>(0);
+	const [fitsInHeader, setFitsInHeader] = useState<boolean>(true);
+
+	const minimumSpaceForFit = 74; // Minimum space required for the ScrollDownElement to fit
 
 	useEffect(() => {
-		const updateSpacerHeight = () => {
+		const updateHeaderSpacerInfo = () => {
 			const rc = ref.current;
 			if (!rc) return;
 
@@ -29,21 +34,25 @@ const useSpacerHeight = (
 				);
 			}
 
-			const h = rc.offsetHeight - (windowHeight - yPosition);
+			const remainingSpace = windowHeight - yPosition;
+			const h = rc.offsetHeight - remainingSpace;
+
 			setSpacerHeight(h > 0 ? h + 32 : 0); // 32px is like a bottom margin.
+
+			const diff = remainingSpace - rc.offsetHeight;
+			setFitsInHeader(diff >= minimumSpaceForFit);
 		};
 
 		// Throttle the resize event to avoid excessive recalculations
-		const throttledUpdate = throttle(updateSpacerHeight, 100, {
+		const throttledUpdate = throttle(updateHeaderSpacerInfo, 100, {
 			leading: true, // Call immediately when the event starts
 			trailing: true, // Ensure the last call happens when the user stops resizing
 		});
 
-		// Call initially to set the spacer height
+		// Call initially to set the spacer height and fits status
 		throttledUpdate();
 
 		window.addEventListener('resize', throttledUpdate);
-
 		const resizeObserver = new ResizeObserver(() => {
 			throttledUpdate();
 		});
@@ -52,18 +61,12 @@ const useSpacerHeight = (
 
 		return () => {
 			window.removeEventListener('resize', throttledUpdate);
-			ref.current?.removeEventListener(
-				'transitionstart',
-				throttledUpdate,
-			);
-
 			if (ref.current) resizeObserver.unobserve(ref.current);
-
 			throttledUpdate.cancel();
 		};
 	}, [ref.current, ...dependencies]);
 
-	return spacerHeight;
+	return { spacerHeight, fitsInHeader };
 };
 
-export default useSpacerHeight;
+export default useHeaderSpacer;
