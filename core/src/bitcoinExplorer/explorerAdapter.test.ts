@@ -52,23 +52,23 @@ Deno.test('getUtxosOfAddress', async () => {
 		status: {/*block_height: utxo.status.block_height*/}
 	})), [
 		{
-			txid: '40b307055c5d4128873d403dc0bb2d902c1beb8176530fc1f286a0ae20e7ce72',
-			vout: 0,
-			value: 100000,
+			txid: 'de283235cee8a7aa9057dafc3a116e17121b21862691c61b61a8637f833ce49d',
+			vout: 1,
+			value: 98454,
 			status: {
-				//block_height: 856064
+				//block_height: 866114
 			}
 		},
 		{
-			txid: '683fe2d28f1ef151b2c7285cdce0eaf608034df13d95c9ba01aeb256243a7d77',
+			txid: 'a1b588fd7ed0cc24a7e9041af0c03aaf10741369d1e0b93ea91b0d3ce13815e6',
 			vout: 1,
-			value: 49396,
+			value: 48396,
 			status: {
-				//block_height: 859262
+				//block_height: 866198
 			}
 		}
 	])
-	assertEquals(utxos[0].status.block_height - utxos[1].status.block_height, 856064 - 859262) // TODO: compare block_height above as soon as implemented in BlockchainExplorerAdapter.ts
+	assertEquals(utxos[0].status.block_height - utxos[1].status.block_height, 866114 - 866198) // TODO: compare block_height above as soon as implemented in BlockchainExplorerAdapter.ts
 })
 
 Deno.test('followNameHistory', async () => {
