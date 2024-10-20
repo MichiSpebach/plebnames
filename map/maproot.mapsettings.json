@@ -178,33 +178,33 @@
 	"linkTags": [
 		{
 			"name": "autoMaintained",
-			"count": 85,
+			"count": 94,
 			"appearance": {}
 		},
 		{
 			"name": "test",
-			"count": 3,
+			"count": 4,
 			"appearance": {
 				"color": "green"
 			}
 		},
 		{
 			"name": "hidden",
-			"count": 11,
+			"count": 15,
 			"appearance": {
 				"mode": "hidden"
 			}
 		},
 		{
 			"name": "has",
-			"count": 6,
+			"count": 7,
 			"appearance": {
 				"color": "lime"
 			}
 		},
 		{
 			"name": "isA",
-			"count": 7,
+			"count": 8,
 			"appearance": {
 				"color": "aqua"
 			}
