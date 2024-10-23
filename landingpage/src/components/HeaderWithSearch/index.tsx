@@ -47,7 +47,7 @@ function HeaderWithSearch() {
 					</h2>
 
 					<div className="w-full max-w-xs">
-						<SearchInput onSearch={handleSearch} />
+						<SearchInput onSearch={handleSearch} initialQuery={queryString?? undefined} />
 					</div>
 				</>
 

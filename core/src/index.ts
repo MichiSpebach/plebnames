@@ -4,7 +4,9 @@ import { followNameHistory } from './bitcoinExplorer/explorerAdapter.ts'
 const url: string|null = new URLSearchParams(window.location.search).get('url')
 document.body.innerHTML = `looking up ${url}`
 
-if (url) {
+if (!url) {
+	redirectToLandingpage()
+} else {
 	const name: {prefix: string, name: string, suffix: string} = getNameFromUrl(url)
 	let claimFetched: boolean = false
 	const history: PlebNameHistory|'unclaimed' = await followNameHistory(name.name, {
@@ -20,14 +22,14 @@ if (url) {
 			}
 		}
 	})
+
 	if (history === 'unclaimed') {
-		// TODO: local storage
-		window.location.replace('./landingpage/index.html')
+		redirectToLandingpage({name: name.name, history})
 	} else {
 		const websiteOrUrl: string|undefined = history.getData().website
 		if (!websiteOrUrl) {
-			// TODO: local storage and notice how to set website/url
-			window.location.replace('./landingpage/index.html')
+			// TODO: notice how to inscribe website/url
+			redirectToLandingpage({name: name.name, history})
 		} else {
 			const url = addSurroundingsToUrl(websiteOrUrl, name)
 			document.body.append(document.createElement('br'))
@@ -43,7 +45,15 @@ if (url) {
 			}
 		}
 	}
-} else {
+}
+
+function redirectToLandingpage(options?: {name: string, history: PlebNameHistory|'unclaimed'}): void {
+	// TODO: hide browserExtensionBanner
+	if (options) {
+		window.localStorage.setItem('plebName', options.name)
+		const history: string = options.history === 'unclaimed' ? options.history : JSON.stringify(options.history)
+		window.localStorage.setItem('plebNameHistory', history)
+	}
 	window.location.replace('./landingpage/index.html')
 }
 

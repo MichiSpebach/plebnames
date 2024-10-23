@@ -45,16 +45,44 @@ type DataTypes =
 			paExplanation: PlebAddressExplainedType;
 	  };
 
+const getInitialData: () => DataTypes = () => {
+	const name: string|null = window.localStorage.getItem('plebName')
+	if (!name) {
+		return {
+			status: StatusTypes.NotSearched,
+			history: null,
+			queryString: null,
+			paExplanation: null,
+		}
+	}
+	const historyJson: string|null = window.localStorage.getItem('plebNameHistory')
+	const history: PlebNameHistory|null = !historyJson || historyJson === 'unclaimed'
+		? null
+		: Object.setPrototypeOf(JSON.parse(historyJson!), PlebNameHistory.prototype)
+	window.localStorage.removeItem('plebName')
+	window.localStorage.removeItem('plebNameHistory')
+	if (history) {
+		return {
+			status: StatusTypes.Claimed,
+			history,
+			queryString: name,
+			paExplanation: generatePAExplanationForName(name)
+		}
+	} else {
+		return {
+			status: StatusTypes.Unclaimed,
+			history,
+			queryString: name,
+			paExplanation: generatePAExplanationForName(name)
+		}
+	}
+}
+
 /**
  * Hook for the plebName Search.
  */
 const usePlebNameSearch = () => {
-	const [data, setData] = useState<DataTypes>({
-		status: StatusTypes.NotSearched,
-		history: null,
-		queryString: null,
-		paExplanation: null,
-	});
+	const [data, setData] = useState<DataTypes>(getInitialData());
 	/** Handles Search Input */
 	const handleSearch = async (_query: string) => {
 		if (_query.length < 1) {
