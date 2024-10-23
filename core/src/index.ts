@@ -21,23 +21,34 @@ if (url) {
 		}
 	})
 	if (history === 'unclaimed') {
-		// TODO: load landingpage
+		// TODO: local storage
+		window.location.replace('./landingpage/index.html')
 	} else {
 		const websiteOrUrl: string|undefined = history.getData().website
 		if (!websiteOrUrl) {
-			// TODO: load landingpage
+			// TODO: local storage and notice how to set website/url
+			window.location.replace('./landingpage/index.html')
 		} else {
 			const url = addSurroundingsToUrl(websiteOrUrl, name)
-			appendLine(`redirecting to "${url}"...`)
-			window.location.replace(url)
+			document.body.append(document.createElement('br'))
+			document.body.append('redirect to ')
+			const hyperlink = document.createElement('a')
+			hyperlink.href = url
+			hyperlink.append(url)
+			document.body.append(hyperlink)
+			if (new URLSearchParams(window.location.search).get('noRedirect')) {
+				document.body.append('?')
+			} else {
+				window.location.replace(url)
+			}
 		}
 	}
 } else {
-	// TODO: load landingpage
+	window.location.replace('./landingpage/index.html')
 }
 
 function appendLine(text: string): void {
-	document.body.innerHTML += '<br>'
+	document.body.append(document.createElement('br'))
 	document.body.append(text)
 }
 

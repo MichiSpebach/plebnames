@@ -1,5 +1,5 @@
 import * as esbuild from 'https://deno.land/x/esbuild@v0.21.2/mod.js'
-import * as nodeProcess from 'node:child_process'
+import * as util from '../scriptUtil.ts'
 
 await buildForNpmLibrary()
 
@@ -12,9 +12,9 @@ async function buildForNpmLibrary(): Promise<void> {
 	async function cleanup(): Promise<void> {
 		console.log('cleaning up, removing old ./index.js, ./index.d.ts and ./dist/ if existing')
 		await Promise.all([
-			removeIfExists('./index.js'),
-			removeIfExists('./index.d.ts'),
-			removeIfExists('./dist/', {recursive: true})
+			util.removeIfExists('./index.js'),
+			util.removeIfExists('./index.d.ts'),
+			util.removeIfExists('./dist/', {recursive: true})
 		])
 	}
 
@@ -43,7 +43,7 @@ async function buildForNpmLibrary(): Promise<void> {
 	async function generateDtsFiles(): Promise<void> {
 		console.log('generating .d.ts files with tsc')
 		try {
-			console.log(await exec('tsc --project tsconfig.generateDts.json'))
+			console.log(await util.exec('tsc --project tsconfig.generateDts.json'))
 		} catch (error) {
 			// TODO: works nonetheless, but fix this error
 			console.warn(error)
@@ -58,35 +58,4 @@ async function buildForNpmLibrary(): Promise<void> {
 		])
 		console.log('generated .d.ts files')
 	}
-}
-
-async function removeIfExists(path: string | URL, options?: Deno.RemoveOptions): Promise<void> {
-	try {
-		await Deno.remove(path, options)
-	} catch (error) {
-		if (!(error instanceof Deno.errors.NotFound)) {
-			throw error
-		}
-	}
-}
-
-function exec(command: string): Promise<string> {
-	let resolvePromise: (value: string) => void
-	let rejectPromise: (error: Error) => void
-	const promise = new Promise<string>((resolve, reject) => {
-		resolvePromise = resolve
-		rejectPromise = reject
-	})
-
-	nodeProcess.exec(command, (error: nodeProcess.ExecException|null, stdout: string, stderr: string) => {
-		if (error !== null) {
-			rejectPromise(error)
-		} else if (stderr.length > 0) {
-			rejectPromise(new Error(stderr))
-		} else {
-			resolvePromise(stdout)
-		}
-	})
-
-	return promise
 }
