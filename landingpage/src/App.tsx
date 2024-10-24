@@ -1,6 +1,6 @@
 import './App.css';
 
-import ChromeExtensionInvite from './components/BrowserExtensionBanner';
+import BrowserExtensionBanner from './components/BrowserExtensionBanner';
 import CollaborationBanner from './components/CollaborationBanner';
 import ExtensionsGallery from './components/ExtensionsGallery';
 import Footer from './components/Footer';
@@ -12,7 +12,7 @@ function App() {
 		<>
 			<HeaderWithSearch />
 
-			<ChromeExtensionInvite />
+			{!window.localStorage.getItem('hideBrowserExtensionBanner') && <BrowserExtensionBanner />}
 
 			<div id="scroll-to-after-header">
 				<CollaborationBanner />

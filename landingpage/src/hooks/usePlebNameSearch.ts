@@ -25,24 +25,28 @@ type DataTypes =
 			queryString: null;
 			history: null;
 			paExplanation: null;
+			tipToInscribeWebsite: false;
 	  }
 	| {
 			status: StatusTypes.Loading;
 			queryString: string;
 			history: null;
 			paExplanation: null;
+			tipToInscribeWebsite: false;
 	  }
 	| {
 			status: StatusTypes.Claimed;
 			history: PlebNameHistory;
 			queryString: string;
 			paExplanation: PlebAddressExplainedType;
+			tipToInscribeWebsite: boolean;
 	  }
 	| {
 			status: StatusTypes.Unclaimed;
 			queryString: string;
 			history: null;
 			paExplanation: PlebAddressExplainedType;
+			tipToInscribeWebsite: false;
 	  };
 
 const getInitialData: () => DataTypes = () => {
@@ -53,27 +57,32 @@ const getInitialData: () => DataTypes = () => {
 			history: null,
 			queryString: null,
 			paExplanation: null,
+			tipToInscribeWebsite: false,
 		}
 	}
 	const historyJson: string|null = window.localStorage.getItem('plebNameHistory')
 	const history: PlebNameHistory|null = !historyJson || historyJson === 'unclaimed'
 		? null
 		: Object.setPrototypeOf(JSON.parse(historyJson!), PlebNameHistory.prototype)
+	const tipToInscribeWebsite: boolean = window.localStorage.getItem('tipToInscribeWebsite') ? true : false
 	window.localStorage.removeItem('plebName')
 	window.localStorage.removeItem('plebNameHistory')
+	window.localStorage.removeItem('tipToInscribeWebsite')
 	if (history) {
 		return {
 			status: StatusTypes.Claimed,
 			history,
 			queryString: name,
-			paExplanation: generatePAExplanationForName(name)
+			paExplanation: generatePAExplanationForName(name),
+			tipToInscribeWebsite,
 		}
 	} else {
 		return {
 			status: StatusTypes.Unclaimed,
 			history,
 			queryString: name,
-			paExplanation: generatePAExplanationForName(name)
+			paExplanation: generatePAExplanationForName(name),
+			tipToInscribeWebsite: false,
 		}
 	}
 }
@@ -91,6 +100,7 @@ const usePlebNameSearch = () => {
 				history: null,
 				queryString: null,
 				paExplanation: null,
+				tipToInscribeWebsite: false,
 			});
 			alert('Please enter a name.');
 			return;
@@ -100,6 +110,7 @@ const usePlebNameSearch = () => {
 			history: null,
 			queryString: _query,
 			paExplanation: null,
+			tipToInscribeWebsite: false,
 		});
 
 		console.log('Searching for:', _query);
@@ -115,6 +126,7 @@ const usePlebNameSearch = () => {
 					history: null,
 					queryString: _query,
 					paExplanation,
+					tipToInscribeWebsite: false,
 				});
 			} else {
 				setData({
@@ -122,6 +134,7 @@ const usePlebNameSearch = () => {
 					history,
 					queryString: _query,
 					paExplanation,
+					tipToInscribeWebsite: false,
 				});
 			}
 		} catch (error) {
@@ -131,6 +144,7 @@ const usePlebNameSearch = () => {
 				history: null,
 				queryString: null,
 				paExplanation: null,
+				tipToInscribeWebsite: false,
 			});
 			alert('An error occurred while searching. Please try again.');
 		}

@@ -14,8 +14,9 @@ type AlterOptionKey =
 const AlterConfigForName: React.FC<{
 	queryString: string;
 	currentOwner: string;
+	expanded?: boolean
 	// We might want to add later a config object.
-}> = ({ queryString, currentOwner }) => {
+}> = ({ queryString, currentOwner, expanded }) => {
 	const [selectedOption, setSelectedOption] =
 		useState<AlterOptionKey>('website');
 
@@ -82,6 +83,7 @@ const AlterConfigForName: React.FC<{
 					<span className="font-mono">'{queryString}'</span>
 				</>
 			}
+			expanded={expanded}
 		>
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}

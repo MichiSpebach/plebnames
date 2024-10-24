@@ -16,8 +16,8 @@ import { TransactionTool } from '../TransactionTool';
 const MyHr = () => <hr className="my-5" />;
 
 function HeaderWithSearch() {
-	let { handleSearch, data } = usePlebNameSearch();
-	const { history, paExplanation, queryString, status } = data;
+	const { handleSearch, data } = usePlebNameSearch();
+	const { history, paExplanation, queryString, status, tipToInscribeWebsite } = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
 	const { spacerHeight, fitsInHeader } = useHeaderSpacer(overflowBoxRef, [
@@ -121,6 +121,7 @@ function HeaderWithSearch() {
 								<ClaimedContent
 									history={history}
 									queryString={queryString}
+									tipToInscribeWebsite={tipToInscribeWebsite}
 								/>
 
 								<MyHr />
@@ -132,6 +133,7 @@ function HeaderWithSearch() {
 								<AlterConfigForName
 									currentOwner={history.getData().owner}
 									queryString={queryString}
+									expanded={tipToInscribeWebsite}
 								/>
 							</>
 						)}

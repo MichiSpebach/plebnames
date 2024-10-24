@@ -53,6 +53,8 @@ function redirectToLandingpage(options?: {name: string, history: PlebNameHistory
 		window.localStorage.setItem('plebName', options.name)
 		const history: string = options.history === 'unclaimed' ? options.history : JSON.stringify(options.history)
 		window.localStorage.setItem('plebNameHistory', history)
+		window.localStorage.setItem('hideBrowserExtensionBanner', 'true')
+		window.localStorage.setItem('tipToInscribeWebsite', 'true')
 	}
 	window.location.replace('./landingpage/index.html')
 }

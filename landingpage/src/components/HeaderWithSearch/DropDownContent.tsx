@@ -28,13 +28,16 @@ import {
 function DropDownContent({
 	title,
 	children,
+	expanded,
 }: {
 	/** The title to display */
 	title: React.ReactNode;
 	/** Content to hide/display */
 	children: React.ReactNode;
+	/** true if content is initially expanded/visible */
+	expanded?: boolean;
 }) {
-	const [isVisible, setIsVisible] = useState(false);
+	const [isVisible, setIsVisible] = useState(expanded);
 
 	return (
 		<div
