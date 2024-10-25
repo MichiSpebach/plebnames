@@ -112,11 +112,12 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
+								<TransactionTool title='Claim & Add inscriptions' mode='claimAndInscribe' name={queryString} />
+								
+								<MyHr />
+								
 								<PAExplanationView {...paExplanation} />
 
-								<MyHr />
-
-								<TransactionTool title='Add inscriptions' mode='claimAndInscribe' name={queryString} />
 							</>
 						)}
 
@@ -129,11 +130,11 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<PAExplanationView {...paExplanation} />
+								<TransactionTool title='Add or modify inscriptions' mode='inscribe' name={queryString}	history={history}/>
 
 								<MyHr />
 
-								<TransactionTool title='Add or modify inscriptions' mode='inscribe' name={queryString}	history={history}/>
+								<PAExplanationView {...paExplanation} />
 							</>
 						)}
 					</div>

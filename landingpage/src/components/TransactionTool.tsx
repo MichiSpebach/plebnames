@@ -3,6 +3,7 @@ import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
 import DropDownContent from './HeaderWithSearch/DropDownContent'
+import AlterConfigForName from './AlterConfigForName'
 
 interface TransactionToolProps {
 	title: string;
@@ -12,7 +13,7 @@ interface TransactionToolProps {
 }
 
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, title, history }) => {
-	const [senderAddress, setSenderAddress] = useState('')
+	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
 	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
@@ -22,13 +23,6 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, ti
 		senderAddressError?: Error
 		senderUtxoError?: Error
 	} | undefined>(undefined)
-
-	useEffect(() => {
-		const ownerAddress = history?.getData().owner;
-		if (ownerAddress) {
-			setSenderAddress(ownerAddress)
-		}
-	}, [history])
 
 	useEffect(() => {
 		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions, mode})
@@ -60,38 +54,23 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, ti
 
 	return (
 		<DropDownContent title={title}>
-		<div>
-			<label>
+
+		<div className='flex flex-col '>
+			{!history && 	
+			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
 				Your Address:{' '}
+				</label>
 				<input
 					placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
 					value={senderAddress}
 					onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSenderAddress(event.target.value)}
-					className="bg-white/15 border"
+					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
 				/>
-			</label>
-			<br />
+			<br /></div>}
+		
 
-			{/* <AlterConfigForName
-									currentOwner={history.getData().owner}
-									queryString={queryString}
-								/> */}
+				{<AlterConfigForName queryString={name} currentOwner={senderAddress} onInscriptionChange={setInscriptions}/> }
 
-
-			<label> {/* TODO: use <AlterConfigForName queryString={name} currentOwner={senderAddress}/> instead */}
-				Inscription:{' '}
-				<input
-					placeholder={`${name}.nostr=npub1pcqz0y5zt6cfafazcu6h2vf9trghshxhdwypm0g8jf2nmuhmd6rqdcd82u`}
-					value={inscriptions[0]}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInscriptions(inscriptions.map((inscription, index) => {
-						if (index === 0) {
-							return event.target.value
-						}
-						return inscription
-					}))}
-					className="bg-white/15 border"
-				/>
-			</label>
 			<div style={validTransaction && inscriptions[0] ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}

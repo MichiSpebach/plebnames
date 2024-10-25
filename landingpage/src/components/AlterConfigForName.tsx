@@ -1,5 +1,5 @@
 import { util } from 'plebnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa6';
 import DropDownContent from './HeaderWithSearch/DropDownContent';
 
@@ -14,10 +14,12 @@ type AlterOptionKey =
 const AlterConfigForName: React.FC<{
 	queryString: string;
 	currentOwner: string;
+	onInscriptionChange: (output: string[]) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, currentOwner }) => {
+}> = ({ queryString, currentOwner, onInscriptionChange }) => {
 	const [selectedOption, setSelectedOption] =
 		useState<AlterOptionKey>('website');
+	const [inscriptions, setInscriptions] = useState<string[]>(['']);
 
 	/** Only needed when any is selected */
 	const [alterKeyInput, setAlterKeyInput] = useState<string | undefined>(
@@ -34,9 +36,18 @@ const AlterConfigForName: React.FC<{
 		setAlterKeyInput(value === 'any' ? '' : undefined);
 	};
 
-	const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
+	useEffect(() => {
+		const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
+		setInscriptions([RAW_ASCII_ScriptValue])
+	}, [alterKeyInput, alterValueInput, selectedOption]);
+
+	useEffect(() => {
+		onInscriptionChange(inscriptions)
+	}, [inscriptions]);
+
+	
 	const opReturnScript =
-		`script(OP_RETURN ${util.asciiToHex(RAW_ASCII_ScriptValue)})` as const;
+		`script(OP_RETURN ${util.asciiToHex(inscriptions[0])})` as const;
 
 	// For the value-input element
 	let valueInputHTMLPlaceholder: string = 'text';
@@ -75,14 +86,7 @@ const AlterConfigForName: React.FC<{
 	}
 
 	return (
-		<DropDownContent
-			title={
-				<>
-					Inscribe Entries for:{' '}
-					<span className="font-mono">'{queryString}'</span>
-				</>
-			}
-		>
+		<div>
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
@@ -130,18 +134,18 @@ const AlterConfigForName: React.FC<{
 
 			{!healthyInput && (
 				<p className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
-					Please ensure all fields are filled in!
+					You have to add at least one inscription to the name.
 				</p>
 			)}
 
-			<p className="mb-4">
+			{/* <p className="mb-4">
 				To update the data for '{queryString}', send the following
 				OP_RETURN script from the address{' '}
 				<span className="font-mono">'{currentOwner}'</span> (e.g., using
 				Electrum) with an amount of 0:
-			</p>
+			</p> */}
 
-			<div className="mb-4 flex flex-row flex-wrap items-center gap-2">
+			{/* <div className="mb-4 flex flex-row flex-wrap items-center gap-2">
 				<span className="rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-blue-950">
 					{opReturnScript}
 				</span>
@@ -161,7 +165,7 @@ const AlterConfigForName: React.FC<{
 					<FaCopy className="mr-2" />
 					Copy
 				</button>
-			</div>
+			</div> */}
 
 			{selectedOption === 'owner' && (
 				<p className="mb-3 rounded-md bg-yellow-300 p-2 text-black">
@@ -176,9 +180,9 @@ const AlterConfigForName: React.FC<{
 
 			<p>
 				The script value is encoded in hexadecimal. In ASCII, it reads:
-				'{RAW_ASCII_ScriptValue}'
+				'{inscriptions[0]}'.
 			</p>
-		</DropDownContent>
+		</div>
 	);
 };
 
