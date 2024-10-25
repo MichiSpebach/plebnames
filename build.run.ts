@@ -20,13 +20,23 @@ async function buildLandingpageAndCopyInto(destPath: string) {
 	await fs.copy('./landingpage/dist/', destPath, {overwrite: false})
 	
 	const indexHtmlPath: string = destPath+'index.html'
-	const indexHtmlContent: string = await Deno.readTextFile(indexHtmlPath)
+	let indexHtmlContent: string = await Deno.readTextFile(indexHtmlPath)
+	
 	const pathToFix: string = '"/assets/index'
 	const fixedPath: string = '"./assets/index'
 	if (!indexHtmlContent.includes(pathToFix)) {
 		console.warn(`paths to fix "${pathToFix}" not found in ${indexHtmlPath}`)
 	}
-	await Deno.writeTextFile(indexHtmlPath, indexHtmlContent.replaceAll(pathToFix, fixedPath))
+	indexHtmlContent = indexHtmlContent.replaceAll(pathToFix, fixedPath)
+	
+	const iconPathToFix: string = 'href="/vite.svg"'
+	const fixedIconPath: string = 'href="../icon.png"'
+	if (!indexHtmlContent.includes(iconPathToFix)) {
+		console.warn(`iconPath to fix "${iconPathToFix}" not found in ${indexHtmlPath}`)
+	}
+	indexHtmlContent = indexHtmlContent.replace(iconPathToFix, fixedIconPath)
+	
+	await Deno.writeTextFile(indexHtmlPath, indexHtmlContent)
 }
 
 async function build(options: {outdir?: string, outfile?: string}): Promise<BuildResult> {
