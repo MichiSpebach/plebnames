@@ -1,14 +1,17 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
-import { bitcoinExplorer, util } from 'plebnames'
+import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
+import DropDownContent from './HeaderWithSearch/DropDownContent'
 
 interface TransactionToolProps {
+	title: string;
 	mode: 'claimAndInscribe'|'inscribe'
-	name: string
+	name: string;
+	history?: PlebNameHistory;
 }
 
-export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) => {
+export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, title, history }) => {
 	const [senderAddress, setSenderAddress] = useState('')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
@@ -19,6 +22,13 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 		senderAddressError?: Error
 		senderUtxoError?: Error
 	} | undefined>(undefined)
+
+	useEffect(() => {
+		const ownerAddress = history?.getData().owner;
+		if (ownerAddress) {
+			setSenderAddress(ownerAddress)
+		}
+	}, [history])
 
 	useEffect(() => {
 		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions, mode})
@@ -49,6 +59,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
+		<DropDownContent title={title}>
 		<div>
 			<label>
 				Your Address:{' '}
@@ -60,6 +71,13 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 				/>
 			</label>
 			<br />
+
+			{/* <AlterConfigForName
+									currentOwner={history.getData().owner}
+									queryString={queryString}
+								/> */}
+
+
 			<label> {/* TODO: use <AlterConfigForName queryString={name} currentOwner={senderAddress}/> instead */}
 				Inscription:{' '}
 				<input
@@ -90,6 +108,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode }) 
 				</div>
 			}
 		</div>
+		</DropDownContent>
 	)
 }
 

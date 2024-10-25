@@ -102,7 +102,7 @@ function HeaderWithSearch() {
 									</MarkedTextWithCopy>
 									<br />
 									Or import below transaction into your wallet (e.g. Electrum or Sparrow):
-									<TransactionTool mode='claimAndInscribe' name={queryString} />
+									
 									<br />
 									Your sending address will act as the owner,
 									so ensure it's your own non-custodial wallet
@@ -113,6 +113,10 @@ function HeaderWithSearch() {
 								<MyHr />
 
 								<PAExplanationView {...paExplanation} />
+
+								<MyHr />
+
+								<TransactionTool title='Add inscriptions' mode='claimAndInscribe' name={queryString} />
 							</>
 						)}
 
@@ -129,10 +133,7 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<AlterConfigForName
-									currentOwner={history.getData().owner}
-									queryString={queryString}
-								/>
+								<TransactionTool title='Add or modify inscriptions' mode='inscribe' name={queryString}	history={history}/>
 							</>
 						)}
 					</div>
