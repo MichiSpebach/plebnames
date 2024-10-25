@@ -4,6 +4,7 @@ import { PlebNameHistory, bitcoinExplorer } from 'plebnames';
 import generatePAExplanationForName, {
 	PlebAddressExplainedType,
 } from '../utils/explainPlebAddress';
+import * as localStorageAdapter from '../localStorageAdapter';
 
 /**
  * The different statuses our query can have.
@@ -22,53 +23,43 @@ export enum StatusTypes {
 type DataTypes =
 	| {
 			status: StatusTypes.NotSearched;
-			queryString: null;
-			history: null;
-			paExplanation: null;
-			tipToInscribeWebsite: false;
+			queryString?: null;
+			history?: null;
+			paExplanation?: null;
+			tipToInscribeWebsite?: false;
 	  }
 	| {
 			status: StatusTypes.Loading;
 			queryString: string;
-			history: null;
-			paExplanation: null;
-			tipToInscribeWebsite: false;
+			history?: null;
+			paExplanation?: null;
+			tipToInscribeWebsite?: false;
 	  }
 	| {
 			status: StatusTypes.Claimed;
 			history: PlebNameHistory;
 			queryString: string;
 			paExplanation: PlebAddressExplainedType;
-			tipToInscribeWebsite: boolean;
+			tipToInscribeWebsite?: boolean;
 	  }
 	| {
 			status: StatusTypes.Unclaimed;
 			queryString: string;
-			history: null;
+			history?: null;
 			paExplanation: PlebAddressExplainedType;
-			tipToInscribeWebsite: false;
+			tipToInscribeWebsite?: false;
 	  };
 
 const getInitialData: () => DataTypes = () => {
-	const name: string|null = window.localStorage.getItem('plebName')
+	const name: string|null = localStorageAdapter.popPlebName()
 	if (!name) {
 		return {
 			status: StatusTypes.NotSearched,
-			history: null,
-			queryString: null,
-			paExplanation: null,
-			tipToInscribeWebsite: false,
 		}
 	}
-	const historyJson: string|null = window.localStorage.getItem('plebNameHistory')
-	const history: PlebNameHistory|null = !historyJson || historyJson === 'unclaimed'
-		? null
-		: Object.setPrototypeOf(JSON.parse(historyJson!), PlebNameHistory.prototype)
-	const tipToInscribeWebsite: boolean = window.localStorage.getItem('tipToInscribeWebsite') ? true : false
-	window.localStorage.removeItem('plebName')
-	window.localStorage.removeItem('plebNameHistory')
-	window.localStorage.removeItem('tipToInscribeWebsite')
-	if (history) {
+	const history: PlebNameHistory|null = localStorageAdapter.popPlebNameHistory()
+	const tipToInscribeWebsite: boolean = localStorageAdapter.popTipToInscribeWebsite()
+	if (history instanceof PlebNameHistory) {
 		return {
 			status: StatusTypes.Claimed,
 			history,
@@ -97,20 +88,13 @@ const usePlebNameSearch = () => {
 		if (_query.length < 1) {
 			setData({
 				status: StatusTypes.NotSearched,
-				history: null,
-				queryString: null,
-				paExplanation: null,
-				tipToInscribeWebsite: false,
 			});
 			alert('Please enter a name.');
 			return;
 		}
 		setData({
 			status: StatusTypes.Loading,
-			history: null,
 			queryString: _query,
-			paExplanation: null,
-			tipToInscribeWebsite: false,
 		});
 
 		console.log('Searching for:', _query);
@@ -126,7 +110,6 @@ const usePlebNameSearch = () => {
 					history: null,
 					queryString: _query,
 					paExplanation,
-					tipToInscribeWebsite: false,
 				});
 			} else {
 				setData({
@@ -134,17 +117,12 @@ const usePlebNameSearch = () => {
 					history,
 					queryString: _query,
 					paExplanation,
-					tipToInscribeWebsite: false,
 				});
 			}
 		} catch (error) {
 			console.error('Error searching for name:', error);
 			setData({
 				status: StatusTypes.NotSearched,
-				history: null,
-				queryString: null,
-				paExplanation: null,
-				tipToInscribeWebsite: false,
 			});
 			alert('An error occurred while searching. Please try again.');
 		}

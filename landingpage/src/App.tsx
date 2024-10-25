@@ -6,13 +6,14 @@ import ExtensionsGallery from './components/ExtensionsGallery';
 import Footer from './components/Footer';
 import HeaderWithSearch from './components/HeaderWithSearch';
 // import MemeGallery from './components/MemeGallery';
+import * as localStorageAdapter from './localStorageAdapter';
 
 function App() {
 	return (
 		<>
 			<HeaderWithSearch />
 
-			{!window.localStorage.getItem('hideBrowserExtensionBanner') && <BrowserExtensionBanner />}
+			{!localStorageAdapter.isHideBrowserExtensionBanner() && <BrowserExtensionBanner />}
 
 			<div id="scroll-to-after-header">
 				<CollaborationBanner />
