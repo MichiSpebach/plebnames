@@ -6,13 +6,12 @@ import DropDownContent from './HeaderWithSearch/DropDownContent'
 import AlterConfigForName from './AlterConfigForName'
 
 interface TransactionToolProps {
-	title: string;
 	mode: 'claimAndInscribe'|'inscribe'
 	name: string;
 	history?: PlebNameHistory;
 }
 
-export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, title, history }) => {
+export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
 	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
@@ -53,7 +52,6 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, ti
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
-		<DropDownContent title={title}>
 
 		<div className='flex flex-col '>
 			{!history && 	
@@ -87,7 +85,6 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, ti
 				</div>
 			}
 		</div>
-		</DropDownContent>
 	)
 }
 

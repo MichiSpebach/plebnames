@@ -112,7 +112,9 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<TransactionTool title='Claim & Add inscriptions' mode='claimAndInscribe' name={queryString} />
+								<h3 className="mb-2 text-2xl font-bold text-blue-950">Claim & Inscribe</h3>
+
+								<TransactionTool mode='claimAndInscribe' name={queryString} />
 								
 								<MyHr />
 								
@@ -130,7 +132,9 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<TransactionTool title='Add or modify inscriptions' mode='inscribe' name={queryString}	history={history}/>
+								<h3 className="mb-2 text-2xl font-bold text-blue-950">Add or modify inscriptions</h3>
+
+								<TransactionTool mode='inscribe' name={queryString}	history={history}/>
 
 								<MyHr />
 
