@@ -11,6 +11,7 @@ import AlterConfigForName from '../AlterConfigForName';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
+import DropDownContent from './DropDownContent';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -132,9 +133,10 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<h3 className="mb-2 text-2xl font-bold text-blue-950">Add or modify inscriptions</h3>
-
-								<TransactionTool mode='inscribe' name={queryString}	history={history}/>
+								<DropDownContent title={'Add or modify inscriptions'}>
+									<TransactionTool mode='inscribe' name={queryString}	history={history}/>
+								</DropDownContent>
+								
 
 								<MyHr />
 

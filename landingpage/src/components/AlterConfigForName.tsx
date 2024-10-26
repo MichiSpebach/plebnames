@@ -1,32 +1,36 @@
-import { util } from 'plebnames';
+import { PlebNameData, util } from 'plebnames';
 import React, { useEffect, useState } from 'react';
 import { FaCopy } from 'react-icons/fa6';
 import DropDownContent from './HeaderWithSearch/DropDownContent';
 
 /** Allowed Keys */
-type AlterOptionKey =
-	| 'nostr'
-	| 'website'
-	| 'owner'
-	| 'lightningAddress'
+export type AlterOptionKey = keyof PlebNameData
 	| 'any';
+
+
+type Output = { key: AlterOptionKey, value: string };
+
 
 const AlterConfigForName: React.FC<{
 	queryString: string;
 	currentOwner: string;
-	onInscriptionChange: (output: string[]) => void;
+	configKey?: AlterOptionKey;
+	value?: string;
+	onInscriptionChange: (output: Output) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, currentOwner, onInscriptionChange }) => {
+}> = ({ queryString, currentOwner, configKey, value, onInscriptionChange }) => { 
+	console.log("key", configKey);
+	const isReadOnlyOption = !!configKey;
 	const [selectedOption, setSelectedOption] =
-		useState<AlterOptionKey>('website');
-	const [inscriptions, setInscriptions] = useState<string[]>(['']);
+		useState<AlterOptionKey>(configKey ?? 'website');
+	const [inscription, setInscription] = useState<string>(value ?? '');
 
 	/** Only needed when any is selected */
 	const [alterKeyInput, setAlterKeyInput] = useState<string | undefined>(
 		undefined,
 	);
 	/** The value which will be altered to the name. */
-	const [alterValueInput, setAlterValueInput] = useState('');
+	const [alterValueInput, setAlterValueInput] = useState(value ?? '');
 
 	const handleOptionChange = (
 		event: React.ChangeEvent<HTMLSelectElement>,
@@ -38,16 +42,16 @@ const AlterConfigForName: React.FC<{
 
 	useEffect(() => {
 		const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
-		setInscriptions([RAW_ASCII_ScriptValue])
+		setInscription(RAW_ASCII_ScriptValue)
 	}, [alterKeyInput, alterValueInput, selectedOption]);
 
 	useEffect(() => {
-		onInscriptionChange(inscriptions)
-	}, [inscriptions]);
+		onInscriptionChange({ key: selectedOption, value: inscription });
+	}, [inscription]);
 
 	
-	const opReturnScript =
-		`script(OP_RETURN ${util.asciiToHex(inscriptions[0])})` as const;
+	// const opReturnScript =
+	// 	`script(OP_RETURN ${util.asciiToHex(inscriptions[0])})` as const;
 
 	// For the value-input element
 	let valueInputHTMLPlaceholder: string = 'text';
@@ -91,9 +95,10 @@ const AlterConfigForName: React.FC<{
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
 				<select
+					disabled={isReadOnlyOption}
 					name="alterKeySelect"
 					className="border-gray-30 rounded-md border bg-gray-100 px-3 py-2"
-					value={selectedOption}
+					value={configKey}
 					onChange={handleOptionChange}
 				>
 					<option value="website">Website</option>
@@ -132,11 +137,14 @@ const AlterConfigForName: React.FC<{
 				/>
 			</div>
 
+		
+			{/* 
+			TODO: Move this to TransactionTool
 			{!healthyInput && (
 				<p className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
 					You have to add at least one inscription to the name.
 				</p>
-			)}
+			)} */}
 
 			{/* <p className="mb-4">
 				To update the data for '{queryString}', send the following
@@ -178,10 +186,11 @@ const AlterConfigForName: React.FC<{
 				</p>
 			)}
 
-			<p>
+			{/* <p>
 				The script value is encoded in hexadecimal. In ASCII, it reads:
-				'{inscriptions[0]}'.
+				'{inscription}'.
 			</p>
+			<br></br> */}
 		</div>
 	);
 };

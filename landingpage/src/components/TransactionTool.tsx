@@ -1,9 +1,9 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
-import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
+import { bitcoinExplorer, PlebNameData, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
 import DropDownContent from './HeaderWithSearch/DropDownContent'
-import AlterConfigForName from './AlterConfigForName'
+import AlterConfigForName, { AlterOptionKey } from './AlterConfigForName'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -11,12 +11,14 @@ interface TransactionToolProps {
 	history?: PlebNameHistory;
 }
 
+type InscriptionMap = Partial<Record<AlterOptionKey, string>>;
+
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
 	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
 	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
-	const [inscriptions, setInscriptions] = useState([''])
+	const [inscriptionMap, setInscriptionMap] = useState<InscriptionMap>({})
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
 		senderAddressError?: Error
@@ -24,10 +26,10 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	} | undefined>(undefined)
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions, mode})
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: Object.values(inscriptionMap), mode})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
-	}, [name, senderAddress, senderUtxo, inscriptions, mode])
+	}, [name, senderAddress, senderUtxo, inscriptionMap, mode])
 
 	useEffect(() => {
 		if (!validSenderAddress) {
@@ -50,6 +52,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	}, [validSenderAddress])
 
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
+	const historyData = history?.getData();
 
 	return (
 
@@ -67,9 +70,26 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 			<br /></div>}
 		
 
-				{<AlterConfigForName queryString={name} currentOwner={senderAddress} onInscriptionChange={setInscriptions}/> }
+				{historyData && Object.entries(historyData).map((entry, index) => (	
+					<AlterConfigForName 
+						queryString={name} 
+						currentOwner={senderAddress} 
+						configKey={entry[0] as AlterOptionKey}
+						value={entry[1]} 
+						onInscriptionChange={(newInscription) => {
+							setInscriptionMap({...inscriptionMap, [newInscription.key]: newInscription.value})
+					}}/>
+				))}
+				<AlterConfigForName 
+				queryString={name}
+				currentOwner={senderAddress}
+				onInscriptionChange={(newInscription) => {
+					setInscriptionMap({ ...inscriptionMap, [newInscription.key]: newInscription.value })
+				} } value={''}/>
 
-			<div style={validTransaction && inscriptions[0] ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
+			<hr className="my-5" />
+
+			<div style={validTransaction && inscriptionMap ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}
 				</MarkedTextWithCopy>
@@ -81,10 +101,12 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					{senderUtxoStatus === 'fetching' && <div>Fetching UTXO...</div>}
 					{senderUtxoStatus instanceof Error && <div>Error while fetching UTXO from 'Your Address': {senderUtxoStatus.message}</div>}
 					{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {transaction.senderUtxoError.message}</div>}
-					{!inscriptions[0] && validTransaction && <div>Input at least one 'Inscription'.</div>}
+					{!inscriptionMap && validTransaction && <div>Input at least one 'Inscription'.</div>}
 				</div>
 			}
 		</div>
+
+
 	)
 }
 
@@ -123,7 +145,7 @@ function generateTransaction(options: {
 		restValueInSats -= 546
 	}
 
-	for (const inscription of options.inscriptions) {
+	for (const inscription in options.inscriptions) {
 		const opReturnData: Uint8Array = util.asciiToBytes(inscription)
 		transaction.addOutput({ // TODO: handle case for opReturnData.length > 75
 			script: new Uint8Array([script.OPS['OP_RETURN'], opReturnData.length, ...opReturnData]),
