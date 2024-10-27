@@ -1,28 +1,26 @@
 import { PlebNameData, util } from 'plebnames';
 import React, { useEffect, useState } from 'react';
-import { FaCopy } from 'react-icons/fa6';
-import DropDownContent from './HeaderWithSearch/DropDownContent';
 
 /** Allowed Keys */
-export type AlterOptionKey = keyof PlebNameData
+export type InscriptionKey = keyof PlebNameData
 	| 'any';
 
 
-type Output = { key: AlterOptionKey, value: string };
+type Output = { key: InscriptionKey, value: string };
 
 
-const AlterConfigForName: React.FC<{
+const InscriptionForm: React.FC<{
 	queryString: string;
 	currentOwner: string;
-	configKey?: AlterOptionKey;
+	inscriptionKey?: InscriptionKey;
 	value?: string;
 	onInscriptionChange: (output: Output) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, currentOwner, configKey, value, onInscriptionChange }) => { 
+}> = ({ queryString, currentOwner, inscriptionKey: configKey, value, onInscriptionChange }) => { 
 	console.log("key", configKey);
 	const isReadOnlyOption = !!configKey;
 	const [selectedOption, setSelectedOption] =
-		useState<AlterOptionKey>(configKey ?? 'website');
+		useState<InscriptionKey>(configKey ?? 'website');
 	const [inscription, setInscription] = useState<string>(value ?? '');
 
 	/** Only needed when any is selected */
@@ -35,7 +33,7 @@ const AlterConfigForName: React.FC<{
 	const handleOptionChange = (
 		event: React.ChangeEvent<HTMLSelectElement>,
 	) => {
-		const value = event.target.value as AlterOptionKey;
+		const value = event.target.value as InscriptionKey;
 		setSelectedOption(value);
 		setAlterKeyInput(value === 'any' ? '' : undefined);
 	};
@@ -195,4 +193,4 @@ const AlterConfigForName: React.FC<{
 	);
 };
 
-export default AlterConfigForName;
+export default InscriptionForm;

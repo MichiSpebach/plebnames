@@ -3,7 +3,7 @@ import { bitcoinExplorer, PlebNameData, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
 import DropDownContent from './HeaderWithSearch/DropDownContent'
-import AlterConfigForName, { AlterOptionKey } from './AlterConfigForName'
+import InscriptionForm, { InscriptionKey } from './InscriptionForm'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -11,7 +11,7 @@ interface TransactionToolProps {
 	history?: PlebNameHistory;
 }
 
-type InscriptionMap = Partial<Record<AlterOptionKey, string>>;
+type InscriptionMap = Partial<Record<InscriptionKey, string>>;
 
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
 	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
@@ -71,16 +71,16 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		
 
 				{historyData && Object.entries(historyData).map((entry, index) => (	
-					<AlterConfigForName 
+					<InscriptionForm 
 						queryString={name} 
 						currentOwner={senderAddress} 
-						configKey={entry[0] as AlterOptionKey}
+						inscriptionKey={entry[0] as InscriptionKey}
 						value={entry[1]} 
 						onInscriptionChange={(newInscription) => {
 							setInscriptionMap({...inscriptionMap, [newInscription.key]: newInscription.value})
 					}}/>
 				))}
-				<AlterConfigForName 
+				<InscriptionForm 
 				queryString={name}
 				currentOwner={senderAddress}
 				onInscriptionChange={(newInscription) => {

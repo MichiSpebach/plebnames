@@ -7,7 +7,7 @@ import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
 import PAExplanationView from './PAExplanationView';
 import './../../App.css';
-import AlterConfigForName from '../AlterConfigForName';
+import InscriptionForm from '../InscriptionForm';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
