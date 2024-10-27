@@ -1,35 +1,36 @@
-import { PlebNameData, util } from 'plebnames';
+import { PlebNameData } from 'plebnames';
 import React, { useEffect, useState } from 'react';
 
 /** Allowed Keys */
-export type InscriptionKey = keyof PlebNameData
-	| 'any';
+export type InscriptionKey = string | keyof PlebNameData;
 
 
-export type Inscription = { key: InscriptionKey, inscriptionInAscii: string, isValid: boolean };
+export type Inscription = { key: InscriptionKey, inscriptionInAscii: string, error: string | undefined };
 
 
 const InscriptionForm: React.FC<{
 	queryString: string;
 	currentOwner?: string;
 	inscriptionKey?: InscriptionKey;
-	value?: string;
+	reservedKeys: InscriptionKey[]
+	currentInscriptionInAscii?: string;
 	onInscriptionChange: (output: Inscription) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, inscriptionKey, value, onInscriptionChange }) => { 
+}> = ({ queryString, inscriptionKey, currentInscriptionInAscii, reservedKeys, onInscriptionChange }) => { 
 	const isReadOnlyOption = !!inscriptionKey;
 	const [selectedOption, setSelectedOption] =
 		useState<InscriptionKey>(inscriptionKey ?? 'website');
-	const [isValid, setIsValid] =
-		useState(false);
-	const [inscriptionInAscii, setInscriptionInAscii] = useState<string>(value ?? '');
+	const [isEmpty, setIsEmpty] = useState(true);
+	const [isDuplicate, setIsDuplicate] = useState(false);
+	const [error, setError] = useState("");
+	const [inscriptionInAscii, setInscriptionInAscii] = useState<string>(currentInscriptionInAscii ?? '');
 
 	/** Only needed when any is selected */
 	const [alterKeyInput, setAlterKeyInput] = useState<string | undefined>(
 		undefined,
 	);
 	/** The value which will be altered to the name. */
-	const [alterValueInput, setAlterValueInput] = useState(value ?? '');
+	const [alterValueInput, setAlterValueInput] = useState(currentInscriptionInAscii ?? '');
 
 	const handleOptionChange = (
 		event: React.ChangeEvent<HTMLSelectElement>,
@@ -40,14 +41,30 @@ const InscriptionForm: React.FC<{
 	};
 
 	useEffect(() => {
+		if(!alterValueInput || alterValueInput.length === 0) {
+			setIsEmpty(true);
+			return;
+		} else {
+			setIsEmpty(false);
+		}
 		const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
-		setIsValid(Boolean(alterValueInput?.length > 0))
 		setInscriptionInAscii(RAW_ASCII_ScriptValue)
-	}, [alterKeyInput, alterValueInput, selectedOption]);
+	}, [alterKeyInput, alterValueInput, selectedOption, queryString]);
 
 	useEffect(() => {
-		onInscriptionChange({ key: selectedOption, inscriptionInAscii, isValid });
-	}, [selectedOption, inscriptionInAscii, isValid]);
+		onInscriptionChange({ key: selectedOption, inscriptionInAscii, error });
+	}, [selectedOption, inscriptionInAscii, error]);
+
+	useEffect(() => {
+		if(isEmpty) {
+			setError("Inscription value must not be empty");
+		}
+		else if(isDuplicate) {
+			setError("An inscription with this key already exists");
+		} else {
+			setError("");
+		}
+	}, [isDuplicate, isEmpty]);
 
 	
 	// const opReturnScript =
@@ -102,10 +119,10 @@ const InscriptionForm: React.FC<{
 					value={inscriptionKey}
 					onChange={handleOptionChange}
 				>
-					<option value="website">Website</option>
-					<option value="nostr">Nostr</option>
-					<option value="owner">Owner</option>
-					<option value="lightningAddress">Lightning Address</option>
+					<option hidden={reservedKeys.includes("website")} value="website">Website</option>
+					<option hidden={reservedKeys.includes("nostr")} value="nostr">Nostr</option>
+					<option hidden={reservedKeys.includes("owner")} value="owner">Owner</option>
+					<option hidden={reservedKeys.includes("lightningAddress")} value="lightningAddress">Lightning Address</option>
 					<option value="any">Custom Field</option>
 				</select>
 
@@ -117,7 +134,13 @@ const InscriptionForm: React.FC<{
 						value={alterKeyInput}
 						onChange={(e) => {
 							e.preventDefault();
-							setAlterKeyInput(e.target.value.trim());
+							const key = e.target.value.trim();
+							if(reservedKeys.includes(key)) {
+								setIsDuplicate(true);
+							} else {
+								setIsDuplicate(false)
+							}
+							setAlterKeyInput(key);
 						}}
 						className="border-gray-30 rounded-sm border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 					/>
@@ -138,11 +161,11 @@ const InscriptionForm: React.FC<{
 				/>
 			</div>
 
-			{!isValid && (
-				<p className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
-					Inscription value must not be empty.
+			
+				<p hidden={error.length === 0} className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
+					{error}
 				</p>
-			)}
+		
 
 		
 			{/* 

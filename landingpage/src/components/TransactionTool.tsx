@@ -1,8 +1,7 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
-import { bitcoinExplorer, PlebNameData, PlebNameHistory, util } from 'plebnames'
+import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useState } from 'react'
-import DropDownContent from './HeaderWithSearch/DropDownContent'
 import InscriptionForm, { InscriptionKey } from './InscriptionForm'
 
 interface TransactionToolProps {
@@ -11,7 +10,7 @@ interface TransactionToolProps {
 	history?: PlebNameHistory;
 }
 
-type InscriptionMap = Partial<Record<InscriptionKey, string>>;
+type InscriptionMap = Record<InscriptionKey, string>;
 
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
 	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
@@ -24,9 +23,10 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		senderAddressError?: Error
 		senderUtxoError?: Error
 	} | undefined>(undefined)
+	const reservedKeys = Object.keys(history ? history?.getData(): {});
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: Object.values(inscriptionMap), mode})
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: Object.values<string>(inscriptionMap), mode})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
 	}, [name, senderAddress, senderUtxo, inscriptionMap, mode])
@@ -75,7 +75,8 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						queryString={name} 
 						currentOwner={senderAddress} 
 						inscriptionKey={entry[0] as InscriptionKey}
-						value={entry[1]} 
+						reservedKeys={reservedKeys}
+						currentInscriptionInAscii={entry[1]} 
 						onInscriptionChange={(newInscription) => {
 							setInscriptionMap({...inscriptionMap, [newInscription.key]: newInscription.inscriptionInAscii})
 					}}/>
@@ -83,9 +84,10 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				<InscriptionForm 
 				queryString={name}
 				currentOwner={senderAddress}
+				reservedKeys={reservedKeys}
 				onInscriptionChange={(newInscription) => {
 					setInscriptionMap({ ...inscriptionMap, [newInscription.key]: newInscription.inscriptionInAscii })
-				} } value={''}/>
+				} } currentInscriptionInAscii={''}/>
 
 			<hr className="my-5" />
 
@@ -105,6 +107,8 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			}
 		</div>
+
+
 
 
 	)
