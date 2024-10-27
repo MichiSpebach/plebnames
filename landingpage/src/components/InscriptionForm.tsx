@@ -6,22 +6,23 @@ export type InscriptionKey = keyof PlebNameData
 	| 'any';
 
 
-type Output = { key: InscriptionKey, value: string };
+export type Inscription = { key: InscriptionKey, inscriptionInAscii: string, isValid: boolean };
 
 
 const InscriptionForm: React.FC<{
 	queryString: string;
-	currentOwner: string;
+	currentOwner?: string;
 	inscriptionKey?: InscriptionKey;
 	value?: string;
-	onInscriptionChange: (output: Output) => void;
+	onInscriptionChange: (output: Inscription) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, currentOwner, inscriptionKey: configKey, value, onInscriptionChange }) => { 
-	console.log("key", configKey);
-	const isReadOnlyOption = !!configKey;
+}> = ({ queryString, inscriptionKey, value, onInscriptionChange }) => { 
+	const isReadOnlyOption = !!inscriptionKey;
 	const [selectedOption, setSelectedOption] =
-		useState<InscriptionKey>(configKey ?? 'website');
-	const [inscription, setInscription] = useState<string>(value ?? '');
+		useState<InscriptionKey>(inscriptionKey ?? 'website');
+	const [isValid, setIsValid] =
+		useState(false);
+	const [inscriptionInAscii, setInscriptionInAscii] = useState<string>(value ?? '');
 
 	/** Only needed when any is selected */
 	const [alterKeyInput, setAlterKeyInput] = useState<string | undefined>(
@@ -40,12 +41,13 @@ const InscriptionForm: React.FC<{
 
 	useEffect(() => {
 		const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
-		setInscription(RAW_ASCII_ScriptValue)
+		setIsValid(Boolean(alterValueInput?.length > 0))
+		setInscriptionInAscii(RAW_ASCII_ScriptValue)
 	}, [alterKeyInput, alterValueInput, selectedOption]);
 
 	useEffect(() => {
-		onInscriptionChange({ key: selectedOption, value: inscription });
-	}, [inscription]);
+		onInscriptionChange({ key: selectedOption, inscriptionInAscii, isValid });
+	}, [selectedOption, inscriptionInAscii, isValid]);
 
 	
 	// const opReturnScript =
@@ -74,18 +76,19 @@ const InscriptionForm: React.FC<{
 	}
 
 	/**
+	 * TODO: Move to Tx Tool. See also below.
 	 * If the inputs are fullfield
 	 */
-	let healthyInput = false;
-	if (alterValueInput.length > 0) {
-		if (selectedOption === 'any') {
-			if (alterKeyInput !== undefined) {
-				if (alterKeyInput.length > 0) healthyInput = true;
-			}
-		} else {
-			healthyInput = true;
-		}
-	}
+	// let healthyInput = false;
+	// if (alterValueInput.length > 0) {
+	// 	if (selectedOption === 'any') {
+	// 		if (alterKeyInput !== undefined) {
+	// 			if (alterKeyInput.length > 0) healthyInput = true;
+	// 		}
+	// 	} else {
+	// 		healthyInput = true;
+	// 	}
+	// }
 
 	return (
 		<div>
@@ -96,7 +99,7 @@ const InscriptionForm: React.FC<{
 					disabled={isReadOnlyOption}
 					name="alterKeySelect"
 					className="border-gray-30 rounded-md border bg-gray-100 px-3 py-2"
-					value={configKey}
+					value={inscriptionKey}
 					onChange={handleOptionChange}
 				>
 					<option value="website">Website</option>
@@ -134,6 +137,12 @@ const InscriptionForm: React.FC<{
 					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 				/>
 			</div>
+
+			{!isValid && (
+				<p className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
+					Inscription value must not be empty.
+				</p>
+			)}
 
 		
 			{/* 

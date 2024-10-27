@@ -77,14 +77,14 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						inscriptionKey={entry[0] as InscriptionKey}
 						value={entry[1]} 
 						onInscriptionChange={(newInscription) => {
-							setInscriptionMap({...inscriptionMap, [newInscription.key]: newInscription.value})
+							setInscriptionMap({...inscriptionMap, [newInscription.key]: newInscription.inscriptionInAscii})
 					}}/>
 				))}
 				<InscriptionForm 
 				queryString={name}
 				currentOwner={senderAddress}
 				onInscriptionChange={(newInscription) => {
-					setInscriptionMap({ ...inscriptionMap, [newInscription.key]: newInscription.value })
+					setInscriptionMap({ ...inscriptionMap, [newInscription.key]: newInscription.inscriptionInAscii })
 				} } value={''}/>
 
 			<hr className="my-5" />
