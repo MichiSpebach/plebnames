@@ -19,7 +19,7 @@ const InscriptionForm: React.FC<{
 }> = ({ queryString, inscriptionKey, currentInscriptionInAscii, reservedKeys, onInscriptionChange }) => { 
 	const isReadOnlyOption = !!inscriptionKey;
 	const [selectedOption, setSelectedOption] =
-		useState<InscriptionKey>(inscriptionKey ?? 'website');
+		useState<InscriptionKey>(inscriptionKey ?? 'any');
 	const [isEmpty, setIsEmpty] = useState(true);
 	const [isDuplicate, setIsDuplicate] = useState(false);
 	const [error, setError] = useState("");
@@ -36,8 +36,10 @@ const InscriptionForm: React.FC<{
 		event: React.ChangeEvent<HTMLSelectElement>,
 	) => {
 		const value = event.target.value as InscriptionKey;
-		setSelectedOption(value);
-		setAlterKeyInput(value === 'any' ? '' : undefined);
+		if(!reservedKeys.includes(value)) {
+			setSelectedOption(value);
+			setAlterKeyInput(value === 'any' ? '' : undefined);
+		}
 	};
 
 	useEffect(() => {

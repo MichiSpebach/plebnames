@@ -10,6 +10,7 @@ interface TransactionToolProps {
 	history?: PlebNameHistory;
 }
 
+
 type InscriptionMap = Record<InscriptionKey, string>;
 
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
@@ -26,7 +27,21 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const reservedKeys = Object.keys(history ? history?.getData(): {});
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: Object.values<string>(inscriptionMap), mode})
+		const oldInscriptions:InscriptionMap | undefined   = history?.getData();
+		let changedInscriptions: string[] = [];
+
+		if (oldInscriptions) {
+			changedInscriptions = Object.entries(inscriptionMap)
+				.filter(([key, value]) => {
+					// TODO: Keep plain inscription value in map and compare these
+					const oldInscriptionValue = oldInscriptions[key as InscriptionKey];
+					const newInscriptionValue = value?.includes("=") ? value.split("=")[1] : "";
+					return newInscriptionValue !== "" && newInscriptionValue !== oldInscriptionValue;
+				})
+				.map(([key, value]) => value);
+		}
+		console.log("changedInscriptions", changedInscriptions);
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: changedInscriptions, mode})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
 	}, [name, senderAddress, senderUtxo, inscriptionMap, mode])
