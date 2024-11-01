@@ -1,98 +1,38 @@
 import { PlebNameData } from 'plebnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { InscriptionSelectOption } from './InscriptionSelectOption';
+import { LuCheck as Check } from 'react-icons/lu';
 
-/** Allowed Keys */
-export type InscriptionKey = string | keyof PlebNameData;
+export type InscriptionKey = 'custom' | keyof PlebNameData;
+type SelectOption = {key: InscriptionKey, inputPlaceholder: string, inputType: 'text'|'url'}
 
-
-export type Inscription = { key: InscriptionKey, inscriptionInAscii: string, error: string | undefined };
-
+const selectOptions: {[key in InscriptionKey]: SelectOption} = {
+	nostr: {key: 'nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
+	website: {key: 'website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
+	linkTo: {key: 'linkTo', inputPlaceholder: 'deprecated use website instead', inputType: 'url'},
+	lightningAddress: {key: 'lightningAddress', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
+	owner: {key: 'owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
+	custom: {key: 'custom', inputPlaceholder: 'your value', inputType: 'text'},
+}
 
 const InscriptionForm: React.FC<{
 	queryString: string;
-	currentOwner?: string;
-	inscriptionKey?: InscriptionKey;
 	reservedKeys: InscriptionKey[]
-	currentInscriptionInAscii?: string;
-	onInscriptionChange: (output: Inscription) => void;
+	inscription: InscriptionSelectOption;
+	required?: boolean;
+	onInscriptionChange: (output: InscriptionSelectOption) => void;
 	// We might want to add later a config object.
-}> = ({ queryString, inscriptionKey, currentInscriptionInAscii, reservedKeys, onInscriptionChange }) => { 
-	const isReadOnlyOption = !!inscriptionKey;
-	const [selectedOption, setSelectedOption] =
-		useState<InscriptionKey>(inscriptionKey ?? 'any');
-	const [isEmpty, setIsEmpty] = useState(true);
-	const [isDuplicate, setIsDuplicate] = useState(false);
-	const [error, setError] = useState("");
-	const [inscriptionInAscii, setInscriptionInAscii] = useState<string>(currentInscriptionInAscii ?? '');
+}> = ({ queryString, inscription, reservedKeys, required, onInscriptionChange }) => { 
+	const [selectedOption, setSelectedOption] = useState<SelectOption>(selectOptions[inscription.option]);
+	const [customOption, setCustomOption] = useState<string | undefined>(undefined);
+	const [value, setValue] = useState(inscription.value);
 
-	/** Only needed when any is selected */
-	const [alterKeyInput, setAlterKeyInput] = useState<string | undefined>(
-		undefined,
-	);
-	/** The value which will be altered to the name. */
-	const [alterValueInput, setAlterValueInput] = useState(currentInscriptionInAscii ?? '');
-
-	const handleOptionChange = (
-		event: React.ChangeEvent<HTMLSelectElement>,
-	) => {
-		const value = event.target.value as InscriptionKey;
-		if(!reservedKeys.includes(value)) {
-			setSelectedOption(value);
-			setAlterKeyInput(value === 'any' ? '' : undefined);
-		}
-	};
-
-	useEffect(() => {
-		if(!alterValueInput || alterValueInput.length === 0) {
-			setIsEmpty(true);
-			return;
-		} else {
-			setIsEmpty(false);
-		}
-		const RAW_ASCII_ScriptValue = `${queryString}.${selectedOption === 'any' ? alterKeyInput : selectedOption}=${alterValueInput}`;
-		setInscriptionInAscii(RAW_ASCII_ScriptValue)
-	}, [alterKeyInput, alterValueInput, selectedOption, queryString]);
-
-	useEffect(() => {
-		onInscriptionChange({ key: selectedOption, inscriptionInAscii, error });
-	}, [selectedOption, inscriptionInAscii, error]);
-
-	useEffect(() => {
-		if(isEmpty) {
-			setError("Inscription value must not be empty");
-		}
-		else if(isDuplicate) {
-			setError("An inscription with this key already exists");
-		} else {
-			setError("");
-		}
-	}, [isDuplicate, isEmpty]);
-
-	
-	// const opReturnScript =
-	// 	`script(OP_RETURN ${util.asciiToHex(inscriptions[0])})` as const;
-
-	// For the value-input element
-	let valueInputHTMLPlaceholder: string = 'text';
-	let valueInputHMLType: React.HTMLInputTypeAttribute = 'text';
-	switch (selectedOption) {
-		case 'any':
-			valueInputHTMLPlaceholder = 'your value';
-			break;
-		case 'lightningAddress':
-			valueInputHTMLPlaceholder = 'enter a lightning address';
-			break;
-		case 'nostr':
-			valueInputHTMLPlaceholder = 'enter your nostr address';
-			break;
-		case 'owner':
-			valueInputHTMLPlaceholder = 'enter the new owner address';
-			break;
-		case 'website':
-			valueInputHTMLPlaceholder = 'enter the website-url';
-			valueInputHMLType = 'url';
-			break;
-	}
+	let error: string|undefined = undefined
+	if (required && value.length < 1) {
+		error = "Inscription value must not be empty"
+	} /*else if(isDuplicate) {
+		error = "An inscription with this key already exists"
+	}*/
 
 	/**
 	 * TODO: Move to Tx Tool. See also below.
@@ -115,34 +55,37 @@ const InscriptionForm: React.FC<{
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
 				<select
-					disabled={isReadOnlyOption}
 					name="alterKeySelect"
 					className="border-gray-30 rounded-md border bg-gray-100 px-3 py-2"
-					value={inscriptionKey}
-					onChange={handleOptionChange}
+					value={inscription.option}
+
+					onChange={(e) => {
+						e.preventDefault();
+						const newSelectedOption = e.target.value as InscriptionKey;
+						const newCustomOption = newSelectedOption === 'custom' ? '' : undefined
+						setSelectedOption(selectOptions[newSelectedOption]);
+						setCustomOption(newCustomOption);
+						onInscriptionChange(new InscriptionSelectOption(newSelectedOption, newCustomOption?? newSelectedOption, inscription.value));
+					}}
 				>
-					<option hidden={reservedKeys.includes("website")} value="website">Website</option>
-					<option hidden={reservedKeys.includes("nostr")} value="nostr">Nostr</option>
-					<option hidden={reservedKeys.includes("owner")} value="owner">Owner</option>
-					<option hidden={reservedKeys.includes("lightningAddress")} value="lightningAddress">Lightning Address</option>
-					<option value="any">Custom Field</option>
+					<option value="website">Website</option>
+					<option value="nostr">Nostr</option>
+					<option value="owner">Owner</option>
+					<option value="lightningAddress">Lightning Address</option>
+					<option value="custom">Custom Field</option>
 				</select>
 
-				{selectedOption === 'any' && (
+				{selectedOption.key === 'custom' && (
 					<input
 						type="text"
 						id="alterKey"
 						placeholder="Enter custom field name"
-						value={alterKeyInput}
+						value={customOption}
 						onChange={(e) => {
 							e.preventDefault();
-							const key = e.target.value.trim();
-							if(reservedKeys.includes(key)) {
-								setIsDuplicate(true);
-							} else {
-								setIsDuplicate(false)
-							}
-							setAlterKeyInput(key);
+							const newCustomOption: string = e.target.value.trim()
+							setCustomOption(newCustomOption);
+							onInscriptionChange(new InscriptionSelectOption(inscription.option, newCustomOption, inscription.value));
 						}}
 						className="border-gray-30 rounded-sm border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 					/>
@@ -151,22 +94,26 @@ const InscriptionForm: React.FC<{
 				<span className="font-mono font-bold text-blue-950">=</span>
 
 				<input
-					type={valueInputHMLType}
-					placeholder={valueInputHTMLPlaceholder}
+					type={selectedOption.inputType}
+					placeholder={selectedOption.inputPlaceholder}
 					id="alterValue"
-					value={alterValueInput}
+					value={value}
 					onChange={(e) => {
 						e.preventDefault();
-						setAlterValueInput(e.target.value.trim());
+						const newValue: string = e.target.value.trim()
+						setValue(newValue)
+						onInscriptionChange(new InscriptionSelectOption(inscription.option, inscription.dataField, newValue));
 					}}
 					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 				/>
+
+				{inscription.isValid() && <Check className="text-green-500" />}
 			</div>
 
 			
-				<p hidden={error.length === 0} className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
-					{error}
-				</p>
+			<p hidden={!error} className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
+				{error}
+			</p>
 		
 
 		
@@ -207,7 +154,7 @@ const InscriptionForm: React.FC<{
 				</button>
 			</div> */}
 
-			{selectedOption === 'owner' && (
+			{selectedOption.key === 'owner' && (
 				<p className="mb-3 rounded-md bg-yellow-300 p-2 text-black">
 					<b>Warning: </b>
 					Changing the owner transfers control of '{queryString}' to
@@ -225,6 +172,28 @@ const InscriptionForm: React.FC<{
 			<br></br> */}
 		</div>
 	);
+
+	function chooseInscriptionKey(reservedKeys: InscriptionKey[], choice?: InscriptionKey): SelectOption {
+		const customOption: SelectOption = {key: 'custom', inputPlaceholder: 'your value', inputType: 'text'}
+		const allOptions: SelectOption[] = [
+			{key: 'nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
+			{key: 'website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
+			{key: 'lightningAddress', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
+			{key: 'owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
+			customOption
+		]
+
+		for (const option of allOptions) {
+			if (option.key === choice) {
+				return option
+			}
+			if (reservedKeys.includes(option.key) || option.key === 'owner') {
+				continue
+			}
+			return option
+		}
+		return customOption
+	}
 };
 
 export default InscriptionForm;
