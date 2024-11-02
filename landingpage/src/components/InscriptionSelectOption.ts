@@ -8,6 +8,9 @@ export class InscriptionSelectOption {
 	) {}
 
 	public static ofOption(option: InscriptionKey): InscriptionSelectOption {
+		if (option === 'custom') {
+			return new InscriptionSelectOption(option, '', '')
+		}
 		return new InscriptionSelectOption(option, option, '')
 	}
 

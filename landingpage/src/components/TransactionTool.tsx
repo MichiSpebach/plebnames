@@ -1,8 +1,8 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
 import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
-import { useEffect, useState } from 'react'
-import InscriptionForm, { InscriptionKey } from './InscriptionForm'
+import { useEffect, useReducer, useState } from 'react'
+import InscriptionForm, { InscriptionKey, predefinedSelectOptions } from './InscriptionForm'
 import { InscriptionSelectOption } from './InscriptionSelectOption'
 
 interface TransactionToolProps {
@@ -11,30 +11,32 @@ interface TransactionToolProps {
 	history?: PlebNameHistory;
 }
 
+const reduceInscriptions = (_: unknown, all: InscriptionSelectOption[]) => {
+	let valid: InscriptionSelectOption[]|undefined = all.filter(inscription => inscription.isValid())
+	if (valid && valid.length < 1) {
+		valid = undefined
+	}
+	return {all, valid}
+}
+
 export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
 	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
 	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
-	const [inscriptions, setInscriptions] = useState<InscriptionSelectOption[]>([InscriptionSelectOption.ofOption('nostr')])
+	const [inscriptions, setInscriptions] = useReducer(reduceInscriptions, reduceInscriptions(undefined, [InscriptionSelectOption.ofOption('nostr')]))
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
 		senderAddressError?: Error
 		senderUtxoError?: Error
 	} | undefined>(undefined)
-	const reservedKeys: InscriptionKey[] = []//Object.keys(history ? history?.getData(): {}) as InscriptionKey[];
-
-	let validInscriptions: InscriptionSelectOption[]|undefined = inscriptions.filter(inscription => inscription.isValid())
-	if (validInscriptions && validInscriptions.length < 1) {
-		validInscriptions = undefined
-	}
-	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
+	const reservedFields: string[] = inscriptions.all.map(inscription => inscription.dataField)
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: validInscriptions?? inscriptions, mode})
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, mode})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
-	}, [name, senderAddress, senderUtxo, inscriptions, mode]) // do not add validInscriptions, would lead to infinite loop, improve, useReducer
+	}, [name, senderAddress, senderUtxo, inscriptions, mode])
 
 	useEffect(() => {
 		if (!validSenderAddress) {
@@ -56,8 +58,9 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		})
 	}, [validSenderAddress])
 
-	return (
+	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
+	return (
 		<div className='flex flex-col '>
 			{!history && 	
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
@@ -75,16 +78,17 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				<br />
 			</div>}
 		
-			{inscriptions.map((inscription, index) => 
-				<InscriptionForm 
+			{inscriptions.all.map((inscription, index) => 
+				<InscriptionForm
+					style={{marginBottom: '4px'}/* TODO: use className instead */}
 					queryString={name}
 					inscription={inscription}
-					reservedKeys={reservedKeys}
+					reservedFields={reservedFields}
 					onInscriptionChange={(updatedInscription) => {
-						const newInscriptions = [ ...inscriptions]
+						const newInscriptions = [ ...inscriptions.all]
 						newInscriptions[index] = updatedInscription
 						if (!newInscriptions.at(-1)?.isValueEmpty()) {
-							newInscriptions.push(InscriptionSelectOption.ofOption('nostr'))
+							newInscriptions.push(chooseNextInscription(reservedFields))
 						} else if (newInscriptions.at(-2)?.isValueEmpty()) {
 							newInscriptions.pop()
 						}
@@ -93,25 +97,30 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
-			<hr className="my-5" />
+			<hr className="my-4" />
 
-			<div style={validTransaction && validInscriptions ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
+			<div style={validTransaction && inscriptions.valid ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}
 				</MarkedTextWithCopy>
 			</div>
 			{!senderAddress
-				? <div>Input 'Your Address' to generate a valid transaction.</div>
-				: <div>
+				? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
+				: <div className="text-red-600">
 					{transaction?.senderAddressError && <div>{String(transaction.senderAddressError)}</div>}
 					{senderUtxoStatus === 'fetching' && <div>Fetching UTXO...</div>}
 					{senderUtxoStatus instanceof Error && <div>Error while fetching UTXO from 'Your Address': {senderUtxoStatus.message}</div>}
 					{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {transaction.senderUtxoError.message}</div>}
-					{validTransaction && !validInscriptions && <div>Input at least one valid inscription.</div>}
+					{validTransaction && !inscriptions.valid && <div>Input at least one valid inscription.</div>}
 				</div>
 			}
 		</div>
 	)
+}
+
+function chooseNextInscription(reservedFields: string[]): InscriptionSelectOption {
+	const optionKey: InscriptionKey = predefinedSelectOptions.find(option => option.key !== 'owner'&& !reservedFields.includes(option.key))?.key?? 'custom'
+	return InscriptionSelectOption.ofOption(optionKey)
 }
 
 function generateTransaction(options: {

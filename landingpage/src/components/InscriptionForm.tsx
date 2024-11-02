@@ -1,38 +1,41 @@
 import { PlebNameData } from 'plebnames';
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { InscriptionSelectOption } from './InscriptionSelectOption';
 import { LuCheck as Check } from 'react-icons/lu';
 
 export type InscriptionKey = 'custom' | keyof PlebNameData;
-type SelectOption = {key: InscriptionKey, inputPlaceholder: string, inputType: 'text'|'url'}
+type SelectOption = {key: InscriptionKey, displayName: string, inputPlaceholder: string, inputType: 'text'|'url'}
 
-const selectOptions: {[key in InscriptionKey]: SelectOption} = {
-	nostr: {key: 'nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
-	website: {key: 'website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
-	linkTo: {key: 'linkTo', inputPlaceholder: 'deprecated use website instead', inputType: 'url'},
-	lightningAddress: {key: 'lightningAddress', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
-	owner: {key: 'owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
-	custom: {key: 'custom', inputPlaceholder: 'your value', inputType: 'text'},
+export const predefinedSelectOptions: SelectOption[] = [
+	{key: 'nostr', displayName: 'Nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
+	{key: 'website', displayName: 'Website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
+	{key: 'lightningAddress', displayName: 'Lightning Address', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
+	{key: 'owner', displayName: 'Owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
+]
+const customSelectOption: SelectOption = {key: 'custom', displayName: 'Custom Field', inputPlaceholder: 'your value', inputType: 'text'}
+
+function getSelectOption(dataField: string): SelectOption {
+	return predefinedSelectOptions.find(option => option.key === dataField)?? customSelectOption
 }
 
 const InscriptionForm: React.FC<{
 	queryString: string;
-	reservedKeys: InscriptionKey[]
+	reservedFields: string[]
 	inscription: InscriptionSelectOption;
 	required?: boolean;
 	onInscriptionChange: (output: InscriptionSelectOption) => void;
-	// We might want to add later a config object.
-}> = ({ queryString, inscription, reservedKeys, required, onInscriptionChange }) => { 
-	const [selectedOption, setSelectedOption] = useState<SelectOption>(selectOptions[inscription.option]);
+	style?: CSSProperties;
+}> = ({ queryString, inscription, reservedFields, required, onInscriptionChange, style }) => { 
+	const [selectedOption, setSelectedOption] = useState<SelectOption>(getSelectOption(inscription.dataField));
 	const [customOption, setCustomOption] = useState<string | undefined>(undefined);
 	const [value, setValue] = useState(inscription.value);
 
 	let error: string|undefined = undefined
 	if (required && value.length < 1) {
 		error = "Inscription value must not be empty"
-	} /*else if(isDuplicate) {
-		error = "An inscription with this key already exists"
-	}*/
+	} else if (inscription.dataField.length > 0 && reservedFields.filter(field => field === inscription.dataField).length > 1) {
+		error = `Duplicate inscription for '${inscription.dataField}'.`
+	}
 
 	/**
 	 * TODO: Move to Tx Tool. See also below.
@@ -50,7 +53,7 @@ const InscriptionForm: React.FC<{
 	// }
 
 	return (
-		<div>
+		<div style={style}>
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
@@ -61,18 +64,17 @@ const InscriptionForm: React.FC<{
 
 					onChange={(e) => {
 						e.preventDefault();
-						const newSelectedOption = e.target.value as InscriptionKey;
-						const newCustomOption = newSelectedOption === 'custom' ? '' : undefined
-						setSelectedOption(selectOptions[newSelectedOption]);
+						const newSelectedOption = getSelectOption(e.target.value);
+						const newCustomOption = newSelectedOption.key === 'custom' ? '' : undefined
+						setSelectedOption(newSelectedOption);
 						setCustomOption(newCustomOption);
-						onInscriptionChange(new InscriptionSelectOption(newSelectedOption, newCustomOption?? newSelectedOption, inscription.value));
+						onInscriptionChange(new InscriptionSelectOption(newSelectedOption.key, newCustomOption?? newSelectedOption.key, inscription.value));
 					}}
 				>
-					<option value="website">Website</option>
-					<option value="nostr">Nostr</option>
-					<option value="owner">Owner</option>
-					<option value="lightningAddress">Lightning Address</option>
-					<option value="custom">Custom Field</option>
+					{predefinedSelectOptions.filter(option => option.key === inscription.option || !reservedFields.includes(option.key)).map(option => {
+						return <option value={option.key}>{option.displayName}</option>
+					})}
+					<option value={customSelectOption.key}>{customSelectOption.displayName}</option>
 				</select>
 
 				{selectedOption.key === 'custom' && (
@@ -110,12 +112,11 @@ const InscriptionForm: React.FC<{
 				{inscription.isValid() && <Check className="text-green-500" />}
 			</div>
 
-			
-			<p hidden={!error} className="mb-3 mt-5 rounded-md bg-yellow-300 p-2 text-black">
-				{error}
-			</p>
-		
-
+			{error &&
+				<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
+					{error}
+				</p>
+			}
 		
 			{/* 
 			TODO: Move this to TransactionTool
@@ -154,8 +155,8 @@ const InscriptionForm: React.FC<{
 				</button>
 			</div> */}
 
-			{selectedOption.key === 'owner' && (
-				<p className="mb-3 rounded-md bg-yellow-300 p-2 text-black">
+			{(selectedOption.key === 'owner' || customOption === 'owner') && (
+				<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
 					<b>Warning: </b>
 					Changing the owner transfers control of '{queryString}' to
 					another address. Please double-check the new owner address,
@@ -172,28 +173,6 @@ const InscriptionForm: React.FC<{
 			<br></br> */}
 		</div>
 	);
-
-	function chooseInscriptionKey(reservedKeys: InscriptionKey[], choice?: InscriptionKey): SelectOption {
-		const customOption: SelectOption = {key: 'custom', inputPlaceholder: 'your value', inputType: 'text'}
-		const allOptions: SelectOption[] = [
-			{key: 'nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
-			{key: 'website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
-			{key: 'lightningAddress', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
-			{key: 'owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
-			customOption
-		]
-
-		for (const option of allOptions) {
-			if (option.key === choice) {
-				return option
-			}
-			if (reservedKeys.includes(option.key) || option.key === 'owner') {
-				continue
-			}
-			return option
-		}
-		return customOption
-	}
 };
 
 export default InscriptionForm;
