@@ -7,10 +7,10 @@ import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
 import PAExplanationView from './PAExplanationView';
 import './../../App.css';
-import AlterConfigForName from '../AlterConfigForName';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
+import DropDownContent from './DropDownContent';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -102,7 +102,7 @@ function HeaderWithSearch() {
 									</MarkedTextWithCopy>
 									<br />
 									Or import below transaction into your wallet (e.g. Electrum or Sparrow):
-									<TransactionTool mode='claimAndInscribe' name={queryString} />
+									
 									<br />
 									Your sending address will act as the owner,
 									so ensure it's your own non-custodial wallet
@@ -112,7 +112,14 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
+								<h3 className="mb-2 text-2xl font-bold text-blue-950">Claim & Inscribe</h3>
+
+								<TransactionTool mode='claimAndInscribe' name={queryString} />
+								
+								<MyHr />
+								
 								<PAExplanationView {...paExplanation} />
+
 							</>
 						)}
 
@@ -126,15 +133,14 @@ function HeaderWithSearch() {
 
 								<MyHr />
 
-								<PAExplanationView {...paExplanation} />
+								<DropDownContent title={'Add or modify inscriptions'}>
+									<TransactionTool mode='inscribe' name={queryString}	history={history}/>
+								</DropDownContent>
+								
 
 								<MyHr />
 
-								<AlterConfigForName
-									currentOwner={history.getData().owner}
-									queryString={queryString}
-									expanded={tipToInscribeWebsite}
-								/>
+								<PAExplanationView {...paExplanation} />
 							</>
 						)}
 					</div>
@@ -148,7 +154,7 @@ function HeaderWithSearch() {
 		</section>
 	);
 	{
-		/* <div style={{ height: spacerHeight }}></div> */
+		/* <div style={{ height: spacerHeight }}></div> test */
 	}
 }
 
