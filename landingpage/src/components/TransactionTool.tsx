@@ -63,7 +63,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	return (
 		<div className='flex flex-col '>
 			{!history && 	
-			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
+			<div className="mb-2 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
 				Your Address:{' '}
 				</label>
 				<input
