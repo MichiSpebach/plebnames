@@ -328,6 +328,38 @@
 			"tags": [
 				"autoMaintained"
 			]
+		},
+		{
+			"id": "linkpokkb6tic38",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 18
+					},
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "r7f0gepipd",
+						"boxName": "ScrollToNextSectionButton.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
 		}
 	],
 	"nodes": [
