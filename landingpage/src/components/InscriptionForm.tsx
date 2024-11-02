@@ -1,5 +1,5 @@
 import { PlebNameData } from 'plebnames';
-import React, { CSSProperties, useState } from 'react';
+import React, { useState } from 'react';
 import { InscriptionSelectOption } from './InscriptionSelectOption';
 import { LuCheck as Check } from 'react-icons/lu';
 
@@ -19,21 +19,18 @@ function getSelectOption(dataField: string): SelectOption {
 }
 
 const InscriptionForm: React.FC<{
-	queryString: string;
+	plebname: string;
 	reservedFields: string[]
 	inscription: InscriptionSelectOption;
-	required?: boolean;
 	onInscriptionChange: (output: InscriptionSelectOption) => void;
-	style?: CSSProperties;
-}> = ({ queryString, inscription, reservedFields, required, onInscriptionChange, style }) => { 
+	className?: string;
+}> = ({ plebname, inscription, reservedFields, onInscriptionChange, className }) => { 
 	const [selectedOption, setSelectedOption] = useState<SelectOption>(getSelectOption(inscription.dataField));
 	const [customOption, setCustomOption] = useState<string | undefined>(undefined);
 	const [value, setValue] = useState(inscription.value);
 
 	let error: string|undefined = undefined
-	if (required && value.length < 1) {
-		error = "Inscription value must not be empty"
-	} else if (inscription.dataField.length > 0 && reservedFields.filter(field => field === inscription.dataField).length > 1) {
+	if (inscription.dataField.length > 0 && reservedFields.filter(field => field === inscription.dataField).length > 1) {
 		error = `Duplicate inscription for '${inscription.dataField}'.`
 	}
 
@@ -53,7 +50,7 @@ const InscriptionForm: React.FC<{
 	// }
 
 	return (
-		<div style={style}>
+		<div className={className}>
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
@@ -158,7 +155,7 @@ const InscriptionForm: React.FC<{
 			{(selectedOption.key === 'owner' || customOption === 'owner') && (
 				<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
 					<b>Warning: </b>
-					Changing the owner transfers control of '{queryString}' to
+					Changing the owner transfers control of '{plebname}' to
 					another address. Please double-check the new owner address,
 					as this action cannot be undone.
 					<br />

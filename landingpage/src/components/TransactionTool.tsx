@@ -30,7 +30,6 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		senderAddressError?: Error
 		senderUtxoError?: Error
 	} | undefined>(undefined)
-	const reservedFields: string[] = inscriptions.all.map(inscription => inscription.dataField)
 
 	useEffect(() => {
 		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, mode})
@@ -58,6 +57,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		})
 	}, [validSenderAddress])
 
+	const reservedFields: string[] = inscriptions.all.map(inscription => inscription.dataField)
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
@@ -80,8 +80,8 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		
 			{inscriptions.all.map((inscription, index) => 
 				<InscriptionForm
-					style={{marginBottom: '4px'}/* TODO: use className instead */}
-					queryString={name}
+					className={"mb-2"}
+					plebname={name}
 					inscription={inscription}
 					reservedFields={reservedFields}
 					onInscriptionChange={(updatedInscription) => {
@@ -97,7 +97,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
-			<hr className="my-4" />
+			<hr className="mt-2 mb-3" />
 
 			<div style={validTransaction && inscriptions.valid ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>

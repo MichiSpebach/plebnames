@@ -7,7 +7,6 @@ import SearchInput from '../SearchInput';
 import ClaimedContent from './ClaimedContent';
 import PAExplanationView from './PAExplanationView';
 import './../../App.css';
-import InscriptionForm from '../InscriptionForm';
 import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
@@ -17,7 +16,7 @@ import DropDownContent from './DropDownContent';
 const MyHr = () => <hr className="my-5" />;
 
 function HeaderWithSearch() {
-	let { handleSearch, data } = usePlebNameSearch();
+	const { handleSearch, data } = usePlebNameSearch();
 	const { history, paExplanation, queryString, status } = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
