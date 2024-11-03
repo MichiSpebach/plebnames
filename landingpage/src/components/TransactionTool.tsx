@@ -29,6 +29,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		transaction: {toHex: () => string}
 		senderAddressError?: Error
 		senderUtxoError?: Error
+		warning?: string
 	} | undefined>(undefined)
 
 	useEffect(() => {
@@ -114,6 +115,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					{validTransaction && !inscriptions.valid && <div>Input at least one valid inscription.</div>}
 				</div>
 			}
+			{transaction?.warning &&
+				<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
+					{transaction.warning}
+				</p>
+			}
 		</div>
 	)
 }
@@ -134,6 +140,7 @@ function generateTransaction(options: {
 	transaction: {toHex: () => string}
 	senderAddressError?: Error
 	senderUtxoError?: Error
+	warning?: string
 } {
 	//const transaction = new Transaction()
 	//transaction.addInput(util.hexToBytes('TODO'), 0) // TODO: input needs to be already added to be able to import transaction into wallet
@@ -158,12 +165,18 @@ function generateTransaction(options: {
 		restValueInSats -= 546
 	}
 
-	for (const inscription of options.inscriptions) {
-		const opReturnData: Uint8Array = util.asciiToBytes(inscription.getEncodedInAscii(options.name))
+	let warning: string|undefined = undefined
+	if (options.inscriptions.length > 0) {
+		/** combine because transactions with more than one OP_RETURN are not relayed/propagated through the mempool */
+		const combinedInscriptions: string = options.inscriptions.map(inscription => inscription.getEncodedInAscii(options.name)).join(';')
+		const opReturnData: Uint8Array = util.asciiToBytes(combinedInscriptions)
 		transaction.addOutput({ // TODO: handle case for opReturnData.length > 75
 			script: new Uint8Array([script.OPS['OP_RETURN'], opReturnData.length, ...opReturnData]),
 			value: BigInt(0)
 		})
+		if (opReturnData.length > 75) {
+			warning = `Combined length of inscriptions is ${opReturnData.length} > 75 bytes. Distribute them over more then one transaction.`
+		}
 	}
 
 	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
@@ -176,7 +189,8 @@ function generateTransaction(options: {
 	return {
 		transaction,
 		senderAddressError,
-		senderUtxoError
+		senderUtxoError,
+		warning
 	}
 }
 
