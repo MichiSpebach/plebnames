@@ -15,7 +15,7 @@ const ClaimedContent: React.FC<{
 			{tipToInscribeWebsite &&
 				<h4 className="mb-2 text-xl">
 					But there is <b>no website inscribed</b> to redirect to.
-					If you own "{queryString}" <b>inscribe a website</b> like described below at "Inscribe Entries".
+					If you own "{queryString}" <b>inscribe a website</b> like described below at "Add or modify inscriptions".
 				</h4>
 			}
 
