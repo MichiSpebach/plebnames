@@ -33,7 +33,7 @@
 					},
 					{
 						"boxId": "6ooo0st6uj8",
-						"boxName": "main.js",
+						"boxName": "index.js",
 						"x": 50,
 						"y": 50
 					}
@@ -60,18 +60,18 @@
 					{
 						"boxId": "t8hmomgvhi",
 						"boxName": "core",
-						"x": 11.2,
-						"y": 35.04
+						"x": 6.88,
+						"y": 32.64
 					},
 					{
 						"boxId": "6rji1h5kuhg",
 						"boxName": "src",
 						"x": 12,
-						"y": 28
+						"y": 52
 					},
 					{
-						"boxId": "9tmhjc5frfo",
-						"boxName": "main.ts",
+						"boxId": "um46j26plug",
+						"boxName": "index.ts",
 						"x": 50,
 						"y": 50
 					}
@@ -170,6 +170,96 @@
 					}
 				]
 			}
+		},
+		{
+			"id": "link87iecth0pa8",
+			"from": {
+				"path": [
+					{
+						"boxId": "rv4qcrgrfno",
+						"boxName": "build.run.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "5cccgv1k9vg",
+						"boxName": "landingpage",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkbffj729vg1",
+			"from": {
+				"path": [
+					{
+						"boxId": "rv4qcrgrfno",
+						"boxName": "build.run.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "5ahf4g7c2o8",
+						"boxName": "scriptUtil.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkcrjfg3ktjj8",
+			"from": {
+				"path": [
+					{
+						"boxId": "rv4qcrgrfno",
+						"boxName": "build.run.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "k9stprlirn8",
+						"boxName": "dist",
+						"x": 82.96,
+						"y": 65.04
+					},
+					{
+						"boxId": "qpea9ikou1g",
+						"boxName": "firefoxExtension",
+						"x": 82,
+						"y": 18
+					},
+					{
+						"boxId": "t350imrtcm",
+						"boxName": "index.js",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
 		}
 	],
 	"nodes": [],
@@ -178,7 +268,7 @@
 	"linkTags": [
 		{
 			"name": "autoMaintained",
-			"count": 96,
+			"count": 102,
 			"appearance": {}
 		},
 		{
