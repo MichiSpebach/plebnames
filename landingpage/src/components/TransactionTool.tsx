@@ -180,14 +180,12 @@ function generateTransaction(options: {
 	}
 
 
-	try {
-		const extractedTransaction = transaction.extractTransaction(true);
-		console.log("transaction virtualSize", extractedTransaction.virtualSize());
-		console.log("transaction byteLength", extractedTransaction.byteLength());
-		console.log("transaction weight", extractedTransaction.weight());
-	} catch (error) {
-		
-	}
+
+	const extractedTransaction = transaction.extractTransaction(true);
+	console.log("transaction virtualSize", extractedTransaction.virtualSize());
+	console.log("transaction byteLength", extractedTransaction.byteLength());
+	console.log("transaction weight", extractedTransaction.weight());
+
 
 
 	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
