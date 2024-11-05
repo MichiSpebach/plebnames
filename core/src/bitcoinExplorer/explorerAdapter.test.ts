@@ -21,27 +21,54 @@ Deno.test('getInputsOfAddress', async () => {
 	])
 })
 
-
-Deno.test('getOutScriptsOfAddress Base58 P2PKH', async () => {
+Deno.test('getOpReturnScriptsOfAddress Base58 P2PKH', async () => {
 	// does only work with BlockchainExplorerAdapter, the others index the address as P2PK and not as P2PKH
 	(explorerAdapter as any).index = 0 // so next index will be one, the index of the BlockchainExplorerAdapter
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
 	assertEquals(scripts, ['EW Merry Christmas !!!'])
 })
 
-Deno.test('getOutScriptsOfAddress Base58 P2PKH no authered scripts', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
+Deno.test('getOpReturnScriptsOfAddress Base58 P2PKH no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('192e7Pvewb28wk8hzncuqVXCKyhGZmfTG2')
 	assertEquals(scripts, [])
 })
 
-Deno.test('getOutScriptsOfAddress Bech32', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d')
+Deno.test('getOpReturnScriptsOfAddress Bech32', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('bc1prxgkx0sj0qev28uukw4pg2x44s5whucgfdrryvtr89wa36c90p2swqtf2d')
 	assertEquals(scripts, ['EW Running bitcoin'])
 })
 
-Deno.test('getOutScriptsOfAddress Bech32 no authered scripts', async () => {
-	const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
+Deno.test('getOpReturnScriptsOfAddress Bech32 no authered scripts', async () => {
+	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('bc1ppsud9lykgdce3rxsfganq33efnfj6mgmujpt0n3wqg5ymsldnuvsylxqxy')
 	assertEquals(scripts, [])
+})
+
+Deno.test('getUtxosOfAddress', async () => {
+	const utxos = await explorerAdapter.getUtxosOfAddress('bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w')
+	assertEquals(utxos.map(utxo => ({
+		txid: utxo.txid,
+		vout: utxo.vout,
+		value: utxo.value,
+		status: {/*block_height: utxo.status.block_height*/}
+	})), [
+		{
+			txid: 'de283235cee8a7aa9057dafc3a116e17121b21862691c61b61a8637f833ce49d',
+			vout: 1,
+			value: 98454,
+			status: {
+				//block_height: 866114
+			}
+		},
+		{
+			txid: 'a1b588fd7ed0cc24a7e9041af0c03aaf10741369d1e0b93ea91b0d3ce13815e6',
+			vout: 1,
+			value: 48396,
+			status: {
+				//block_height: 866198
+			}
+		}
+	])
+	assertEquals(utxos[0].status.block_height - utxos[1].status.block_height, 866114 - 866198) // TODO: compare block_height above as soon as implemented in BlockchainExplorerAdapter.ts
 })
 
 Deno.test('followNameHistory', async () => {
@@ -72,5 +99,3 @@ Deno.test('followNameHistory', async () => {
 		},
 	  })
 })
-
-

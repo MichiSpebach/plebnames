@@ -1,5 +1,7 @@
 import { ExplorerAdapter } from './explorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
+import type { Transactions } from './Transactions.ts'
+import type { UTXO } from './UTXO.ts'
 
 export class MockExplorerAdapter implements ExplorerAdapter {
 
@@ -47,7 +49,7 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 		return Promise.resolve([])
 	}
 
-	public getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
+	public getOpReturnScriptsOfAddress(address: string): Promise<string[]> {
 		if (address === '15imVtqf7BzhbmAr6AA15H51tddchkNHyV') {
 			return Promise.resolve(['EW Merry Christmas !!!'])
 		}
@@ -73,6 +75,14 @@ export class MockExplorerAdapter implements ExplorerAdapter {
 			])
 		}
 		return Promise.resolve([])
+	}
+
+	public getTransactionsOfAddress(address: string): Promise<Transactions> {
+		throw new Error('Method not implemented.');
+	}
+
+	public getUtxosOfAddress(address: string): Promise<UTXO[]> {
+		throw new Error('Method not implemented.');
 	}
 
 }

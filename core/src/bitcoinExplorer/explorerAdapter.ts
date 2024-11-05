@@ -1,12 +1,16 @@
 import { CombinedExplorerAdapter } from './CombinedExplorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
+import type { Transactions } from './Transactions.ts'
+import type { UTXO } from './UTXO.ts'
 import * as util from '../util.ts'
 import { PlebNameHistory } from '../PlebNameHistory.ts'
 
 export interface ExplorerAdapter {
 	getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined>
 	getInputsOfAddress(address: string): Promise<InputPrevout[]>
-	getOpReturnOutScriptsOfAddress(address: string): Promise<string[]>
+	getOpReturnScriptsOfAddress(address: string): Promise<string[]>
+	getTransactionsOfAddress(address: string): Promise<Transactions>
+	getUtxosOfAddress(address: string): Promise<UTXO[]>
 }
 
 export const explorerAdapter: ExplorerAdapter = new CombinedExplorerAdapter()
@@ -30,7 +34,7 @@ export async function followNameHistory(name: string, options?: {
 	let owner: string|undefined = undefined
 	while (owner !== history.getData().owner) {
 		owner = history.getData().owner
-		const scripts: string[] = await explorerAdapter.getOpReturnOutScriptsOfAddress(owner)
+		const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress(owner)
 		for (const script of scripts) {
 			history.addChangeFromOpReturnScript(script)
 			if (owner !== history.getData().owner) {

@@ -2,6 +2,7 @@ import { ExplorerAdapter } from './explorerAdapter.ts'
 import { Input, InputPrevout, Transaction } from './Transaction.ts'
 import { Transactions } from './Transactions.ts'
 import * as util from '../util.ts'
+import type { UTXO } from './UTXO.ts'
 
 export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 
@@ -27,7 +28,7 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 		return transactionsInputs.map(input => input.prevout)
 	}
 
-	public async getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
+	public async getOpReturnScriptsOfAddress(address: string): Promise<string[]> {
 		const transactions: Transactions = await this.getTransactionsOfAddress(address)
 		const authoredTransactions: Transaction[] = transactions.txs.filter(transaction => transaction.vin.find(input => input.prevout.scriptpubkey_address === address))
 		const outputs: {scriptpubkey: string}[] = authoredTransactions.flatMap(transaction => transaction.vout)
@@ -36,5 +37,7 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 			.map(script => util.hexToAscii(script.substring(4)))
 	}
 
-	protected abstract getTransactionsOfAddress(address: string): Promise<Transactions>
+	public abstract getTransactionsOfAddress(address: string): Promise<Transactions>
+
+	public abstract getUtxosOfAddress(address: string): Promise<UTXO[]>
 }

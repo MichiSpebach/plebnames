@@ -76,3 +76,7 @@ export function hexToBytes(hex: string): Uint8Array {
 	}
 	return bytes
 }
+
+export function asciiToBytes(ascii: string): Uint8Array {
+	return hexToBytes(asciiToHex(ascii))
+}

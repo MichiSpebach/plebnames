@@ -3,6 +3,8 @@ import { BlockstreamExplorerAdapter } from './BlockstreamExplorerAdapter.ts'
 import { BtcscanExplorerAdapter } from './BtcscanExplorerAdapter.ts'
 import { MempoolExplorerAdapter } from './MempoolExplorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
+import type { Transactions } from './Transactions.ts'
+import type { UTXO } from './UTXO.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 
 /** rotates between different Explorers to distribute the load and prevent http 429 (too many requests) */
@@ -24,9 +26,17 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 	public getInputsOfAddress(address: string): Promise<InputPrevout[]> {
 		return this.selectExplorer().getInputsOfAddress(address)
 	}
+	
+	public getOpReturnScriptsOfAddress(address: string): Promise<string[]> {
+		return this.selectExplorer().getOpReturnScriptsOfAddress(address)
+	}
 
-	public getOpReturnOutScriptsOfAddress(address: string): Promise<string[]> {
-		return this.selectExplorer().getOpReturnOutScriptsOfAddress(address)
+	public getTransactionsOfAddress(address: string): Promise<Transactions> {
+		return this.selectExplorer().getTransactionsOfAddress(address)
+	}
+
+	public getUtxosOfAddress(address: string): Promise<UTXO[]> {
+		return this.selectExplorer().getUtxosOfAddress(address)
 	}
 	
 	private selectExplorer(): ExplorerAdapter {
