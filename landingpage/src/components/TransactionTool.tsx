@@ -179,6 +179,17 @@ function generateTransaction(options: {
 		}
 	}
 
+
+	try {
+		const extractedTransaction = transaction.extractTransaction(true);
+		console.log("transaction virtualSize", extractedTransaction.virtualSize());
+		console.log("transaction byteLength", extractedTransaction.byteLength());
+		console.log("transaction weight", extractedTransaction.weight());
+	} catch (error) {
+		
+	}
+
+
 	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
 	try {
 		transaction.addOutput({address: options.senderAddress, value: BigInt(restValueInSats)})
