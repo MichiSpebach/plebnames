@@ -1,0 +1,24 @@
+{
+	"manifest_version": 3,
+	"name": ".btc",
+	"description": "Forwards *.btc addresses by looking up the website field of the plebname in the Bitcoin mainchain. Prefix 'https:' to avoid search.",
+	"version": "0.2",
+	"icons": {
+		"128": "./icon.png"
+	},
+	"permissions": [
+		"declarativeNetRequestWithHostAccess"
+	],
+	"host_permissions": [
+		"*://*.btc/*"
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["index.html"],
+			"matches": ["*://*.btc/*"]
+		}
+	],
+	"background": {
+		"scripts": ["./redirect.js"]
+	}
+}

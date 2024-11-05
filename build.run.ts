@@ -5,11 +5,18 @@ import * as util from './scriptUtil.ts'
 import * as fs from 'https://deno.land/std@0.224.0/fs/mod.ts'
 
 await buildForChromeExtension()
+await buildForFirefoxExtension()
 
 async function buildForChromeExtension(): Promise<void> {
 	const result: BuildResult = await build({outfile: './dist/chromeExtension/index.js'})
 	console.log('buildForChromeExtension result:', result)
 	await buildLandingpageAndCopyInto('./dist/chromeExtension/landingpage/')
+}
+
+async function buildForFirefoxExtension(): Promise<void> {
+	const result: BuildResult = await build({outfile: './dist/firefoxExtension/index.js'})
+	console.log('buildForFirefoxExtension result:', result)
+	await buildLandingpageAndCopyInto('./dist/firefoxExtension/landingpage/')
 }
 
 async function buildLandingpageAndCopyInto(destPath: string) {
