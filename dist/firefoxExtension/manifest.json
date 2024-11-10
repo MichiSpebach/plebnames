@@ -1,5 +1,10 @@
 {
 	"manifest_version": 3,
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "@btc"
+		}
+	},
 	"name": ".btc",
 	"description": "Forwards *.btc addresses by looking up the website field of the plebname in the Bitcoin mainchain. Prefix 'https:' to avoid search.",
 	"version": "0.2",
