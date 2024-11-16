@@ -17,7 +17,7 @@ const MyHr = () => <hr className="my-5" />;
 
 function HeaderWithSearch() {
 	const { handleSearch, data } = usePlebNameSearch();
-	const { history, paExplanation, queryString, status } = data;
+	const { history, paExplanation, queryString, status, tipToInscribeWebsite } = data;
 
 	const overflowBoxRef = useRef<HTMLDivElement>(null);
 	const { spacerHeight, fitsInHeader } = useHeaderSpacer(overflowBoxRef, [
@@ -47,7 +47,7 @@ function HeaderWithSearch() {
 					</h2>
 
 					<div className="w-full max-w-xs">
-						<SearchInput onSearch={handleSearch} />
+						<SearchInput onSearch={handleSearch} initialQuery={queryString?? undefined} />
 					</div>
 				</>
 
@@ -128,12 +128,18 @@ function HeaderWithSearch() {
 								<ClaimedContent
 									history={history}
 									queryString={queryString}
+									tipToInscribeWebsite={tipToInscribeWebsite}
 								/>
 
 								<MyHr />
 
-								<DropDownContent title={'Add or modify inscriptions'}>
-									<TransactionTool mode='inscribe' name={queryString}	history={history}/>
+								<DropDownContent title={'Add or modify inscriptions'} expanded={tipToInscribeWebsite}>
+									<TransactionTool
+										mode='inscribe'
+										name={queryString}
+										history={history}
+										preselectedInscriptionOption={tipToInscribeWebsite ? 'website' : undefined}
+									/>
 								</DropDownContent>
 								
 

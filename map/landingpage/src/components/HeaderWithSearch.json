@@ -160,6 +160,32 @@
 			"tags": [
 				"autoMaintained"
 			]
+		},
+		{
+			"id": "linkv98met80g8o",
+			"from": {
+				"path": [
+					{
+						"boxId": "9bocfb88dro",
+						"boxName": "index.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "esbs3iflq28",
+						"boxName": "DropDownContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
 		}
 	],
 	"nodes": [

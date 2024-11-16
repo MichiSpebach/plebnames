@@ -4,10 +4,11 @@ import { HiOutlineSearch } from 'react-icons/hi';
 
 interface SearchInputProps {
 	onSearch: (query: string) => void;
+	initialQuery?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
-	const [query, setQuery] = useState('');
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch, initialQuery = '' }) => {
+	const [query, setQuery] = useState(initialQuery);
 
 	const inputRef = useRef<HTMLInputElement>(null);
 

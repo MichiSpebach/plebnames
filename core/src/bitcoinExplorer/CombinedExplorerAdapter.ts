@@ -17,7 +17,7 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 		new BlockstreamExplorerAdapter()
 	]
 
-	private index: number = -1
+	private index: number = 3
 
 	public getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
 		return this.selectExplorer().getFirstInputOfAddress(address)
@@ -40,7 +40,11 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 	}
 	
 	private selectExplorer(): ExplorerAdapter {
-		this.index = (this.index+1) % this.explorers.length
+		let newIndex: number = Math.floor(Math.random() * (this.explorers.length-1))
+		if (newIndex >= this.index) {
+			newIndex++
+		}
+		this.index = newIndex
 		return this.explorers[this.index]
 	}
 }

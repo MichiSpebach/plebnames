@@ -157,8 +157,11 @@ async function lookupPlebAddress(options?: {redirectToWebsiteOrUrl?: boolean}): 
 		<pre>${JSON.stringify(history.getData(), null, 4)}</pre>
 	`
 
-	const websiteOrUrl: string|undefined = history.getData().website
+	let websiteOrUrl: string|undefined = history.getData().website
 	if (options?.redirectToWebsiteOrUrl && websiteOrUrl) {
+		if (!websiteOrUrl.includes('://') && websiteOrUrl.match(/^\w/)) {
+			websiteOrUrl = `http://${websiteOrUrl}`
+		}
 		window.location.replace(websiteOrUrl)
 	} else {
 		showScriptOptions(history.name, history.getData().owner)

@@ -1,7 +1,7 @@
-import { CombinedExplorerAdapter } from './CombinedExplorerAdapter.ts'
 import { InputPrevout } from './Transaction.ts'
 import type { Transactions } from './Transactions.ts'
 import type { UTXO } from './UTXO.ts'
+import { RetryingCombinedExplorerAdapter } from './RetryingCombinedExplorerAdapter.ts'
 import * as util from '../util.ts'
 import { PlebNameHistory } from '../PlebNameHistory.ts'
 
@@ -13,7 +13,7 @@ export interface ExplorerAdapter {
 	getUtxosOfAddress(address: string): Promise<UTXO[]>
 }
 
-export const explorerAdapter: ExplorerAdapter = new CombinedExplorerAdapter()
+export const explorerAdapter: ExplorerAdapter = new RetryingCombinedExplorerAdapter()
 
 export async function followNameHistory(name: string, options?: {
 	onAddressFetched?: (history: PlebNameHistory, opReturnScripts: string[]) => void

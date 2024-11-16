@@ -4,12 +4,20 @@ import { PlebNameHistory } from 'plebnames';
 const ClaimedContent: React.FC<{
 	queryString: string;
 	history: PlebNameHistory;
-}> = ({ history, queryString }) => {
+	tipToInscribeWebsite?: boolean;
+}> = ({ history, queryString, tipToInscribeWebsite }) => {
 	return (
 		<>
 			<h3 className="mb-2 text-2xl font-bold text-blue-950">
 				"{queryString}" is already claimed!
 			</h3>
+
+			{tipToInscribeWebsite &&
+				<h4 className="mb-2 text-xl">
+					But there is <b>no website inscribed</b> to redirect to.
+					If you own "{queryString}" <b>inscribe a website</b> like described below at "Add or modify inscriptions".
+				</h4>
+			}
 
 			<p className="break-words text-lg">
 				<span className="font-bold">Owner: </span>

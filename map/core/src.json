@@ -319,6 +319,129 @@
 			"tags": [
 				"autoMaintained"
 			]
+		},
+		{
+			"id": "link6o8lci3q5cg",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 14,
+						"y": 56.5
+					},
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "44ptdfdgjl",
+						"boxName": "PlebNameHistory.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkcd0pj9j07eg",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 40,
+						"y": 64
+					},
+					{
+						"boxId": "7mdf1tn697g",
+						"boxName": "UTXO.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "2l7kitnvsj8",
+						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link9fuo1anlqig",
+			"from": {
+				"path": [
+					{
+						"boxId": "um46j26plug",
+						"boxName": "index.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "44ptdfdgjl",
+						"boxName": "PlebNameHistory.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link6t0p51af9og",
+			"from": {
+				"path": [
+					{
+						"boxId": "um46j26plug",
+						"boxName": "index.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 14,
+						"y": 56.5
+					},
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
 		}
 	],
 	"nodes": []

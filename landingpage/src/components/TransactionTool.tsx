@@ -9,6 +9,7 @@ interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
 	name: string;
 	history?: PlebNameHistory;
+	preselectedInscriptionOption?: InscriptionKey;
 }
 
 const reduceInscriptions = (_: unknown, all: InscriptionSelectOption[]) => {
@@ -19,12 +20,12 @@ const reduceInscriptions = (_: unknown, all: InscriptionSelectOption[]) => {
 	return {all, valid}
 }
 
-export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history }) => {
-	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ??'')
+export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, history, preselectedInscriptionOption = 'nostr' }) => {
+	const [senderAddress, setSenderAddress] = useState(history?.getData().owner ?? '')
 	const [validSenderAddress, setValidSenderAddress] = useState<string|undefined>(undefined)
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
 	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
-	const [inscriptions, setInscriptions] = useReducer(reduceInscriptions, reduceInscriptions(undefined, [InscriptionSelectOption.ofOption('nostr')]))
+	const [inscriptions, setInscriptions] = useReducer(reduceInscriptions, reduceInscriptions(undefined, [InscriptionSelectOption.ofOption(preselectedInscriptionOption)]))
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
 		senderAddressError?: Error

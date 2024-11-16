@@ -126,8 +126,8 @@
 			"to": {
 				"path": [
 					{
-						"boxId": "jr5egvt99e",
-						"boxName": "CombinedExplorerAdapter.ts",
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
 						"x": 50,
 						"y": 48
 					}
@@ -693,6 +693,194 @@
 					{
 						"boxId": "ohf1htd9s88",
 						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkl19126jp6o",
+			"from": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jegtdks7ks",
+						"boxName": "UTXO.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linka0i87651f5",
+			"from": {
+				"path": [
+					{
+						"boxId": "7mdf1tn697g",
+						"boxName": "UTXO.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jegtdks7ks",
+						"boxName": "UTXO.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "linkkkuanmmbrvo",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jr5egvt99e",
+						"boxName": "CombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"has"
+			]
+		},
+		{
+			"id": "linkoj8fipomr8o",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 52
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "s5evb8gpen8",
+						"boxName": "explorerAdapter.ts",
+						"x": 50,
+						"y": 52
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"isA"
+			]
+		},
+		{
+			"id": "linkscau21fj0ro",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "linkps0rfkc9f38",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
+		},
+		{
+			"id": "link3u7f4pplck8",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvs8p7qbv4o",
+						"boxName": "RetryingCombinedExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jegtdks7ks",
+						"boxName": "UTXO.ts",
 						"x": 50,
 						"y": 50
 					}

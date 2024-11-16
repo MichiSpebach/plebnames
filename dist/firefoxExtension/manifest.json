@@ -1,5 +1,10 @@
 {
 	"manifest_version": 3,
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "@btc"
+		}
+	},
 	"name": ".btc",
 	"description": "Forwards *.btc addresses by looking up the website field of the plebname in the Bitcoin mainchain. Prefix 'https:' to avoid search.",
 	"version": "0.2",
@@ -7,18 +12,18 @@
 		"128": "./icon.png"
 	},
 	"permissions": [
-		"declarativeNetRequest"
+		"declarativeNetRequestWithHostAccess"
 	],
 	"host_permissions": [
 		"*://*.btc/*"
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["./index.html"],
-			"extension_ids": []
+			"resources": ["index.html"],
+			"matches": ["*://*.btc/*"]
 		}
 	],
 	"background": {
-		"service_worker": "./redirect.js"
+		"scripts": ["./redirect.js"]
 	}
 }

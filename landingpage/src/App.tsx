@@ -1,18 +1,19 @@
 import './App.css';
 
-import ChromeExtensionInvite from './components/BrowserExtensionBanner';
+import BrowserExtensionBanner from './components/BrowserExtensionBanner';
 import CollaborationBanner from './components/CollaborationBanner';
 import ExtensionsGallery from './components/ExtensionsGallery';
 import Footer from './components/Footer';
 import HeaderWithSearch from './components/HeaderWithSearch';
 // import MemeGallery from './components/MemeGallery';
+import * as localStorageAdapter from './localStorageAdapter';
 
 function App() {
 	return (
 		<>
 			<HeaderWithSearch />
 
-			<ChromeExtensionInvite />
+			{!localStorageAdapter.isHideBrowserExtensionBanner() && <BrowserExtensionBanner />}
 
 			<div id="scroll-to-after-header">
 				<CollaborationBanner />
