@@ -28,7 +28,6 @@ if (!url) {
 	} else {
 		const websiteOrUrl: string|undefined = history.getData().website
 		if (!websiteOrUrl) {
-			// TODO: notice how to inscribe website/url
 			redirectToLandingpage({name: name.name, history})
 		} else {
 			const url = addSurroundingsToUrl(websiteOrUrl, name)
@@ -48,7 +47,6 @@ if (!url) {
 }
 
 function redirectToLandingpage(options?: {name: string, history: PlebNameHistory|'unclaimed'}): void {
-	// TODO: hide browserExtensionBanner
 	if (options) {
 		window.localStorage.setItem('plebName', options.name)
 		const history: string = options.history === 'unclaimed' ? options.history : JSON.stringify(options.history)
