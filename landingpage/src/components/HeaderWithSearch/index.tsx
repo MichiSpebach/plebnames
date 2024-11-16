@@ -134,7 +134,12 @@ function HeaderWithSearch() {
 								<MyHr />
 
 								<DropDownContent title={'Add or modify inscriptions'} expanded={tipToInscribeWebsite}>
-									<TransactionTool mode='inscribe' name={queryString}	history={history}/>
+									<TransactionTool
+										mode='inscribe'
+										name={queryString}
+										history={history}
+										preselectedInscriptionOption={tipToInscribeWebsite ? 'website' : undefined}
+									/>
 								</DropDownContent>
 								
 
