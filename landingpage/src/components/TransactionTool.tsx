@@ -26,18 +26,20 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const [senderUtxo, setSenderUtxo] = useState<bitcoinExplorer.UTXO|undefined>(undefined)
 	const [senderUtxoStatus, setSenderUtxoStatus] = useState<'addressNeeded'|'fetching'|'ok'|Error>('addressNeeded')
 	const [inscriptions, setInscriptions] = useReducer(reduceInscriptions, reduceInscriptions(undefined, [InscriptionSelectOption.ofOption(preselectedInscriptionOption)]))
+	const [minerFeeInSatsPerVByte, setMinerFeeInSatsPerVByte] = useState(8)
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
+		minerFeeInSats: number
 		senderAddressError?: Error
 		senderUtxoError?: Error
 		warning?: string
 	} | undefined>(undefined)
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, mode})
+		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, minerFeeInSatsPerVByte, mode})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
-	}, [name, senderAddress, senderUtxo, inscriptions, mode])
+	}, [name, senderAddress, senderUtxo, inscriptions, minerFeeInSatsPerVByte, mode])
 
 	useEffect(() => {
 		if (!validSenderAddress) {
@@ -99,6 +101,24 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
+			<div className="mb-2 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+				<label>
+					Sats/vByte:{' '}
+					<input
+						type="number"
+						min={0}
+						value={minerFeeInSatsPerVByte}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							event.preventDefault()
+							setMinerFeeInSatsPerVByte(Number(event.target.value))
+						}}
+						className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
+					/>
+				</label>
+				{`=> ${transaction?.minerFeeInSats} sats miner fee`}
+				<br />
+			</div>
+
 			<hr className="mt-2 mb-3" />
 
 			<div style={validTransaction && inscriptions.valid ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
@@ -135,10 +155,11 @@ function generateTransaction(options: {
 	senderAddress: string
 	senderUtxo?: bitcoinExplorer.UTXO
 	inscriptions: InscriptionSelectOption[]
-	//minerFeeInSatsPerVByte: number TODO
+	minerFeeInSatsPerVByte: number
 	mode: 'claimAndInscribe'|'inscribe'
 }): {
 	transaction: {toHex: () => string}
+	minerFeeInSats: number
 	senderAddressError?: Error
 	senderUtxoError?: Error
 	warning?: string
@@ -171,16 +192,18 @@ function generateTransaction(options: {
 		/** combine because transactions with more than one OP_RETURN are not relayed/propagated through the mempool */
 		const combinedInscriptions: string = options.inscriptions.map(inscription => inscription.getEncodedInAscii(options.name)).join(';')
 		const opReturnData: Uint8Array = util.asciiToBytes(combinedInscriptions)
-		transaction.addOutput({ // TODO: handle case for opReturnData.length > 75
+		transaction.addOutput({
 			script: new Uint8Array([script.OPS['OP_RETURN'], opReturnData.length, ...opReturnData]),
 			value: BigInt(0)
 		})
-		if (opReturnData.length > 75) {
-			warning = `Combined length of inscriptions is ${opReturnData.length} > 75 bytes. Distribute them over more then one transaction.`
+		if (opReturnData.length > 80) {
+			warning = `Combined length of inscriptions is ${opReturnData.length} > 80 bytes. Distribute them over more then one transaction.`
 		}
 	}
 
-	restValueInSats -= 2000 // TODO: replace fixed minerFee, calculate with minerFeeInSatsPerVByte and size of transaction
+	const vbyteLength: number = transaction.toHex().length/2 + 48 // 48 includes rest output and signature
+	const minerFeeInSats: number = Math.round(vbyteLength * options.minerFeeInSatsPerVByte)
+	restValueInSats -= minerFeeInSats
 	try {
 		transaction.addOutput({address: options.senderAddress, value: BigInt(restValueInSats)})
 	} catch (error: unknown) {
@@ -189,6 +212,7 @@ function generateTransaction(options: {
 
 	return {
 		transaction,
+		minerFeeInSats,
 		senderAddressError,
 		senderUtxoError,
 		warning
