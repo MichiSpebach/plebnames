@@ -4,7 +4,7 @@ import type { InputPrevout } from './Transaction.ts'
 import type { Transactions } from './Transactions.ts'
 import type { UTXO } from './UTXO.ts'
 
-export class RetryingCombinedExplorerAdapter implements ExplorerAdapter {
+export class RetryingExplorerAdapter implements ExplorerAdapter {
 
 	private readonly underlyingExplorer: ExplorerAdapter
 
@@ -35,14 +35,14 @@ export class RetryingCombinedExplorerAdapter implements ExplorerAdapter {
 		return this.callWithRetry('getUtxosOfAddress', address)
 	}
 
-	private async callWithRetry<T extends keyof CombinedExplorerAdapter>(method: T, address: string): Promise<Awaited<ReturnType<CombinedExplorerAdapter[T]>>> {
+	private async callWithRetry<T extends keyof ExplorerAdapter>(method: T, address: string): Promise<Awaited<ReturnType<ExplorerAdapter[T]>>> {
 		for (let retriesLeft = this.retryCount; retriesLeft > 0; retriesLeft--) {
 			try {
-				return await (this.underlyingExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
+				return await (this.underlyingExplorer[method](address) as ReturnType<ExplorerAdapter[T]>)
 			} catch (error: unknown) {
 				console.log(error, `retrying, ${retriesLeft} left...`)
 			}
 		}
-		return await (this.underlyingExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
+		return await (this.underlyingExplorer[method](address) as ReturnType<ExplorerAdapter[T]>)
 	}
 }

@@ -1,7 +1,7 @@
 import { InputPrevout } from './Transaction.ts'
 import type { Transactions } from './Transactions.ts'
 import type { UTXO } from './UTXO.ts'
-import { RetryingCombinedExplorerAdapter } from './RetryingCombinedExplorerAdapter.ts'
+import { RetryingExplorerAdapter } from './RetryingExplorerAdapter.ts'
 import * as util from '../util.ts'
 import { PlebNameHistory } from '../PlebNameHistory.ts'
 
@@ -13,7 +13,7 @@ export interface ExplorerAdapter {
 	getUtxosOfAddress(address: string): Promise<UTXO[]>
 }
 
-export let explorerAdapter: ExplorerAdapter = new RetryingCombinedExplorerAdapter()
+export let explorerAdapter: ExplorerAdapter = new RetryingExplorerAdapter()
 
 export function setCustomExplorerAdapter(explorer: ExplorerAdapter): void {
 	explorerAdapter = explorer
