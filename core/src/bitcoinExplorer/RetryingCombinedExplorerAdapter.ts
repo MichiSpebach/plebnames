@@ -6,7 +6,14 @@ import type { UTXO } from './UTXO.ts'
 
 export class RetryingCombinedExplorerAdapter implements ExplorerAdapter {
 
-	private readonly combinedExplorer: ExplorerAdapter = new CombinedExplorerAdapter()
+	private readonly underlyingExplorer: ExplorerAdapter
+
+	private readonly retryCount: number
+
+	public constructor(underlyingExplorer: ExplorerAdapter = new CombinedExplorerAdapter(), retryCount: number = 2) {
+		this.underlyingExplorer = underlyingExplorer
+		this.retryCount = retryCount
+	}
 
 	public getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
 		return this.callWithRetry('getFirstInputOfAddress', address)
@@ -29,11 +36,13 @@ export class RetryingCombinedExplorerAdapter implements ExplorerAdapter {
 	}
 
 	private async callWithRetry<T extends keyof CombinedExplorerAdapter>(method: T, address: string): Promise<Awaited<ReturnType<CombinedExplorerAdapter[T]>>> {
-		try {
-			return await (this.combinedExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
-		} catch (error: unknown) {
-			console.log(error, 'retrying...')
-			return await (this.combinedExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
+		for (let retriesLeft = this.retryCount; retriesLeft > 0; retriesLeft--) {
+			try {
+				return await (this.underlyingExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
+			} catch (error: unknown) {
+				console.log(error, `retrying, ${retriesLeft} left...`)
+			}
 		}
+		return await (this.underlyingExplorer[method](address) as ReturnType<CombinedExplorerAdapter[T]>)
 	}
 }

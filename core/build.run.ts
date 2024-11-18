@@ -49,12 +49,12 @@ async function buildForNpmLibrary(): Promise<void> {
 			console.warn(error)
 		}
 		
-		console.log('moving ./dist/mod.d.ts to ./index.d.ts and removing ./main.d.ts')
+		console.log('moving ./dist/mod.d.ts to ./index.d.ts and removing ./vanilla.d.ts')
 		const indexDtsContent: string = await Deno.readTextFile('./dist/mod.d.ts')
 		await Promise.all([
 			Deno.writeTextFile('./index.d.ts', indexDtsContent.replaceAll("from './", "from './dist/")),
 			Deno.remove('./dist/mod.d.ts'),
-			Deno.remove('./dist/main.d.ts')
+			Deno.remove('./dist/vanilla.d.ts')
 		])
 		console.log('generated .d.ts files')
 	}

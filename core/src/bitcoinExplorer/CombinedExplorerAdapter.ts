@@ -10,14 +10,18 @@ import { ExplorerAdapter } from './explorerAdapter.ts'
 /** rotates between different Explorers to distribute the load and prevent http 429 (too many requests) */
 export class CombinedExplorerAdapter implements ExplorerAdapter {
 
-	private readonly explorers: ExplorerAdapter[] = [
+	private readonly explorers: ExplorerAdapter[]
+
+	private index: number = 3
+
+	public constructor(explorers: ExplorerAdapter[] = [
 		new MempoolExplorerAdapter(),
 		new BlockchainExplorerAdapter(),
 		new BtcscanExplorerAdapter(),
 		new BlockstreamExplorerAdapter()
-	]
-
-	private index: number = 3
+	]) {
+		this.explorers = explorers
+	}
 
 	public getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
 		return this.selectExplorer().getFirstInputOfAddress(address)
@@ -41,7 +45,7 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 	
 	private selectExplorer(): ExplorerAdapter {
 		let newIndex: number = Math.floor(Math.random() * (this.explorers.length-1))
-		if (newIndex >= this.index) {
+		if (newIndex >= this.index && this.explorers.length > 1) {
 			newIndex++
 		}
 		this.index = newIndex

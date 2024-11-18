@@ -13,7 +13,11 @@ export interface ExplorerAdapter {
 	getUtxosOfAddress(address: string): Promise<UTXO[]>
 }
 
-export const explorerAdapter: ExplorerAdapter = new RetryingCombinedExplorerAdapter()
+export let explorerAdapter: ExplorerAdapter = new RetryingCombinedExplorerAdapter()
+
+export function setCustomExplorerAdapter(explorer: ExplorerAdapter): void {
+	explorerAdapter = explorer
+}
 
 export async function followNameHistory(name: string, options?: {
 	onAddressFetched?: (history: PlebNameHistory, opReturnScripts: string[]) => void
