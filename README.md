@@ -61,7 +61,17 @@ Install the JavaScript runtime Deno: https://docs.deno.com/runtime/manual \
 When working with VS Code the Deno extension by denoland is recommended: https://marketplace.visualstudio.com/items?itemName=denoland.vscode-deno \
 To get an overview of the code base try out Mammutmap: https://marketplace.visualstudio.com/items?itemName=mammutmap.mammutmap
 
-#### Build
+#### Start website
+```
+cd ./landingpage
+npm run dev
+```
+
+#### Deploy website
+The folder `./dist/website/` is also delivered via GitHub Pages, see [./.github/workflows/static.yml](./.github/workflows/static.yml).\
+To deploy a new version replace the content of `./dist/website/` with the content of `./landingpage/dist`
+
+#### Build browser extensions
 ```
 deno run -A build.run.ts
 ```
@@ -70,16 +80,17 @@ or more precise
 deno run --allow-env --allow-read --allow-run build.run.ts
 ```
 
-#### Start Website
-Just open [./out/website/index.html](./out/website/index.html) in a web browser (after you built the project).
-
-#### Start Chrome Extension
-
-In Chrome go to `chrome://extensions/` and ensure that on the top right 'Developer mode' is toggled on. After that click `Load unpacked` and select the `./out/chromeExtension` folder of this repository.\
+#### Start Chrome extension
+In Chrome go to `chrome://extensions/` and ensure that on the top right 'Developer mode' is toggled on. After that click `Load unpacked` and select the `./dist/chromeExtension` folder of this repository.\
 Ensure that conflicting extensions are not running in the background (i.e. other extensions that redirect the same Top Level Domain).\
 For further information about Chrome Extensions see [https://developer.chrome.com/docs/extensions](https://developer.chrome.com/docs/extensions).
 
-#### Run Tests
+#### Start Firefox extension
+In Firefox go to `about:debugging#/runtime/this-firefox`. Then click on `Load Temporary Add-on...` and select a file in `./dist/firefoxExtension`.\
+Ensure that conflicting extensions are not running in the background (i.e. other extensions that redirect the same Top Level Domain).\
+For further information about Firefox Extensions see [https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).
+
+#### Run tests
 ```
 deno test --allow-net
 ```
