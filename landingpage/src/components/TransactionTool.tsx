@@ -1,9 +1,9 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
 import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
-import MarkedTextWithCopy from './MarkedTextWithCopy'
 import { useEffect, useReducer, useState } from 'react'
 import InscriptionForm, { InscriptionKey, predefinedSelectOptions } from './InscriptionForm'
 import { InscriptionSelectOption } from './InscriptionSelectOption'
+import { TransactionCopyAreaWithInstructions } from './TransactionCopyAreaWithInstructions'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -121,11 +121,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 
 			<hr className="mt-2 mb-3" />
 
-			<div style={validTransaction && inscriptions.valid ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
-				<MarkedTextWithCopy clickToCopy>
-					{transaction?.transaction.toHex()}
-				</MarkedTextWithCopy>
-			</div>
+			<TransactionCopyAreaWithInstructions
+				transactionInHex={transaction?.transaction.toHex()?? 'transaction not ready'}
+				copyAreaDisabled={!validTransaction || !inscriptions.valid}
+			/>
+
 			{!senderAddress
 				? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
 				: <div className="text-red-600">
