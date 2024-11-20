@@ -68,8 +68,8 @@ npm run dev
 ```
 
 #### Deploy website
-The folder `./dist/website/` is also delivered via GitHub Pages, see [./.github/workflows/static.yml](./.github/workflows/static.yml).\
-To deploy a new version replace the content of `./dist/website/` with the content of `./landingpage/dist`
+The folder `./dist/website/` is delivered via GitHub Pages, see [./.github/workflows/static.yml](./.github/workflows/static.yml).\
+To deploy a new version run within `./landingpage` `npm run build` then replace the content of `./dist/website/` with the content of `./landingpage/dist`
 
 #### Build browser extensions
 ```
