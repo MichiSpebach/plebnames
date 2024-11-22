@@ -15,7 +15,7 @@ import PALegend from './PALegend';
 function generateFillDescription(
 	fill: AddressStructType['fill'],
 ): React.ReactNode {
-	let afterText =
+	const afterText =
 		fill.length === 1
 			? `is repeated once.`
 			: `is repeated ${fill.length} times.`;
@@ -128,8 +128,9 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 			</span>
 
 			<span className="inline-flex bg-green-300">
-				{addressStruct.fill.map((item) => (
+				{addressStruct.fill.map((item, i) => (
 					<span
+						key={'fill-' + i}
 						className="inline-flex items-center justify-center px-0.5 py-1"
 						style={{
 							borderLeft: 'solid 2px rgba(0,0,0,0.3)',
