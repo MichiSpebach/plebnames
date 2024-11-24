@@ -5,6 +5,7 @@ import CollaborationBanner from './components/CollaborationBanner';
 import ExtensionsGallery from './components/ExtensionsGallery';
 import Footer from './components/Footer';
 import HeaderWithSearch from './components/HeaderWithSearch';
+import IframeSlide from './components/IframeSlide';
 // import MemeGallery from './components/MemeGallery';
 import * as localStorageAdapter from './localStorageAdapter';
 
@@ -39,6 +40,9 @@ function App() {
 					</p>
 				</section>
 				{/* <MemeGallery /> */}
+
+				<div className='w-full h-[1.75rem]' />
+				<IframeSlide />
 			</main>
 
 			<Footer />
