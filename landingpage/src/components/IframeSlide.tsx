@@ -7,7 +7,7 @@ interface IframeSlideProps {
 }
 
 const IframeSlide: React.FC<IframeSlideProps> = ({
-	src = './../assets/slides_deck/index.html',
+	src = '/slides_deck/index.html', // it's inside of the public folder
 	title = 'Pleb Names Presentation',
 	aspectRatio = 960 / 700,
 }) => {
