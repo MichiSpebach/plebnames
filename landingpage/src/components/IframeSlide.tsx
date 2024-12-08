@@ -18,7 +18,7 @@ const IframeSlide: React.FC<IframeSlideProps> = ({
 				<iframe
 					src={src}
 					title={title}
-					className="max-h-[85vh] w-full bg-black"
+					className="max-h-[85vh] w-full auto bg-black"
 					style={{ aspectRatio }}
 				/>
 			</div>
