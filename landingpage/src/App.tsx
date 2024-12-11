@@ -1,29 +1,29 @@
 import './App.css';
 
-import BrowserExtensionBanner from './components/BrowserExtensionBanner';
 import CollaborationBanner from './components/CollaborationBanner';
 import ExtensionsGallery from './components/ExtensionsGallery';
 import Footer from './components/Footer';
 import HeaderWithSearch from './components/HeaderWithSearch';	
 import IframeSlide from './components/IframeSlide';
 // import MemeGallery from './components/MemeGallery';
-import * as localStorageAdapter from './localStorageAdapter';
 
 function App() {
 	return (
 		<>
 			<HeaderWithSearch />
 
-			<div className="mt-8 mb-16 mx-4 sm:mx-4 lg:mx-96">
+			<div id="scroll-to-after-header"></div>
+
+			<div  className="mt-8 mb-16 mx-4 sm:mx-4 lg:mx-96">
 				<IframeSlide />
 			</div>
 
 
-			{!localStorageAdapter.isHideBrowserExtensionBanner() && <BrowserExtensionBanner />}
+			{/* {!localStorageAdapter.isHideBrowserExtensionBanner() && <BrowserExtensionBanner />} */}
 
-			<div id="scroll-to-after-header">
-				<CollaborationBanner />
-			</div>
+		
+			<CollaborationBanner />
+		
 
 			<ExtensionsGallery />
 

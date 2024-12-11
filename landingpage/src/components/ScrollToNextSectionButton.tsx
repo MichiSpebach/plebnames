@@ -26,7 +26,10 @@ const ScrollToNextSectionButton: React.FC<{
 				className="animate-bounce self-center rounded-full bg-white bg-opacity-20 p-2 transition-all duration-300 hover:bg-opacity-30 focus:outline-none"
 				aria-label="Scroll to next section"
 			>
-				<DownIcon className="text-white" size={24} />
+				<span className="flex items-center px-4">
+					<DownIcon className="text-white mr-2" size={24} />
+					<div>Learn more</div>
+				</span>
 			</button>
 		</div>
 	);
