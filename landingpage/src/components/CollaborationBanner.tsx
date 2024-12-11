@@ -9,7 +9,7 @@ const CollaborationBanner: React.FC = (): JSX.Element => {
 	return (
 		// <div className="bg-gray-100 text-gray-800 p-6 rounded-lg shadow-md border border-gray-200 max-w-7xl m-4 self-center w-full">
 		// <div className="flex w-full bg-gray-100 text-gray-800">
-		<div className="flex w-full bg-gradient-to-b from-gray-50 to-white text-gray-800">
+		<div className="flex w-full bg-gradient-to-b from-gray-200 to-white text-gray-800">
 			<div className="mx-auto flex w-full max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
 				<h2 className="mb-3 text-2xl font-bold text-blue-600">
 					{/* TODO: improve the Slogan */}

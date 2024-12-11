@@ -11,6 +11,7 @@ import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
 import DropDownContent from './DropDownContent';
+import IframeSlide from '../IframeSlide';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -27,7 +28,7 @@ function HeaderWithSearch() {
 	return (
 		<section
 			id="header"
-			className="flex h-lvh flex-col items-center justify-center overflow-y-visible bg-gradient-to-b from-blue-500 to-indigo-600 text-white transition-all"
+			className="flex h-lvh flex-col items-center justify-center overflow-y-visible  bg-gradient-to-b from-blue-500 to-indigo-600 text-white transition-all"
 			style={{
 				marginBottom: spacerHeight,
 			}}
@@ -39,6 +40,9 @@ function HeaderWithSearch() {
 			>
 				{/* The Normal Header Content, which is centered */}
 				<>
+
+
+	
 					<h1 className="mb-3 text-5xl font-bold md:text-7xl">
 						PlebNames
 					</h1>
@@ -46,8 +50,11 @@ function HeaderWithSearch() {
 						Piggybacked names on Bitcoin, just Bitcoin!
 					</h2>
 
+
+				
+
 					<div className="w-full max-w-xs">
-						<SearchInput onSearch={handleSearch} initialQuery={queryString?? undefined} />
+						<SearchInput onSearch={handleSearch} initialQuery={queryString ?? undefined} />
 					</div>
 				</>
 
