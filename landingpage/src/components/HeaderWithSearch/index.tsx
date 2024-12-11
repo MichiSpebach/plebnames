@@ -43,7 +43,7 @@ function HeaderWithSearch() {
 
 
 	
-					<h1 className="mt-8 mb-3 text-5xl font-bold md:text-7xl">
+					<h1 className="mb-3 text-5xl font-bold md:text-7xl">
 						PlebNames
 					</h1>
 					<h2 className="mb-8 text-3xl md:text-5xl">
