@@ -76,6 +76,7 @@ const PAExplanationView: React.FC<PlebAddressExplainedType> = ({
 	plebAddress,
 }) => (
 	<DropDownContent title={'The PlebAddress Explained'}>
+			
 		<p>
 			Your input name <span className="font-mono">'{inputName}'</span> is
 			automatically normalized, meaning certain characters are adjusted or

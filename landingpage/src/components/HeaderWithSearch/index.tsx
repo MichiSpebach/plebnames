@@ -41,6 +41,8 @@ function HeaderWithSearch() {
 				{/* The Normal Header Content, which is centered */}
 				<>
 
+
+	
 					<h1 className="mt-8 mb-3 text-5xl font-bold md:text-7xl">
 						PlebNames
 					</h1>
@@ -48,9 +50,6 @@ function HeaderWithSearch() {
 						Piggybacked names on Bitcoin, just Bitcoin!
 					</h2>
 
-					<div className="mt-8 mb-16 mx-4 sm:mx-4 lg:mx-64">
-						<IframeSlide />
-					</div>
 
 				
 
