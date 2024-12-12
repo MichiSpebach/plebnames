@@ -24,10 +24,20 @@ function HeaderWithSearch() {
 		status,
 	]);
 
+	const scrollAndSearch = (searchQuery: string) => {
+		handleSearch(searchQuery)
+		const title: HTMLElement|undefined = document.getElementsByTagName('h1')[0];
+		if (!title) {
+			console.warn('title element for scrollAndSearch not found')
+			return
+		}
+		title.scrollIntoView({ behavior: 'smooth' });
+	}
+
 	return (
 		<section
 			id="header"
-			className="flex h-lvh flex-col items-center justify-center overflow-y-visible bg-gradient-to-b from-blue-500 to-indigo-600 text-white transition-all"
+			className="flex h-lvh flex-col items-center justify-center overflow-y-visible  bg-gradient-to-b from-blue-500 to-indigo-600 text-white transition-all"
 			style={{
 				marginBottom: spacerHeight,
 			}}
@@ -39,6 +49,9 @@ function HeaderWithSearch() {
 			>
 				{/* The Normal Header Content, which is centered */}
 				<>
+
+
+	
 					<h1 className="mb-3 text-5xl font-bold md:text-7xl">
 						PlebNames
 					</h1>
@@ -46,8 +59,11 @@ function HeaderWithSearch() {
 						Piggybacked names on Bitcoin, just Bitcoin!
 					</h2>
 
+
+				
+
 					<div className="w-full max-w-xs">
-						<SearchInput onSearch={handleSearch} initialQuery={queryString?? undefined} />
+						<SearchInput onSearch={scrollAndSearch} initialQuery={queryString ?? undefined} />
 					</div>
 				</>
 

@@ -68,9 +68,9 @@ const InscriptionForm: React.FC<{
 						onInscriptionChange(new InscriptionSelectOption(newSelectedOption.key, newCustomOption?? newSelectedOption.key, inscription.value));
 					}}
 				>
-					{predefinedSelectOptions.filter(option => option.key === inscription.option || !reservedFields.includes(option.key)).map(option => {
-						return <option value={option.key}>{option.displayName}</option>
-					})}
+					{predefinedSelectOptions.filter(option => option.key === inscription.option || !reservedFields.includes(option.key)).map(option => 
+						<option key={option.key} value={option.key}>{option.displayName}</option>
+					)}
 					<option value={customSelectOption.key}>{customSelectOption.displayName}</option>
 				</select>
 
