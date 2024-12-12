@@ -11,7 +11,6 @@ import MarkedTextWithCopy from '../MarkedTextWithCopy';
 import ScrollToNextSectionButton from '../ScrollToNextSectionButton';
 import { TransactionTool } from '../TransactionTool';
 import DropDownContent from './DropDownContent';
-import IframeSlide from '../IframeSlide';
 
 /* <hr className="my-3" /> */
 const MyHr = () => <hr className="my-5" />;
@@ -24,6 +23,16 @@ function HeaderWithSearch() {
 	const { spacerHeight, fitsInHeader } = useHeaderSpacer(overflowBoxRef, [
 		status,
 	]);
+
+	const scrollAndSearch = (searchQuery: string) => {
+		handleSearch(searchQuery)
+		const title: HTMLElement|undefined = document.getElementsByTagName('h1')[0];
+		if (!title) {
+			console.warn('title element for scrollAndSearch not found')
+			return
+		}
+		title.scrollIntoView({ behavior: 'smooth' });
+	}
 
 	return (
 		<section
@@ -54,7 +63,7 @@ function HeaderWithSearch() {
 				
 
 					<div className="w-full max-w-xs">
-						<SearchInput onSearch={handleSearch} initialQuery={queryString ?? undefined} />
+						<SearchInput onSearch={scrollAndSearch} initialQuery={queryString ?? undefined} />
 					</div>
 				</>
 
