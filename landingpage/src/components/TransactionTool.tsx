@@ -4,6 +4,7 @@ import { useEffect, useReducer, useState } from 'react'
 import InscriptionForm, { InscriptionKey, predefinedSelectOptions } from './InscriptionForm'
 import { InscriptionSelectOption } from './InscriptionSelectOption'
 import { TransactionCopyAreaWithInstructions } from './TransactionCopyAreaWithInstructions'
+import IframeSlide from './IframeSlide'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -34,6 +35,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		senderUtxoError?: Error
 		warning?: string
 	} | undefined>(undefined)
+	const [selectedWallet, setSelectedWallet] = useState<'electrum' | 'sparrow' | undefined>('electrum')
 
 	useEffect(() => {
 		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, minerFeeInSatsPerVByte, mode})
@@ -66,8 +68,30 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 
 	return (
 		<div className='flex flex-col '>
+
+			<div className="mb-4 flex flex-row gap-3">
+				<button
+					className={`rounded-md border bg-gray-100 px-2 py-1 text-blue-950 flex flex-col items-center ${selectedWallet === 'electrum' ? 'border-blue-500' : ''}`}
+					onClick={() => setSelectedWallet('electrum')}
+				>
+					<img src="/wallet-icons/electrum.png" alt="Use Electrum" className="h-24 w-24 mb-2" />
+					<span>Use Electrum</span>
+				</button>
+				<button
+					className={`rounded-md border bg-gray-100 px-2 py-1 text-blue-950 flex flex-col items-center ${selectedWallet === 'sparrow' ? 'border-blue-500' : ''}`}
+					onClick={() => setSelectedWallet('sparrow')}
+				>
+					<img src="/wallet-icons/sparrow.png" alt="Use Sparrow" className="h-24 w-24 mb-2" />
+					<span>Use Sparrow</span>
+				</button>
+			</div>
+
+			<div  className="mb-4 sm:mx-2 lg:mx-32">
+				<IframeSlide src='/slides_electrum/index.html' />
+			</div>
+
 			{!history && 	
-			<div className="mb-2 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
+			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
 				Your Address:{' '}
 				</label>
 				<input
@@ -84,7 +108,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		
 			{inscriptions.all.map((inscription, index) => 
 				<InscriptionForm
-					className={"mb-2"}
+					className={"mb-4"}
 					plebname={name}
 					inscription={inscription}
 					reservedFields={reservedFields}
@@ -101,7 +125,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
-			<div className="mb-2 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
 				<label>
 					Sats/vByte:{' '}
 					<input
@@ -119,7 +143,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				<br />
 			</div>
 
-			<hr className="mt-2 mb-3" />
+			<hr className="mt-2 mb-6" />
 
 			<TransactionCopyAreaWithInstructions
 				transactionInHex={transaction?.transaction.toHex()?? 'transaction not ready'}

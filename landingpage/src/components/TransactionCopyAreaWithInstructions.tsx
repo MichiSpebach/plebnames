@@ -21,7 +21,7 @@ export const TransactionCopyAreaWithInstructions: React.FC<{transactionInHex: st
 			{selectedTab === 'electrum' &&
 				<div>
 					<div>{'Tools -> Load Transaction -> From text'}</div>
-					<div>TODO: instructions with screenshots</div>
+				
 				</div>
 			}
 			{selectedTab === 'sparrow' &&
