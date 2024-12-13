@@ -7,7 +7,7 @@ interface IframeSlideProps {
 }
 
 const IframeSlide: React.FC<IframeSlideProps> = ({
-	src = '/slides_deck/index.html', // it's inside of the public folder
+	src = '/slides_deck/index.html?postMessageEvents=true', // it's inside of the public folder
 	title = 'Pleb Names Presentation',
 	aspectRatio = 960 / 700,
 }) => {
@@ -20,6 +20,7 @@ const IframeSlide: React.FC<IframeSlideProps> = ({
 					title={title}
 					className="max-h-[85vh] w-full auto bg-black"
 					style={{ aspectRatio }}
+					allowFullScreen
 				/>
 			</div>
 		</div>

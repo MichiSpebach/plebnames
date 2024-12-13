@@ -69,21 +69,24 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	return (
 		<div className='flex flex-col '>
 
-			<div className="mb-4 flex flex-row gap-3">
-				<button
-					className={`rounded-md border bg-gray-100 px-2 py-1 text-blue-950 flex flex-col items-center ${selectedWallet === 'electrum' ? 'border-blue-500' : ''}`}
-					onClick={() => setSelectedWallet('electrum')}
-				>
-					<img src="/wallet-icons/electrum.png" alt="Use Electrum" className="h-24 w-24 mb-2" />
-					<span>Use Electrum</span>
-				</button>
-				<button
-					className={`rounded-md border bg-gray-100 px-2 py-1 text-blue-950 flex flex-col items-center ${selectedWallet === 'sparrow' ? 'border-blue-500' : ''}`}
-					onClick={() => setSelectedWallet('sparrow')}
-				>
-					<img src="/wallet-icons/sparrow.png" alt="Use Sparrow" className="h-24 w-24 mb-2" />
-					<span>Use Sparrow</span>
-				</button>
+			<div className="mb-4">
+				<div className="flex flex-row gap-3 border-b">
+					<button
+						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrum' ? 'border-b-2 border-blue-500' : ''}`}
+						onClick={() => setSelectedWallet('electrum')}
+					>
+						<img src="/wallet-icons/electrum.png" alt="Electrum" className="h-16 w-16" />
+						Electrum
+					</button>
+					<button
+						disabled={true}
+						className={`text-gray-600 px-4 py-2 flex items-center gap-2 ${selectedWallet === 'sparrow' ? 'border-b-2 border-blue-500' : ''}`}
+						onClick={() => setSelectedWallet('sparrow')}
+					>
+						<img src="/wallet-icons/sparrow.png" alt="Sparrow" className="h-16 w-16" />
+						Sparrow
+					</button>
+				</div>
 			</div>
 
 			<div  className="mb-4 sm:mx-2 lg:mx-32">

@@ -8,8 +8,8 @@ export const TransactionCopyAreaWithInstructions: React.FC<{transactionInHex: st
 		<div>
 			<div>
 				{createTabHead('hex', 'Copy transaction in hex')}
-				{createTabHead('electrum', 'Electrum instructions')}
-				{createTabHead('sparrow', 'Sparrow instructions')}
+				{/* {createTabHead('electrum', 'Electrum instructions')}
+				{createTabHead('sparrow', 'Sparrow instructions')} */}
 			</div>
 			{selectedTab === 'hex' &&
 				<div style={copyAreaDisabled ? {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'} : {}}>	
