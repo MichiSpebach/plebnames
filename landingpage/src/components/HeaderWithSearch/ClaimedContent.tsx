@@ -1,11 +1,14 @@
 import React from 'react';
-import { PlebNameHistory } from 'plebnames';
+import { PlebNameData, PlebNameHistory, util } from 'plebnames';
+import CopyButton from '../CopyButton';
+import LinkWithCopyButton from '../LinkWithCopyButton';
 
 const ClaimedContent: React.FC<{
 	queryString: string;
 	history: PlebNameHistory;
 	tipToInscribeWebsite?: boolean;
 }> = ({ history, queryString, tipToInscribeWebsite }) => {
+	const data: PlebNameData = history.getData()
 	return (
 		<>
 			<h3 className="mb-2 text-2xl font-bold text-blue-950">
@@ -21,48 +24,39 @@ const ClaimedContent: React.FC<{
 
 			<p className="break-words text-lg">
 				<span className="font-bold">Owner: </span>
-				<span className="font-mono">{history.getData().owner}</span>
+				<LinkWithCopyButton
+					text={data.owner}
+					link={`https://mempool.space/address/${util.generateBech32AddressWithPad(util.normalizeAsciiToBech32(history.name))}`}
+					additionalClassName='font-mono'
+				/>
 				<br />
 
-				{history.getData().lightningAddress && (
+				{data.lightningAddress && (
 					<>
 						<span className="font-bold">Lightning-Address: </span>
-						{history.getData().lightningAddress}
+						{data.lightningAddress}
+						<CopyButton text={data.lightningAddress}/>
 						<br />
 					</>
 				)}
-				{history.getData().linkTo && (
+				{data.linkTo && (
 					<>
 						<span className="font-bold">LinkTo: </span>
-						<a
-							href={history.getData().linkTo}
-							rel="noopener noreferrer"
-							className="text text-blue-950 underline"
-							title={`Link to ${history.getData().linkTo}`}
-						>
-							{history.getData().linkTo}
-						</a>
+						<LinkWithCopyButton text={data.linkTo} link={data.linkTo} />
 						<br />
 					</>
 				)}
-				{history.getData().website && (
+				{data.website && (
 					<>
 						<span className="font-bold">Website: </span>
-						<a
-							href={history.getData().website}
-							rel="noopener noreferrer"
-							className="underline"
-							title={`Website link to ${history.getData().website}`}
-						>
-							{history.getData().website}
-						</a>
+						<LinkWithCopyButton text={data.website} link={data.website} />
 						<br />
 					</>
 				)}
-				{history.getData().nostr && (
+				{data.nostr && (
 					<>
 						<span className="font-bold">Nostr: </span>
-						{history.getData().nostr}
+						<LinkWithCopyButton text={data.nostr} link={`https://primal.net/p/${data.nostr}`} />
 					</>
 				)}
 			</p>
