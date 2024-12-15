@@ -89,12 +89,14 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			</div>
 
-			<div  className="mb-4 sm:mx-2 lg:mx-32">
-				<IframeSlide src='/slides_electrum/index.html' />
-			</div>
+			{!history && 	
+			<div  className="mb-4 sm:mx-2 lg:mx-64">
+				<IframeSlide src='/slides-electrum-claim-instructions/index.html' border={false} />
+			</div>}
 
 			{!history && 	
-			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">	<label>
+			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3 sm:mx-2 lg:mx-64">
+				<label className='text-xl font-extrabold'>
 				Your Address:{' '}
 				</label>
 				<input
@@ -108,10 +110,14 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 				<br />
 			</div>}
+
+			{validSenderAddress && <div className=" mt-16 mb-4 sm:mx-2 lg:mx-64">
+				<IframeSlide src='/slides-electrum-inscribe-instructions/index.html'  border={false}  />
+			</div>}
 		
-			{inscriptions.all.map((inscription, index) => 
+			{validSenderAddress && inscriptions.all.map((inscription, index) => 
 				<InscriptionForm
-					className={"mb-4"}
+					className={"mb-4  sm:mx-2 lg:mx-64"}
 					plebname={name}
 					inscription={inscription}
 					reservedFields={reservedFields}
@@ -128,30 +134,36 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
-			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
-				<label>
-					Sats/vByte:{' '}
-					<input
-						type="number"
-						min={0}
-						value={minerFeeInSatsPerVByte}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-							event.preventDefault()
-							setMinerFeeInSatsPerVByte(Number(event.target.value))
-						}}
-						className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
-					/>
-				</label>
-				{`=> ${transaction?.minerFeeInSats} sats miner fee`}
-				<br />
-			</div>
+			{validSenderAddress && inscriptions.valid &&	
+				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3  sm:mx-2 lg:mx-64">
+					<label>
+						<span className='text-xl font-extrabold'>Sats/vByte:{' '}</span>
+						<input
+							type="number"
+							min={0}
+							value={minerFeeInSatsPerVByte}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								event.preventDefault()
+								setMinerFeeInSatsPerVByte(Number(event.target.value))
+							}}
+							className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
+						/>
+					</label>
+					{`=> ${transaction?.minerFeeInSats} sats miner fee`}
+					<br />
+				</div>}
 
 			<hr className="mt-2 mb-6" />
 
-			<TransactionCopyAreaWithInstructions
-				transactionInHex={transaction?.transaction.toHex()?? 'transaction not ready'}
-				copyAreaDisabled={!validTransaction || !inscriptions.valid}
-			/>
+			{validSenderAddress && inscriptions.valid &&	<div className='sm:mx-2 lg:mx-64'>
+				<div className='text-xl font-extrabold mb-2'>Generated transaction: {' '}</div>
+				<TransactionCopyAreaWithInstructions
+					transactionInHex={transaction?.transaction.toHex()?? 'transaction not ready'}
+					copyAreaDisabled={!validTransaction || !inscriptions.valid}
+				/>
+
+				
+			</div>}
 
 			{!senderAddress
 				? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
