@@ -56,7 +56,7 @@ const ClaimedContent: React.FC<{
 				{data.nostr && (
 					<>
 						<span className="font-bold">Nostr: </span>
-						<LinkWithCopyButton text={data.nostr} link={`https://primal.net/p/${data.nostr}`} />
+						<LinkWithCopyButton text={data.nostr} link={`https://njump.me/${data.nostr}`} />
 					</>
 				)}
 			</p>
