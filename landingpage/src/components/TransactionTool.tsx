@@ -95,21 +95,23 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 			</div>
 
 				
-			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3 sm:mx-2 lg:mx-64">
-				<label className='text-xl font-extrabold'>
-				Your Address:{' '}
-				</label>
-				<input
-					placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
-					value={senderAddress}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-						event.preventDefault()
-						setSenderAddress(event.target.value)
-					}}
-					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
-				/>
-				<br />
-			</div>
+			{!history &&
+				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3 sm:mx-2 lg:mx-64">
+					<label className='text-xl font-extrabold'>
+					Your Address:{' '}
+					</label>
+					<input
+						placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
+						value={senderAddress}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							event.preventDefault()
+							setSenderAddress(event.target.value)
+						}}
+						className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
+					/>
+					<br />
+				</div>
+			}
 		
 			{inscriptions.all.map((inscription, index) => 
 				<InscriptionForm
