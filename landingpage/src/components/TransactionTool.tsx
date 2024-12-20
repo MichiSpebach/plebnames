@@ -84,17 +84,17 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						onClick={() => setSelectedWallet('sparrow')}
 					>
 						<img src="/wallet-icons/sparrow.png" alt="Sparrow" className="h-16 w-16" />
-						Sparrow
+						Sparrow (coming soon)
 					</button>
 				</div>
 			</div>
 
-			{!history && 	
+		
 			<div  className="mb-4 sm:mx-2 lg:mx-64">
-				<IframeSlide src='/slides-electrum-claim-instructions/index.html' border={false} />
-			</div>}
+				<IframeSlide id="instructions" src='/slides_electrum-instructions/index.html' border={false}  startSlide={history ? 6 : 1}/>
+			</div>
 
-			{!history && 	
+				
 			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3 sm:mx-2 lg:mx-64">
 				<label className='text-xl font-extrabold'>
 				Your Address:{' '}
@@ -109,13 +109,9 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
 				/>
 				<br />
-			</div>}
-
-			{validSenderAddress && <div className=" mt-16 mb-4 sm:mx-2 lg:mx-64">
-				<IframeSlide src='/slides-electrum-inscribe-instructions/index.html'  border={false}  />
-			</div>}
+			</div>
 		
-			{validSenderAddress && inscriptions.all.map((inscription, index) => 
+			{inscriptions.all.map((inscription, index) => 
 				<InscriptionForm
 					className={"mb-4  sm:mx-2 lg:mx-64"}
 					plebname={name}
@@ -134,7 +130,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 
-			{validSenderAddress && inscriptions.valid &&	
+			
 				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3  sm:mx-2 lg:mx-64">
 					<label>
 						<span className='text-xl font-extrabold'>Sats/vByte:{' '}</span>
@@ -151,11 +147,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					</label>
 					{`=> ${transaction?.minerFeeInSats} sats miner fee`}
 					<br />
-				</div>}
+				</div>
 
 			<hr className="mt-2 mb-6" />
 
-			{validSenderAddress && inscriptions.valid &&	<div className='sm:mx-2 lg:mx-64'>
+			<div className='sm:mx-2 lg:mx-64'>
 				<div className='text-xl font-extrabold mb-2'>Generated transaction: {' '}</div>
 				<TransactionCopyAreaWithInstructions
 					transactionInHex={transaction?.transaction.toHex()?? 'transaction not ready'}
@@ -163,7 +159,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 
 				
-			</div>}
+			</div>
 
 			{!senderAddress
 				? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
