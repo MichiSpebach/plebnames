@@ -1,18 +1,24 @@
 
 export type InputPrevout = {
-	scriptpubkey_address?: string, scriptpubkey: string
+	scriptpubkey_address?: string
+	scriptpubkey: string
 }
 
 export type Input = {
 	prevout: InputPrevout
 }
 
+export type Output = {
+	scriptpubkey_address?: string
+	scriptpubkey: string
+}
+
 export class Transaction {
 	public readonly vin: Input[]
-	public readonly vout: {scriptpubkey: string}[]
+	public readonly vout: Output[]
 	public readonly status: {block_height: number}
 
-	private constructor(inputs: Input[], outputs: {scriptpubkey: string}[], status: {block_height: number}) {
+	private constructor(inputs: Input[], outputs: Output[], status: {block_height: number}) {
 		this.vin = inputs
 		this.vout = outputs
 		this.status = status
@@ -35,7 +41,10 @@ export class Transaction {
 				}
 			}),
 			blockchainTransaction.out.map((output: any) => {
-				return {scriptpubkey: output.script}
+				return {
+					scriptpubkey_address: output.addr,
+					scriptpubkey: output.script
+				}
 			}),
 			{block_height: blockchainTransaction.block_height}
 		)
@@ -60,6 +69,9 @@ export class Transaction {
 			}
 		}
 		for (const output of this.vout) {
+			if (output.scriptpubkey_address && typeof output.scriptpubkey_address !== 'string') {
+				console.warn(`output.scriptpubkey_address && typeof output.scriptpubkey_address !== 'string', output is: ${JSON.stringify(output)}`)
+			}
 			if (typeof output.scriptpubkey !== 'string') {
 				console.warn(`typeof output.scriptpubkey !== 'string', output is: ${JSON.stringify(output)}`)
 			}

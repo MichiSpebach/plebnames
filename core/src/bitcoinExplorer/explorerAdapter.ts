@@ -52,3 +52,42 @@ export async function followNameHistory(name: string, options?: {
 
 	return history
 }
+
+export async function getClaimedNamesOfAddress(address: string): Promise<string[]> {
+	const transactions: Transactions = await explorerAdapter.getTransactionsOfAddress(address)
+	const names: string[] = []
+	for (const transaction of transactions.txs) {
+		for (const output of transaction.vout) {
+			const outputAddress: string|undefined = (output as any).scriptpubkey_address
+			if (!outputAddress) {
+				continue
+			}
+			const outputAddressMainPart = outputAddress.slice(4/*bc1q*/, -6/*checksum*/)
+			const name: string|undefined = findPattern(outputAddressMainPart, outputAddressMainPart.length-5/*at least 5 chars have to repeat*/)
+			if (name) {
+				names.push(util.normalizeBech32ToCapitalizedAscii(name))
+			}
+		}
+	}
+	return names
+}
+
+function findPattern(input: string, maxLength: number): string|undefined {
+	for (let patternLength = 1; patternLength <= maxLength; patternLength++) {
+		const pattern = input.substring(0, patternLength)
+		if (repeatsPattern(input, pattern)) {
+			return pattern
+		}
+	}
+	return undefined
+}
+
+function repeatsPattern(input: string, pattern: string): boolean {
+	for (let shift = 0; shift < input.length; shift += pattern.length) {
+		const comparisonLength: number = Math.min(pattern.length, input.length-shift)
+		if (input.substring(shift, shift+comparisonLength) !== pattern.substring(0, comparisonLength)) {
+			return false
+		}
+	}
+	return true
+}

@@ -31,6 +31,27 @@ export function asciiToHex(ascii: string): string {
 	return hex
 }
 
+/**
+ * @param bech32 e.g. "ple8names"
+ * @returns e.g. "Plebnames"
+ */
+export function normalizeBech32ToCapitalizedAscii(bech32: string): string {
+	const normalizedAscii: string = normalizeBech32ToAscii(bech32)
+	return normalizedAscii[0].toUpperCase() + normalizedAscii.substring(1)
+}
+
+/**
+ * @param bech32 e.g. "ple8names"
+ * @returns e.g. "plebnames"
+ */
+export function normalizeBech32ToAscii(bech32: string): string {
+	return bech32.replaceAll('8', 'b').replaceAll('7', 'i').replaceAll('0', 'o')
+}
+
+/**
+ * @param ascii e.g. "Plebnames"
+ * @returns e.g. "ple8names"
+ */
 export function normalizeAsciiToBech32(ascii: string): string {
 	let bech32: string = ''
 	for (const char of ascii.toLowerCase().replaceAll('b', '8').replaceAll('i', '7').replaceAll('o', '0')) { // TODO: could also replace 'b' with '6'?
@@ -41,6 +62,18 @@ export function normalizeAsciiToBech32(ascii: string): string {
 	return bech32
 }
 
+/**
+ * @param plebname e.g. "Plebnames"
+ * @returns e.g. "bc1qple8namesple8namesple8namesple8nvyw48s"
+ */
+export function generatePlebAddress(plebname: string): string {
+	return generateBech32AddressWithPad(normalizeAsciiToBech32(plebname))
+}
+
+/**
+ * @param plebname e.g. "ple8names"
+ * @returns e.g. "bc1qple8namesple8namesple8namesple8nvyw48s"
+ */
 export function generateBech32AddressWithPad(pad: string): string {
 	return addPrefixAndChecksumToBech32Ascii(''.padEnd(32, pad))
 }
