@@ -7,7 +7,7 @@ export type InscriptionKey = 'custom' | keyof PlebNameData;
 type SelectOption = {key: InscriptionKey, displayName: string, inputPlaceholder: string, inputType: 'text'|'url'}
 
 export const predefinedSelectOptions: SelectOption[] = [
-	{key: 'nostr', displayName: 'Nostr', inputPlaceholder: 'enter your nostr address', inputType: 'text'},
+	{key: 'nostr', displayName: 'Nostr', inputPlaceholder: `enter your nostr address starting with 'npub'`, inputType: 'text'},
 	{key: 'website', displayName: 'Website', inputPlaceholder: 'enter the website-url', inputType: 'url'},
 	{key: 'lightningAddress', displayName: 'Lightning Address', inputPlaceholder: 'enter a lightning address', inputType: 'text'},
 	{key: 'owner', displayName: 'Owner', inputPlaceholder: 'enter the new owner address', inputType: 'text'},
