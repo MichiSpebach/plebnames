@@ -1,4 +1,4 @@
-import { explorerAdapter, followNameHistory } from './explorerAdapter.ts'
+import { explorerAdapter, followNameHistory, getClaimedNamesOfAddress } from './explorerAdapter.ts'
 import { ExplorerAdapter } from './explorerAdapter.ts'
 import { CombinedExplorerAdapter } from './CombinedExplorerAdapter.ts'
 import { Transaction } from './Transaction.ts'
@@ -7,6 +7,7 @@ import type { UTXO } from './UTXO.ts'
 
 export {
 	followNameHistory,
+	getClaimedNamesOfAddress,
 	explorerAdapter,
 	type ExplorerAdapter,
 	CombinedExplorerAdapter,
