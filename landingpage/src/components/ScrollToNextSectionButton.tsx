@@ -1,6 +1,7 @@
 import React from 'react';
-import { LuChevronDown } from 'react-icons/lu';
-const DownIcon = LuChevronDown;
+import { TbArrowBigDownLines, TbArrowBigDownLinesFilled } from 'react-icons/tb';
+const DownIcon = TbArrowBigDownLines;
+const DownIconFilled = TbArrowBigDownLinesFilled;
 
 /**
  * A button component that smoothly scrolls to the next section of the page when clicked.
@@ -23,12 +24,17 @@ const ScrollToNextSectionButton: React.FC<{
 		<div className="absolute bottom-4 flex justify-center">
 			<button
 				onClick={scrollToNextSection}
-				className="animate-bounce self-center rounded-full bg-white bg-opacity-20 p-2 transition-all duration-300 hover:bg-opacity-30 focus:outline-none"
+				className="group animate-bounce self-center rounded-full bg-white bg-opacity-20 p-2 transition-all duration-300 hover:bg-opacity-30 focus:outline-none"
 				aria-label="Scroll to next section"
 			>
-				<span className="flex items-center px-4">
-					<DownIcon className="text-white mr-2" size={24} />
-					<div>Learn more</div>
+				<span className="flex items-center space-x-2 px-4">
+					<span className="text-base text-white lg:text-lg">
+						<DownIconFilled className="group-hover:hidden" />
+						<DownIcon className="hidden group-hover:inline" />
+					</span>
+					<div className="text-base text-white lg:text-lg">
+						Learn more
+					</div>
 				</span>
 			</button>
 		</div>
