@@ -3,7 +3,7 @@
 ### Abstract
 With Bitcoin we have free & uncensorable money. With Nostr we have free & uncensorable social networks. We don't have free & uncensorable names yet.\
 PlebNames is an idea of a protocol for this missing piece of freedom technology.\
-To use names as identification they have to be owned by just one single entity and there needs to be a syncronized register to clarify ownership.\
+To technically use names as identification they have to be owned by one clear entity and there needs to be a synchronized register to clarify ownership.\
 As we want free names that can be really owned this register has also to be uncensorable and decentralized without any elevated roles in it.\
 There is only one thing that accomplishes this and is big enough to withstand any attacks: Bitcoin!\
 Any requirements for extra infrastructure would compromise on this and make the protocol attackable.\
