@@ -35,6 +35,7 @@ one or two additional UTXOs for having one or two names on average do not fall i
 #### About using the Bitcoin chain only for money
 We believe that all important information will be anchored in the Bitcoin chain because it is the most secure, uncensorable and ubiquitous data storage of humanity.
 Names are such a thing.
+Furthermore PlebNames encourages everyone to use owned Bitcoin wallets because PlebName inscriptions are signed with Bitcoin wallets, just like ordinary Bitcoin transactions.
 
 #### The space on the Bitcoin chain is limited
 
