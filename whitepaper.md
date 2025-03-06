@@ -27,6 +27,9 @@ To inscribe data to a name we use JavaScript like syntax in OP_RETURN scripts.\
 For example to set the website of the name "PlebNames" to "https://plebnames.org" we send from the ownerAddress "plebnames.website='https://plebnames.org'" encoded as hex. The quotes are optional also the notation of the name does not matter because e.g. "PlebNames" is the same as "ple8names".\
 If a field is already set the newer entry counts. So it is possible to update the attached data.
 
+### Edgecases
+If a name is claimed by multiple addresses in the same block the claim with the smallest transaction hash counts. This is one of the simplest implementations and every Bitcoin explorer provides the transation hash. 
+
 ### Drawbacks
 #### Unspendable UTXOs
 Yes, claiming a PlebName creates an unspendable UTXO, but taking into account that everybody who uses the Bitcoin mainchain has about 10 to 20 UTXOs on average
