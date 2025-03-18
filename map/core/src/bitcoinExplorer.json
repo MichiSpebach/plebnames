@@ -890,6 +890,114 @@
 				"autoMaintained",
 				"hidden"
 			]
+		},
+		{
+			"id": "link918ar5233n8",
+			"from": {
+				"path": [
+					{
+						"boxId": "us9slekg718",
+						"boxName": "GeneralExplorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "3ek6qoe899",
+						"boxName": "GeneralExplorerAdapter.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "link4nq9nb5i7q",
+			"from": {
+				"path": [
+					{
+						"boxId": "us9slekg718",
+						"boxName": "GeneralExplorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "lf2vvouf0hg",
+						"boxName": "Transaction.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "link05iblmc1eho",
+			"from": {
+				"path": [
+					{
+						"boxId": "us9slekg718",
+						"boxName": "GeneralExplorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "jegtdks7ks",
+						"boxName": "UTXO.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
+		},
+		{
+			"id": "link0n38sgldfbo",
+			"from": {
+				"path": [
+					{
+						"boxId": "us9slekg718",
+						"boxName": "GeneralExplorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "ohf1htd9s88",
+						"boxName": "Transactions.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"test"
+			]
 		}
 	],
 	"nodes": []

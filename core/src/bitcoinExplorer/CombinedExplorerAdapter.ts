@@ -12,7 +12,7 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 
 	private readonly explorers: ExplorerAdapter[]
 
-	private index: number = 3
+	private index: number
 
 	public constructor(explorers: ExplorerAdapter[] = [
 		new MempoolExplorerAdapter(),
@@ -21,6 +21,7 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 		new BlockstreamExplorerAdapter()
 	]) {
 		this.explorers = explorers
+		this.index = Math.floor(Math.random() * (this.explorers.length-1))
 	}
 
 	public getFirstInputOfAddress(address: string): Promise<InputPrevout|undefined> {
@@ -48,7 +49,8 @@ export class CombinedExplorerAdapter implements ExplorerAdapter {
 		if (newIndex >= this.index && this.explorers.length > 1) {
 			newIndex++
 		}
+		const explorer: ExplorerAdapter = this.explorers[this.index]
 		this.index = newIndex
-		return this.explorers[this.index]
+		return explorer
 	}
 }

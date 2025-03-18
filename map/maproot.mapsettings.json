@@ -268,19 +268,19 @@
 	"linkTags": [
 		{
 			"name": "autoMaintained",
-			"count": 102,
+			"count": 107,
 			"appearance": {}
 		},
 		{
 			"name": "test",
-			"count": 4,
+			"count": 8,
 			"appearance": {
 				"color": "green"
 			}
 		},
 		{
 			"name": "hidden",
-			"count": 15,
+			"count": 16,
 			"appearance": {
 				"mode": "hidden"
 			}

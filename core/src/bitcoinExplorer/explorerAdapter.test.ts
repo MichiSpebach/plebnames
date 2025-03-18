@@ -23,7 +23,7 @@ Deno.test('getInputsOfAddress', async () => {
 
 Deno.test('getOpReturnScriptsOfAddress Base58 P2PKH', async () => {
 	// does only work with BlockchainExplorerAdapter, the others index the address as P2PK and not as P2PKH
-	(explorerAdapter as any).index = 0 // so next index will be one, the index of the BlockchainExplorerAdapter
+	(explorerAdapter as any).underlyingExplorer.index = 1 // 1 is index of BlockchainExplorerAdapter
 	const scripts: string[] = await explorerAdapter.getOpReturnScriptsOfAddress('15imVtqf7BzhbmAr6AA15H51tddchkNHyV')
 	assertEquals(scripts, ['EW Merry Christmas !!!'])
 })

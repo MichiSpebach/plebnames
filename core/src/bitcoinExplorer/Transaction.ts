@@ -14,11 +14,13 @@ export type Output = {
 }
 
 export class Transaction {
+	public readonly txid: string
 	public readonly vin: Input[]
 	public readonly vout: Output[]
 	public readonly status: {block_height: number}
 
-	private constructor(inputs: Input[], outputs: Output[], status: {block_height: number}) {
+	public constructor(txid: string, inputs: Input[], outputs: Output[], status: {block_height: number}) {
+		this.txid = txid
 		this.vin = inputs
 		this.vout = outputs
 		this.status = status
@@ -32,6 +34,7 @@ export class Transaction {
 
 	public static fromBlockchainTransaction(blockchainTransaction: any): Transaction {
 		const transaction = new Transaction(
+			blockchainTransaction.hash,
 			blockchainTransaction.inputs.map((input: any) => {
 				return {
 					prevout: {
@@ -56,6 +59,9 @@ export class Transaction {
 	 * TODO use e.g. Zod?
 	 */
 	private validate(): void {
+		if (typeof this.txid !== 'string') {
+			console.warn(`typeof transaction.txid !== 'string', transaction is: ${JSON.stringify(this)}`)
+		}
 		for (const input of this.vin) {
 			const prevout = input.prevout
 			if (!prevout) {

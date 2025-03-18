@@ -442,6 +442,39 @@
 			"tags": [
 				"autoMaintained"
 			]
+		},
+		{
+			"id": "link76635kkchfo",
+			"from": {
+				"path": [
+					{
+						"boxId": "pe0oit9fubg",
+						"boxName": "bitcoinExplorer",
+						"x": 36,
+						"y": 20
+					},
+					{
+						"boxId": "us9slekg718",
+						"boxName": "GeneralExplorerAdapter.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "2l7kitnvsj8",
+						"boxName": "testUtil.test.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained",
+				"hidden"
+			]
 		}
 	],
 	"nodes": []
