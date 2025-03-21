@@ -26,6 +26,7 @@ import { HiComputerDesktop } from 'react-icons/hi2';
 
 // import { IoIosWallet } from 'react-icons/io';
 // import { HiMiniWallet } from 'react-icons/hi2';
+import { GiMagicPortal } from 'react-icons/gi';
 import { IoWallet } from 'react-icons/io5';
 import {
 	BRAVE_EXTENSION_LINK,
@@ -65,6 +66,20 @@ const GitHubIssueLabel = (
 );
 
 const extensions: Extension[] = [
+	{
+		name: 'Pleb.Name Portal',
+		description: (
+			<>
+				Provides NIP-05 verification and classic DNS access to PlebNames (e.g., satoshi.pleb.name), including link forwarding.
+			</>
+		),
+		icon: <GiMagicPortal className="text-4xl" />,
+		category: 'other',
+		primaryLink: {
+			label: 'Visit Portal',
+			link: 'https://pleb.name',
+		},
+	},
 	{
 		name: 'Chrome Extension',
 		description: 'PlebNames for Chrome and Chromium-based browsers',
