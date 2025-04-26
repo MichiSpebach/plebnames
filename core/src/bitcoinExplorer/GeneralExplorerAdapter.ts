@@ -55,7 +55,17 @@ export abstract class GeneralExplorerAdapter implements ExplorerAdapter {
 		const outputs: {scriptpubkey: string}[] = authoredTransactions.flatMap(transaction => transaction.vout)
 		return outputs.map(output => output.scriptpubkey)
 			.filter(script => script.startsWith(util.OpcodesHex.OP_RETURN))
-			.map(script => util.hexToAscii(script.substring(4)))
+			.map(script => this.extractAsciiFromOpReturnOutput(script))
+	}
+
+	private extractAsciiFromOpReturnOutput(outputInHex: string): string {
+		outputInHex = outputInHex.substring(2) // first two bytes are OP_RETURN Opcode
+		if (outputInHex.startsWith(util.OpcodesHex.OP_PUSHDATA1)) {
+			outputInHex = outputInHex.substring(4) // byte 3&4 are OP_PUSHDATA1 Opcode, byte 5&6 only are the number of bytes following
+		} else {
+			outputInHex = outputInHex.substring(2) // we suppose that byte 3&4 are OP_PUSHBYTES_1 to OP_PUSHBYTES_75 Opcode
+		}
+		return util.hexToAscii(outputInHex)
 	}
 
 	public abstract getTransactionsOfAddress(address: string): Promise<Transactions>

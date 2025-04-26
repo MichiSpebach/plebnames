@@ -1,7 +1,8 @@
 import { bech32 } from 'npm:bech32@2.0.0'
 
 export enum OpcodesHex {
-	OP_RETURN = '6a'
+	OP_RETURN = '6a',
+	OP_PUSHDATA1 = '4c'
 }
 
 export const base58Chars: string[] = [
