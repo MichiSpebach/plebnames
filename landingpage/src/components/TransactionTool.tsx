@@ -240,7 +240,7 @@ function generateTransaction(options: {
 		const combinedInscriptions: string = options.inscriptions.map(inscription => inscription.getEncodedInAscii(options.name)).join(';')
 		const opReturnData: Uint8Array = util.asciiToBytes(combinedInscriptions)
 		transaction.addOutput({
-			script: new Uint8Array([script.OPS['OP_RETURN'], opReturnData.length, ...opReturnData]),
+			script: createOpReturnScript(opReturnData),
 			value: BigInt(0)
 		})
 		if (opReturnData.length > 80) {
@@ -264,6 +264,16 @@ function generateTransaction(options: {
 		senderUtxoError,
 		warning
 	}
+}
+
+function createOpReturnScript(opReturnData: Uint8Array): Uint8Array {
+	const opReturnScript: number[] = [script.OPS['OP_RETURN']]
+	if (opReturnData.length > 75) {
+		opReturnScript.push(script.OPS['OP_PUSHDATA1'])
+	}
+	opReturnScript.push(opReturnData.length) // OP_PUSHBYTES_1 to OP_PUSHBYTES_75 or number of bytes following
+	opReturnScript.push(...opReturnData)
+	return new Uint8Array(opReturnScript)
 }
 
 function toError(errorOfUnknownType: unknown): Error {
