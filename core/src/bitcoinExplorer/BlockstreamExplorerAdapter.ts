@@ -24,6 +24,7 @@ export class BlockstreamExplorerAdapter extends GeneralExplorerAdapter {
 	private readonly PUBLIC_API_URL = 'https://blockstream.info/api';
 	private readonly ENTERPRISE_API_URL =
 		'https://enterprise.blockstream.info/api';
+	private readonly TOKEN_REFRESH_BUFFER = 10_000;
 
 	constructor(auth?: BlockstreamAuthCredentials) {
 		super();
@@ -33,7 +34,8 @@ export class BlockstreamExplorerAdapter extends GeneralExplorerAdapter {
 	private isAccessTokenValid(): boolean {
 		return (
 			!!this.authResponse &&
-			this.authResponse.expiryDate.getTime() > Date.now() + 10_000
+			this.authResponse.expiryDate.getTime() >
+				Date.now() + this.TOKEN_REFRESH_BUFFER
 		);
 	}
 
