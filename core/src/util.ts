@@ -114,14 +114,3 @@ export function hexToBytes(hex: string): Uint8Array {
 export function asciiToBytes(ascii: string): Uint8Array {
 	return hexToBytes(asciiToHex(ascii))
 }
-
-export function createOpReturnScript(ascii: string): Uint8Array {
-	const opReturnData: Uint8Array = asciiToBytes(ascii)
-	const opReturnScript: number[] = [OpcodesDecimal.OP_RETURN]
-	if (opReturnData.length > 75) {
-		opReturnScript.push(OpcodesDecimal.OP_PUSHDATA1)
-	}
-	opReturnScript.push(opReturnData.length) // OP_PUSHBYTES_1 to OP_PUSHBYTES_75 or number of bytes following
-	opReturnScript.push(...opReturnData)
-	return new Uint8Array(opReturnScript)
-}
