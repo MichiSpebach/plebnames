@@ -18,13 +18,12 @@ export interface BlockstreamAccessTokenResponse {
 }
 
 export class BlockstreamExplorerAdapter extends GeneralExplorerAdapter {
+	private readonly PUBLIC_API_URL = 'https://blockstream.info/api';
+	private readonly ENTERPRISE_API_URL = 'https://enterprise.blockstream.info/api';
+	private readonly TOKEN_REFRESH_BUFFER = 10_000;
+
 	private readonly auth?: BlockstreamAuthCredentials;
 	private authResponse?: BlockstreamAccessTokenResponse;
-
-	private readonly PUBLIC_API_URL = 'https://blockstream.info/api';
-	private readonly ENTERPRISE_API_URL =
-		'https://enterprise.blockstream.info/api';
-	private readonly TOKEN_REFRESH_BUFFER = 10_000;
 
 	constructor(auth?: BlockstreamAuthCredentials) {
 		super();
@@ -84,7 +83,9 @@ export class BlockstreamExplorerAdapter extends GeneralExplorerAdapter {
 		let baseUrl = this.PUBLIC_API_URL;
 
 		if (this.auth) {
-			if (!this.isAccessTokenValid()) await this.fetchAccessToken();
+			if (!this.isAccessTokenValid()) {
+				await this.fetchAccessToken();
+			}
 
 			if (this.authResponse) {
 				headers.Authorization = `Bearer ${this.authResponse.access_token}`;
@@ -94,10 +95,6 @@ export class BlockstreamExplorerAdapter extends GeneralExplorerAdapter {
 					'BlockstreamExplorerAdapter::fetch: No auth response',
 				);
 			}
-		} else {
-			console.info(
-				'BlockstreamExplorerAdapter::fetch: No auth provided, using public API',
-			);
 		}
 
 		return await fetch(baseUrl + endpoint, { headers });

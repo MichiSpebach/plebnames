@@ -10,7 +10,7 @@ export class BlockchainExplorerAdapter extends GeneralExplorerAdapter {
 		const query: string = `${this.baseUrl}/rawaddr/${address}`
 		const response: Response = await fetch(query)
 		if (!response.ok) {
-			throw new Error(`BlockchainExplorerAdapter::getInputsOfAddress(${address}) failed: ${response.status}, ${(await response.blob()).text}`)
+			throw new Error(`BlockchainExplorerAdapter::getInputsOfAddress(${address}) failed: ${response.status}, ${await (await response.blob()).text()}`)
 		}
 		const json: any = await response.json()
 		return {
@@ -23,7 +23,7 @@ export class BlockchainExplorerAdapter extends GeneralExplorerAdapter {
 		const query: string = `${this.baseUrl}/unspent?active=${address}`
 		const response: Response = await fetch(query)
 		if (!response.ok) {
-			throw new Error(`BlockchainExplorerAdapter::getUtxosOfAddress(${address}) failed: ${response.status}, ${(await response.blob()).text}`)
+			throw new Error(`BlockchainExplorerAdapter::getUtxosOfAddress(${address}) failed: ${response.status}, ${await (await response.blob()).text()}`)
 		}
 		const json: any = await response.json()
 		return sortUTXOs((json.unspent_outputs as any[]).map(utxo => ({
