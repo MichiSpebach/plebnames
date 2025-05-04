@@ -10,7 +10,7 @@ export class MempoolExplorerAdapter extends GeneralExplorerAdapter {
 		const query: string = `${this.baseUrl}/address/${address}/txs`
 		const response: Response = await fetch(query)
 		if (!response.ok) {
-			throw new Error(`MempoolExplorerAdapter::getTransactionsOfAddress(${address}) failed: ${response.status}, ${(await response.blob()).text}`)
+			throw new Error(`MempoolExplorerAdapter::getTransactionsOfAddress(${address}) failed: ${response.status}, ${await (await response.blob()).text()}`)
 		}
 		const json: any = await response.json()
 		return {
@@ -23,7 +23,7 @@ export class MempoolExplorerAdapter extends GeneralExplorerAdapter {
 		const query: string = `${this.baseUrl}/address/${address}/utxo`
 		const response: Response = await fetch(query)
 		if (!response.ok) {
-			throw new Error(`MempoolExplorerAdapter::getUtxosOfAddress(${address}) failed: ${response.status}, ${(await response.blob()).text}`)
+			throw new Error(`MempoolExplorerAdapter::getUtxosOfAddress(${address}) failed: ${response.status}, ${await (await response.blob()).text()}`)
 		}
 		const json: any = await response.json()
 		return sortUTXOs(json)
