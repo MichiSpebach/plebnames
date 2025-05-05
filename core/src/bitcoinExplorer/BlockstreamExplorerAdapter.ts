@@ -8,7 +8,7 @@ export interface BlockstreamAuthCredentials {
 	CLIENT_SECRET: string;
 }
 
-export interface BlockstreamAccessTokenResponse {
+interface BlockstreamAccessTokenResponse {
 	access_token: string;
 	id_token: string;
 	expires_in: number;

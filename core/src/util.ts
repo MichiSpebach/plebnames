@@ -1,9 +1,9 @@
 import { bech32 } from 'npm:bech32@2.0.0'
 
-export enum OpcodesHex {
-	OP_RETURN = '6a',
-	OP_PUSHDATA1 = '4c'
-}
+export const Opcodes = {
+	OP_RETURN: {hex: '6a', dec: 106},
+	OP_PUSHDATA1: {hex: '4c', dec: 76}
+} as const
 
 export const base58Chars: string[] = [
 	'1','2','3','4','5','6','7','8','9',
@@ -113,4 +113,15 @@ export function hexToBytes(hex: string): Uint8Array {
 
 export function asciiToBytes(ascii: string): Uint8Array {
 	return hexToBytes(asciiToHex(ascii))
+}
+
+export function createOpReturnScript(ascii: string): Uint8Array {
+	const opReturnData: Uint8Array = asciiToBytes(ascii)
+	const opReturnScript: number[] = [Opcodes.OP_RETURN.dec]
+	if (opReturnData.length > 75) {
+		opReturnScript.push(Opcodes.OP_PUSHDATA1.dec)
+	}
+	opReturnScript.push(opReturnData.length) // OP_PUSHBYTES_1 to OP_PUSHBYTES_75 or number of bytes following
+	opReturnScript.push(...opReturnData)
+	return new Uint8Array(opReturnScript)
 }
