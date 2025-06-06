@@ -47,26 +47,27 @@ function DropDownContent({
 				overflowWrap: 'break-word',
 			}}
 		>
-			<div className="flex flex-row items-center">
+			<div
+				className="flex flex-row items-center flex-shrink-0 transform hover:text-amber-500"
+				style={{
+					cursor: 'pointer'
+				}}
+				onClick={() => setIsVisible((v) => !v)}
+			>
 				{isVisible ? (
 					<IoIosArrowDropupCircle
 						title={`Hide content`}
-						className="aspect-square h-5 w-5 flex-shrink-0 transform hover:scale-105 hover:opacity-75"
-						onClick={() => setIsVisible(false)}
+						className="aspect-square h-6 w-6"
 					/>
 				) : (
 					<IoIosArrowDropdownCircle
 						title={`Show content`}
-						className={
-							'aspect-square h-5 w-5 flex-shrink-0 transform hover:scale-105 hover:opacity-75'
-						}
-						onClick={() => setIsVisible(true)}
+						className="aspect-square h-6 w-6"
 					/>
 				)}
 
 				<h3
 					className="pl-2 text-xl font-bold"
-					onClick={() => setIsVisible((v) => !v)}
 				>
 					{title}
 				</h3>
