@@ -75,7 +75,93 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
-		<div className='flex flex-col'>
+		<div>
+			{!history &&
+				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+					<label className='text-xl font-extrabold'>
+					Your Address:{' '}
+					</label>
+					<input
+						placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
+						value={senderAddress}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							event.preventDefault()
+							setSenderAddress(event.target.value)
+						}}
+						className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
+					/>
+					<br />
+				</div>
+			}
+		
+			{inscriptions.all.map((inscription, index) => 
+				<InscriptionForm
+					className={"mb-4"}
+					plebname={name}
+					inscription={inscription}
+					reservedFields={reservedFields}
+					onInscriptionChange={(updatedInscription) => {
+						const newInscriptions = [ ...inscriptions.all]
+						newInscriptions[index] = updatedInscription
+						if (!newInscriptions.at(-1)?.isValueEmpty()) {
+							newInscriptions.push(chooseNextInscription(reservedFields))
+						} else if (newInscriptions.at(-2)?.isValueEmpty()) {
+							newInscriptions.pop()
+						}
+						setInscriptions(newInscriptions)
+					} }
+				/>
+			)}
+			
+			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+				<label>
+					<span className='text-xl font-extrabold'>Sats/vByte:{' '}</span>
+					<input
+						type="number"
+						min={0}
+						value={minerFeeInSatsPerVByte}
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+							event.preventDefault()
+							setMinerFeeInSatsPerVByte(Number(event.target.value))
+						}}
+						className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
+					/>
+				</label>
+				{`=> ${transaction?.minerFeeInSats} sats miner fee`}
+				<br />
+			</div>
+
+			<hr className="mt-2 mb-2" />
+
+			<div className='text-xl font-extrabold mb-2'>Generated transaction - copy and paste into Bitcoin wallet: {' '}</div>
+			<div style={validTransaction && inscriptions.valid && claimedNamesOfAddress.length === 0 ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
+				<MarkedTextWithCopy clickToCopy>
+					{transaction?.transaction.toHex()}
+				</MarkedTextWithCopy>
+			</div>
+
+			{!senderAddress
+				? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
+				: <div className="text-red-600">
+					{transaction?.senderAddressError && <div>{String(transaction.senderAddressError)}</div>}
+					{senderUtxoStatus === 'fetching' && <div>Fetching UTXO...</div>}
+					{senderUtxoStatus instanceof Error && <div>Error while fetching UTXO from 'Your Address': {senderUtxoStatus.message}</div>}
+					{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {transaction.senderUtxoError.message}</div>}
+					{claimedNamesOfAddress.length > 0 && <div>
+						Hi {claimedNamesOfAddress[0]}, are you sure you want to claim '{util.normalizeBech32ToCapitalizedAscii(name)}' from the same address? Just use another address.<br/>
+						Why is this important:<br/>
+						- <b>Privacy:</b> Having multiple names attached to the same address is not good for privacy because everybody can relate the names to each other (as you see).<br/>
+						- <b>Ownership transfer:</b> Ownership transfers with smart contracts invalidate all other open smart contracts of that address because they all spend the same UTXO.
+						So having multiple names on the same address makes them harder to sell.
+					</div>}
+					{validTransaction && claimedNamesOfAddress.length === 0 && !inscriptions.valid && <div>Input at least one valid inscription.</div>}
+				</div>
+			}
+			{transaction?.warning &&
+				<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
+					{transaction.warning}
+				</p>
+			}
 
 			<div className="mb-4">
 				<div className="flex flex-row gap-3 border-b">
@@ -96,98 +182,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					</button>
 				</div>
 			</div>
-
+			
 			<div className='sm:mx-2 lg:mx-64'>
 				<div  className="mb-4">
 					<IframeSlide id="instructions" src='/slides_electrum-instructions/index.html' border={false}  startSlide={history ? 6 : 1}/>
 				</div>
-					
-				{!history &&
-					<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
-						<label className='text-xl font-extrabold'>
-						Your Address:{' '}
-						</label>
-						<input
-							placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
-							value={senderAddress}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								event.preventDefault()
-								setSenderAddress(event.target.value)
-							}}
-							className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
-						/>
-						<br />
-					</div>
-				}
-			
-				{inscriptions.all.map((inscription, index) => 
-					<InscriptionForm
-						className={"mb-4"}
-						plebname={name}
-						inscription={inscription}
-						reservedFields={reservedFields}
-						onInscriptionChange={(updatedInscription) => {
-							const newInscriptions = [ ...inscriptions.all]
-							newInscriptions[index] = updatedInscription
-							if (!newInscriptions.at(-1)?.isValueEmpty()) {
-								newInscriptions.push(chooseNextInscription(reservedFields))
-							} else if (newInscriptions.at(-2)?.isValueEmpty()) {
-								newInscriptions.pop()
-							}
-							setInscriptions(newInscriptions)
-						} }
-					/>
-				)}
-				
-				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
-					<label>
-						<span className='text-xl font-extrabold'>Sats/vByte:{' '}</span>
-						<input
-							type="number"
-							min={0}
-							value={minerFeeInSatsPerVByte}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-								event.preventDefault()
-								setMinerFeeInSatsPerVByte(Number(event.target.value))
-							}}
-							className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
-						/>
-					</label>
-					{`=> ${transaction?.minerFeeInSats} sats miner fee`}
-					<br />
-				</div>
-
-				<hr className="mt-2 mb-6" />
-
-				<div className='text-xl font-extrabold mb-2'>Generated transaction: {' '}</div>
-				<div style={validTransaction && inscriptions.valid && claimedNamesOfAddress.length === 0 ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
-					<MarkedTextWithCopy clickToCopy>
-						{transaction?.transaction.toHex()}
-					</MarkedTextWithCopy>
-				</div>
-
-				{!senderAddress
-					? <div className="text-red-600">Input 'Your Address' to generate a valid transaction.</div>
-					: <div className="text-red-600">
-						{transaction?.senderAddressError && <div>{String(transaction.senderAddressError)}</div>}
-						{senderUtxoStatus === 'fetching' && <div>Fetching UTXO...</div>}
-						{senderUtxoStatus instanceof Error && <div>Error while fetching UTXO from 'Your Address': {senderUtxoStatus.message}</div>}
-						{transaction?.senderUtxoError && <div>Error with UTXO of 'Your Address': {transaction.senderUtxoError.message}</div>}
-						{claimedNamesOfAddress.length > 0 && <div>
-							Hi {claimedNamesOfAddress[0]}, are you sure you want to claim '{util.normalizeBech32ToCapitalizedAscii(name)}' from the same address? Just use another address.<br/>
-							Why is this important:<br/>
-							- <b>Privacy:</b> Having multiple names attached to the same address is not good for privacy because everybody can relate the names to each other (as you see).<br/>
-							- <b>Ownership transfer:</b> Ownership transfers with smart contracts invalidate all other open smart contracts of that address because they all spend the same UTXO.
-							So having multiple names on the same address makes them harder to sell.
-						</div>}
-						{validTransaction && claimedNamesOfAddress.length === 0 && !inscriptions.valid && <div>Input at least one valid inscription.</div>}
-					</div>
-				}
-				{transaction?.warning &&
-					<p className="mb-2 mt-2 rounded-md bg-yellow-300 p-2 text-black">
-						{transaction.warning}
-					</p>
-				}
 			</div>
 		</div>
 	)
