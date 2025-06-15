@@ -1,6 +1,6 @@
 import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
 import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
-import { useEffect, useReducer, useState } from 'react'
+import { ReactNode, useEffect, useReducer, useState } from 'react'
 import InscriptionForm, { InscriptionKey, predefinedSelectOptions } from './InscriptionForm'
 import { InscriptionSelectOption } from './InscriptionSelectOption'
 import IframeSlide from './IframeSlide'
@@ -76,11 +76,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
 
 	return (
-		<div>
+		<div className='text-lg'>
 			{!history &&
 				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
-					<label className='text-xl font-extrabold'>
-					Your Address:{' '}
+					<label className='font-bold'>
+						Your Address:{' '}
 					</label>
 					<input
 						placeholder='bc1q88758c9etpsvntxncg68ydvhrzh728802aaq7w'
@@ -89,7 +89,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 							event.preventDefault()
 							setSenderAddress(event.target.value)
 						}}
-						className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
+						className="border-gray-300 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
 					/>
 					<br />
 				</div>
@@ -115,26 +115,24 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 			)}
 			
 			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
-				<label>
-					<span className='text-xl font-extrabold'>Sats/vByte:{' '}</span>
-					<input
-						type="number"
-						min={0}
-						value={minerFeeInSatsPerVByte}
-						onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-							event.preventDefault()
-							setMinerFeeInSatsPerVByte(Number(event.target.value))
-						}}
-						className="w-20 border-gray-30 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
-					/>
-				</label>
+				<label className='font-bold'>Sats/vByte:{' '}</label>
+				<input
+					type="number"
+					min={0}
+					value={minerFeeInSatsPerVByte}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						event.preventDefault()
+						setMinerFeeInSatsPerVByte(Number(event.target.value))
+					}}
+					className="w-20 border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
+				/>
 				{`=> ${transaction?.minerFeeInSats} sats miner fee`}
 				<br />
 			</div>
 
 			<hr className="mt-2 mb-2" />
 
-			<div className='text-xl font-extrabold mb-2'>Generated transaction - copy and paste into Bitcoin wallet: {' '}</div>
+			<div className='font-bold mb-2'>Generated transaction - copy and paste into Bitcoin wallet: {' '}</div>
 			<div style={validTransaction && inscriptions.valid && claimedNamesOfAddress.length === 0 ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}
@@ -164,30 +162,27 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</p>
 			}
 
-			<div className="mb-4">
+			<div className="mt-2">
 				<div className="flex flex-row gap-3 border-b">
-					<button
-						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrum' ? 'border-b-2 border-amber-500' : ''}`}
+					<InstructionButton
+						text="Electrum"
+						imgSrc="/wallet-icons/electrum.png"
+						selected={selectedWallet === 'electrum'}
 						onClick={() => setSelectedWallet('electrum')}
-					>
-						<img src="/wallet-icons/electrum.png" alt="Electrum" className="h-16 w-16" />
-						Electrum
-					</button>
-					<button
-						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrumDetailed' ? 'border-b-2 border-amber-500' : ''}`}
+					/>
+					<InstructionButton
+						text="Electrum Detailed"
+						imgSrc="/wallet-icons/electrum.png"
+						selected={selectedWallet === 'electrumDetailed'}
 						onClick={() => setSelectedWallet('electrumDetailed')}
-					>
-						<img src="/wallet-icons/electrum.png" alt="Electrum Detailed" className="h-16 w-16" />
-						Electrum Detailed
-					</button>
-					<button
+					/>
+					<InstructionButton
+						text="Sparrow (coming soon)"
+						imgSrc="/wallet-icons/sparrow.png"
+						selected={selectedWallet === 'sparrow'}
 						disabled={true}
-						className={`text-gray-600 px-4 py-2 flex items-center gap-2 ${selectedWallet === 'sparrow' ? 'border-b-2 border-amber-500' : ''}`}
 						onClick={() => setSelectedWallet('sparrow')}
-					>
-						<img src="/wallet-icons/sparrow.png" alt="Sparrow" className="h-16 w-16" />
-						Sparrow (coming soon)
-					</button>
+					/>
 				</div>
 			</div>
 			
@@ -202,6 +197,19 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			}
 		</div>
+	)
+}
+
+function InstructionButton({text, imgSrc, selected, disabled, onClick}: {text: string, imgSrc: string, selected: boolean, disabled?: boolean, onClick: () => void}): ReactNode {
+	return (
+		<button
+			disabled={disabled}
+			className={`px-4 py-2 flex items-center gap-1 ${selected ? 'border-b-2 border-amber-500' : ''}`}
+			onClick={onClick}
+		>
+			<img src={imgSrc} alt={text} className="h-8 w-8" />
+			{text}
+		</button>
 	)
 }
 

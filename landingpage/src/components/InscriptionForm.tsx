@@ -54,9 +54,11 @@ const InscriptionForm: React.FC<{
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
 			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+				<label className='font-bold'>OP_RETURN:{' '}</label>
+
 				<select
 					name="alterKeySelect"
-					className="border-gray-30 rounded-md border bg-gray-100 px-3 py-2"
+					className="!rounded-md !border !bg-gray-100 !px-3 !h-auto !text-lg !font-normal"
 					value={inscription.option}
 
 					onChange={(e) => {
@@ -86,7 +88,7 @@ const InscriptionForm: React.FC<{
 							setCustomOption(newCustomOption);
 							onInscriptionChange(new InscriptionSelectOption(inscription.option, newCustomOption, inscription.value));
 						}}
-						className="border-gray-30 rounded-sm border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+						className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 					/>
 				)}
 
@@ -103,7 +105,7 @@ const InscriptionForm: React.FC<{
 						setValue(newValue)
 						onInscriptionChange(new InscriptionSelectOption(inscription.option, inscription.dataField, newValue));
 					}}
-					className="border-gray-30 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+					className="border-gray-300 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
 				/>
 
 				{inscription.isValid() && <Check className="text-green-500" />}
