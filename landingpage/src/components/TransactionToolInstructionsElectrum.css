@@ -1,0 +1,10 @@
+.swiper-button-next,
+.swiper-button-prev {
+	text-shadow: 0px 0px 4px white;
+	color: #112
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+	@apply text-amber-500
+}

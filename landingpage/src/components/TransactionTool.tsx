@@ -6,6 +6,7 @@ import { InscriptionSelectOption } from './InscriptionSelectOption'
 import IframeSlide from './IframeSlide'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import usePlebNameClaimedNames from '../hooks/usePlebNameClaimedNames'
+import { TransactionToolInstructionsElectrum } from './TransactionToolInstructionsElectrum'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -37,7 +38,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		senderUtxoError?: Error
 		warning?: string
 	} | undefined>(undefined)
-	const [selectedWallet, setSelectedWallet] = useState<'electrum' | 'sparrow' | undefined>('electrum')
+	const [selectedWallet, setSelectedWallet] = useState<'electrum' | 'electrumDetailed' | 'sparrow' | undefined>('electrum')
 
 	useEffect(() => {
 		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, minerFeeInSatsPerVByte, mode})
@@ -166,15 +167,22 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 			<div className="mb-4">
 				<div className="flex flex-row gap-3 border-b">
 					<button
-						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrum' ? 'border-b-2 border-blue-500' : ''}`}
+						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrum' ? 'border-b-2 border-amber-500' : ''}`}
 						onClick={() => setSelectedWallet('electrum')}
 					>
 						<img src="/wallet-icons/electrum.png" alt="Electrum" className="h-16 w-16" />
 						Electrum
 					</button>
 					<button
+						className={`px-4 py-2 flex items-center gap-2 ${selectedWallet === 'electrumDetailed' ? 'border-b-2 border-amber-500' : ''}`}
+						onClick={() => setSelectedWallet('electrumDetailed')}
+					>
+						<img src="/wallet-icons/electrum.png" alt="Electrum Detailed" className="h-16 w-16" />
+						Electrum Detailed
+					</button>
+					<button
 						disabled={true}
-						className={`text-gray-600 px-4 py-2 flex items-center gap-2 ${selectedWallet === 'sparrow' ? 'border-b-2 border-blue-500' : ''}`}
+						className={`text-gray-600 px-4 py-2 flex items-center gap-2 ${selectedWallet === 'sparrow' ? 'border-b-2 border-amber-500' : ''}`}
 						onClick={() => setSelectedWallet('sparrow')}
 					>
 						<img src="/wallet-icons/sparrow.png" alt="Sparrow" className="h-16 w-16" />
@@ -183,11 +191,16 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			</div>
 			
-			<div className='sm:mx-2 lg:mx-64'>
-				<div  className="mb-4">
-					<IframeSlide id="instructions" src='/slides_electrum-instructions/index.html' border={false}  startSlide={history ? 6 : 1}/>
+			{selectedWallet === 'electrum' &&
+				<TransactionToolInstructionsElectrum/>
+			}
+			{selectedWallet === 'electrumDetailed' && 
+				<div className='sm:mx-2 lg:mx-64'>
+					<div  className="mb-4">
+						<IframeSlide id="instructions" src='/slides_electrum-instructions/index.html' border={false}  startSlide={history ? 6 : 1}/>
+					</div>
 				</div>
-			</div>
+			}
 		</div>
 	)
 }
