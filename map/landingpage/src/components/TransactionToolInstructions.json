@@ -1,0 +1,88 @@
+{
+	"id": "sva9309qhn8",
+	"x": 60,
+	"y": 44,
+	"width": 32,
+	"height": 16,
+	"links": [
+		{
+			"id": "linkposrqli3248",
+			"from": {
+				"path": [
+					{
+						"boxId": "eouv7mchvd8",
+						"boxName": "TransactionToolInstructionsElectrum.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "55vqgkr9mgg",
+						"boxName": "TransactionToolInstructions.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link9gja57jrffg",
+			"from": {
+				"path": [
+					{
+						"boxId": "pudevtrmjm",
+						"boxName": "TransactionToolInstructionsSparrow.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "55vqgkr9mgg",
+						"boxName": "TransactionToolInstructions.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkk49b1d60c38",
+			"from": {
+				"path": [
+					{
+						"boxId": "55vqgkr9mgg",
+						"boxName": "TransactionToolInstructions.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "9jvitnmhb4o",
+						"boxName": "TransactionToolInstructions.css",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		}
+	],
+	"nodes": []
+}

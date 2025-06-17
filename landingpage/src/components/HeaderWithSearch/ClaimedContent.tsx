@@ -49,7 +49,7 @@ const ClaimedContent: React.FC<{
 				{data.website && (
 					<>
 						<span className="font-bold">Website: </span>
-						<LinkWithCopyButton text={data.website} link={data.website} />
+						<LinkWithCopyButton text={data.website} link={toExternalLink(data.website)} />
 						<br />
 					</>
 				)}
@@ -63,5 +63,12 @@ const ClaimedContent: React.FC<{
 		</>
 	);
 };
+
+function toExternalLink(website: string): string {
+	if (website.includes('//')) {
+		return website
+	}
+	return '//'+website
+}
 
 export default ClaimedContent;

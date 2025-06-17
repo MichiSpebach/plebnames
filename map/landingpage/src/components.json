@@ -165,6 +165,10 @@
 			},
 			"tags": [
 				"autoMaintained"
+			],
+			"routes": [
+				"r8782fpb8p8",
+				"l30n70d9d"
 			]
 		},
 		{
@@ -360,18 +364,363 @@
 			"tags": [
 				"autoMaintained"
 			]
+		},
+		{
+			"id": "link1ssgp2v5dr8",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pvbk9q08ko8",
+						"boxName": "InscriptionForm.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkh3qrv5k7h88",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "rj0gb5u8il8",
+						"boxName": "IframeSlide.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link9i7lfnmnfug",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "mru2a6gmlfo",
+						"boxName": "InscriptionSelectOption.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkpkrgjdjubtg",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "sva9309qhn8",
+						"boxName": "TransactionToolInstructions",
+						"x": 68,
+						"y": 68
+					},
+					{
+						"boxId": "pudevtrmjm",
+						"boxName": "TransactionToolInstructionsSparrow.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkjrup5d8e67",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "sva9309qhn8",
+						"boxName": "TransactionToolInstructions",
+						"x": 28,
+						"y": 68
+					},
+					{
+						"boxId": "eouv7mchvd8",
+						"boxName": "TransactionToolInstructionsElectrum.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkpa4m36mgi7o",
+			"from": {
+				"path": [
+					{
+						"boxId": "naiig80ml3g",
+						"boxName": "TransactionTool.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "nodeuk3c6i5sr8g",
+						"boxName": "nodenodeuk3c6i5sr8g",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"routes": [
+				"jhb3l4rhlf8"
+			],
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkci4angps0fo",
+			"from": {
+				"path": [
+					{
+						"boxId": "pvbk9q08ko8",
+						"boxName": "InscriptionForm.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "mru2a6gmlfo",
+						"boxName": "InscriptionSelectOption.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link3vot2a8quto",
+			"from": {
+				"path": [
+					{
+						"boxId": "mru2a6gmlfo",
+						"boxName": "InscriptionSelectOption.ts",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pvbk9q08ko8",
+						"boxName": "InscriptionForm.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linklh44v44eo48",
+			"from": {
+				"path": [
+					{
+						"boxId": "98ktl92sshg",
+						"boxName": "LinkWithCopyButton.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pm2bueje1ag",
+						"boxName": "CopyButton.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkfm8u65qf2kg",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 58
+					},
+					{
+						"boxId": "tdhnufchkvo",
+						"boxName": "ClaimedContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "pm2bueje1ag",
+						"boxName": "CopyButton.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "linkpjtc60672s8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 14,
+						"y": 58
+					},
+					{
+						"boxId": "tdhnufchkvo",
+						"boxName": "ClaimedContent.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "98ktl92sshg",
+						"boxName": "LinkWithCopyButton.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
+		},
+		{
+			"id": "link5kb4dids7m8",
+			"from": {
+				"path": [
+					{
+						"boxId": "fsasevpd1q",
+						"boxName": "HeaderWithSearch",
+						"x": 48,
+						"y": 30
+					},
+					{
+						"boxId": "4thrsd899lg",
+						"boxName": "PAExplanationView.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"to": {
+				"path": [
+					{
+						"boxId": "qm1hn76q18",
+						"boxName": "Bech32AddressLink.tsx",
+						"x": 50,
+						"y": 50
+					}
+				]
+			},
+			"tags": [
+				"autoMaintained"
+			]
 		}
 	],
 	"nodes": [
 		{
 			"id": "nodeuk3c6i5sr8g",
 			"x": 100,
-			"y": 60.00000000000001
+			"y": 20
 		},
 		{
 			"id": "node9jti4osbas8",
 			"x": 100,
-			"y": 48
+			"y": 84.00000000000001
 		}
 	]
 }
