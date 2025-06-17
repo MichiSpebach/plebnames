@@ -6,7 +6,8 @@ import { InscriptionSelectOption } from './InscriptionSelectOption'
 import IframeSlide from './IframeSlide'
 import MarkedTextWithCopy from './MarkedTextWithCopy'
 import usePlebNameClaimedNames from '../hooks/usePlebNameClaimedNames'
-import { TransactionToolInstructionsElectrum } from './TransactionToolInstructionsElectrum'
+import { TransactionToolInstructionsElectrum } from './TransactionToolInstructions/TransactionToolInstructionsElectrum'
+import { TransactionToolInstructionsSparrow } from './TransactionToolInstructions/TransactionToolInstructionsSparrow'
 
 interface TransactionToolProps {
 	mode: 'claimAndInscribe'|'inscribe'
@@ -177,10 +178,9 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						onClick={() => setSelectedWallet('electrumDetailed')}
 					/>
 					<InstructionButton
-						text="Sparrow (coming soon)"
+						text="Sparrow"
 						imgSrc="/wallet-icons/sparrow.png"
 						selected={selectedWallet === 'sparrow'}
-						disabled={true}
 						onClick={() => setSelectedWallet('sparrow')}
 					/>
 				</div>
@@ -196,14 +196,16 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					</div>
 				</div>
 			}
+			{selectedWallet === 'sparrow' &&
+				<TransactionToolInstructionsSparrow/>
+			}
 		</div>
 	)
 }
 
-function InstructionButton({text, imgSrc, selected, disabled, onClick}: {text: string, imgSrc: string, selected: boolean, disabled?: boolean, onClick: () => void}): ReactNode {
+function InstructionButton({text, imgSrc, selected, onClick}: {text: string, imgSrc: string, selected: boolean, onClick: () => void}): ReactNode {
 	return (
 		<button
-			disabled={disabled}
 			className={`px-4 py-2 flex items-center gap-1 ${selected ? 'border-b-2 border-amber-500' : ''}`}
 			onClick={onClick}
 		>

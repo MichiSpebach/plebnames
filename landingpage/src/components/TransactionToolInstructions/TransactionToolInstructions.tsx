@@ -5,34 +5,19 @@ import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
-import './TransactionToolInstructionsElectrum.css'
+import './TransactionToolInstructions.css'
 
-export const TransactionToolInstructionsElectrum: React.FC<{}> = ({}) => {
+interface TransactionToolInstructionsProps {
+	slides: {
+		src: string
+		alt: string
+		thumbnailTitle: string
+	}[]
+}
+
+export const TransactionToolInstructions: React.FC<TransactionToolInstructionsProps> = ({slides}) => {
 	const [thumbsSwiper, setThumbsSwiper] = useState<any>(null)
 	const [activeThumbIndex, setActiveThumbIndex] = useState(0)
-
-	const slides = [
-		{
-			src: '/wallets/electrum/load-transaction.png',
-			alt: 'Load Transaction',
-			thumbnailTitle: 'Load'
-		},
-		{
-			src: '/wallets/electrum/paste-transaction.png',
-			alt: 'Paste Transaction',
-			thumbnailTitle: 'Paste'
-		},
-		{
-			src: '/wallets/electrum/sign-transaction.png',
-			alt: 'Sign Transaction',
-			thumbnailTitle: 'Sign'
-		},
-		{
-			src: '/wallets/electrum/broadcast-transaction.png',
-			alt: 'Broadcast Transaction',
-			thumbnailTitle: 'Broadcast'
-		},
-	]
 
 	return (
 		<div style={{ display: 'flex', maxHeight: 500}}>
