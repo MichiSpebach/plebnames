@@ -197,7 +197,12 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			}
 			{selectedWallet === 'sparrow' &&
-				<TransactionToolInstructionsSparrow/>
+				<>
+					<div className='text-red-600 leading-none text-center mt-2'>
+						Signing and broadcasting might not with some hardware wallets, use Electrum if you have issues!
+					</div>
+					<TransactionToolInstructionsSparrow/>
+				</>
 			}
 		</div>
 	)
