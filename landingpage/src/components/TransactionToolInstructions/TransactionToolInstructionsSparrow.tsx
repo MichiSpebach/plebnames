@@ -22,6 +22,11 @@ export const TransactionToolInstructionsSparrow: React.FC<{}> = ({}) => {
 				src: '/wallets/sparrow/sign-transaction.png',
 				alt: 'Sign Transaction',
 				thumbnailTitle: 'Sign'
+			},
+			{
+				src: '/wallets/sparrow/nostr.png',
+				alt: 'Nostr',
+				thumbnailTitle: 'Nostr'
 			}
 		]}/>
 	)

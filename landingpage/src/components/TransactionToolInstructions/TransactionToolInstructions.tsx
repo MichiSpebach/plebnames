@@ -31,8 +31,8 @@ export const TransactionToolInstructions: React.FC<TransactionToolInstructionsPr
 				style={{ marginRight: 4}}
 			>
 				{slides.map((slide, idx) => (
-					<SwiperSlide key={slide.src} className='!h-auto'/*otherwise overriden by swiper*/ style={{maxWidth: 150, maxHeight: 120, cursor: 'pointer'}}>
-						{slide.thumbnailTitle}
+					<SwiperSlide key={slide.src} className='!h-auto'/*otherwise overriden by swiper*/ style={{maxWidth: 130, maxHeight: 120, cursor: 'pointer'}}>
+						{`${idx+1}/${slides.length} ${slide.thumbnailTitle}`}
 						<img
 							src={slide.src}
 							alt={slide.alt}

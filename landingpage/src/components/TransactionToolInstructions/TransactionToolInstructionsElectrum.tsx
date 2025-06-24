@@ -22,6 +22,11 @@ export const TransactionToolInstructionsElectrum: React.FC<{}> = ({}) => {
 				src: '/wallets/electrum/broadcast-transaction.png',
 				alt: 'Broadcast Transaction',
 				thumbnailTitle: 'Broadcast'
+			},
+			{
+				src: '/wallets/electrum/nostr.png',
+				alt: 'Nostr',
+				thumbnailTitle: 'Nostr'
 			}
 		]}/>
 	)
