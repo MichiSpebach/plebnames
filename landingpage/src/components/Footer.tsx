@@ -15,7 +15,7 @@ function Footer() {
 			<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMjIyIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-10"></div>
 			<div className="absolute inset-0 backdrop-blur-sm"></div>
 			{/* <div className="absolute inset-0 bg-gradient-to-t from-blue-800/20 to-transparent"></div> */}
-			<div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+			<div className="absolute inset-0" style={{backgroundColor: '#112'}}></div>
 
 			{/* Different idea <div className="container mx-auto px-4 relative z-10 bg-red-400"> */}
 			<div className="relative z-10 flex w-full">

@@ -7,11 +7,12 @@ import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
 import './TransactionToolInstructions.css'
 
-interface TransactionToolInstructionsProps {
+export interface TransactionToolInstructionsProps {
 	slides: {
 		src: string
 		alt: string
 		thumbnailTitle: string
+		description?: string
 	}[]
 }
 
@@ -61,6 +62,11 @@ export const TransactionToolInstructions: React.FC<TransactionToolInstructionsPr
 									alt={slide.alt}
 									style={{ minHeight: 0, maxHeight: '100%', objectFit: 'contain', borderRadius: 8 }}
 								/>
+								{slide.description && (
+									<div className='text-base'>
+										{slide.description}
+									</div>
+								)}
 							</div>
 						</div>
 					</SwiperSlide>

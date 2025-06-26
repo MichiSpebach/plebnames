@@ -187,7 +187,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 			</div>
 			
 			{selectedWallet === 'electrum' &&
-				<TransactionToolInstructionsElectrum/>
+				<TransactionToolInstructionsElectrum name={name} showNostrSlide={!!inscriptions.all.find(inscription => inscription.option === 'nostr')}/>
 			}
 			{selectedWallet === 'electrumDetailed' && 
 				<div className='sm:mx-2 lg:mx-64'>
@@ -201,7 +201,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					<div className='text-red-600 leading-none text-center mt-2'>
 						Signing and broadcasting might not work with some hardware wallets, use Electrum if you have issues!
 					</div>
-					<TransactionToolInstructionsSparrow/>
+					<TransactionToolInstructionsSparrow name={name} showNostrSlide={!!inscriptions.all.find(inscription => inscription.option === 'nostr')}/>
 				</>
 			}
 		</div>
