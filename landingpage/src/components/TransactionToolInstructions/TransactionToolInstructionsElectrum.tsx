@@ -1,26 +1,26 @@
+import { util } from 'plebnames'
 import  { TransactionToolInstructions, TransactionToolInstructionsProps } from './TransactionToolInstructions.tsx'
 
 export const TransactionToolInstructionsElectrum: React.FC<{name: string, showNostrSlide: boolean}> = ({showNostrSlide, name}) => {
+	const bitcoinExplorerLink = `https://mempool.space/address/${util.generatePlebAddress(name)}`
 	const slides: TransactionToolInstructionsProps['slides'] = [
 		{
 			src: '/wallets/electrum/load-transaction.png',
 			alt: 'Load Transaction',
-			thumbnailTitle: 'Load'
-		},
-		{
-			src: '/wallets/electrum/paste-transaction.png',
-			alt: 'Paste Transaction',
-			thumbnailTitle: 'Paste'
+			thumbnailTitle: 'Load',
+			description: 'Open Electrum and go to "Tools" > "Load transaction" > "From text". Paste the transaction you copied from above and click "Load transaction".'
 		},
 		{
 			src: '/wallets/electrum/sign-transaction.png',
 			alt: 'Sign Transaction',
-			thumbnailTitle: 'Sign'
+			thumbnailTitle: 'Sign',
+			description: 'Check if everything is alright, then click "Sign" and sign the transaction with your hardware wallet.'
 		},
 		{
 			src: '/wallets/electrum/broadcast-transaction.png',
 			alt: 'Broadcast Transaction',
-			thumbnailTitle: 'Broadcast'
+			thumbnailTitle: 'Broadcast',
+			description: <>Click "Broadcast". Now you can find everything with any bitcoin explorer: <a target='_blank' href={bitcoinExplorerLink}>{bitcoinExplorerLink}</a>.</>
 		}
 	]
 

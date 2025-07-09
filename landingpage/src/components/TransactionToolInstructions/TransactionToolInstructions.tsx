@@ -12,7 +12,7 @@ export interface TransactionToolInstructionsProps {
 		src: string
 		alt: string
 		thumbnailTitle: string
-		description?: string
+		description?: string|JSX.Element
 	}[]
 }
 
