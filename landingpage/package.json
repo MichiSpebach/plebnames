@@ -11,6 +11,8 @@
 		"myPrettier": "prettier --write '**/*.{ts,tsx,js,jsx,json}'"
 	},
 	"dependencies": {
+		"@bitcoin-js/tiny-secp256k1-asmjs": "^2.2.4",
+		"bip32": "^5.0.0-rc.0",
 		"bitcoinjs-lib": "^7.0.0-rc.0",
 		"lodash": "^4.17.21",
 		"plebnames": "^0.5.3",

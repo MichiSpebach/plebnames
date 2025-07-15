@@ -1,4 +1,6 @@
-import { /*Transaction,*/ Psbt, script } from 'bitcoinjs-lib'
+import { /*Transaction,*/ payments, Psbt, script } from 'bitcoinjs-lib'
+import * as bip32 from 'bip32'
+import * as ecc from '@bitcoin-js/tiny-secp256k1-asmjs'
 import { bitcoinExplorer, PlebNameHistory, util } from 'plebnames'
 import { ReactNode, useEffect, useReducer, useState } from 'react'
 import InscriptionForm, { InscriptionKey, predefinedSelectOptions } from './InscriptionForm'
@@ -32,6 +34,11 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const {claimedNamesOfAddress, getClaimedNamesOfAddress, clearClaimedNamesOfAddress} = usePlebNameClaimedNames()
 	const [inscriptions, setInscriptions] = useReducer(reduceInscriptions, reduceInscriptions(undefined, [InscriptionSelectOption.ofOption(preselectedInscriptionOption)]))
 	const [minerFeeInSatsPerVByte, setMinerFeeInSatsPerVByte] = useState(8)
+	const [bip32Derivation, setBip32Derivation] = useState<{
+		masterFingerprint: {input: string, result?: Uint8Array, error?: Error},
+		path: {input: string, result?: string, parsedResult?: {index: number, hardened: boolean}[], warning?: string},
+		xpub: {input: string, result?: bip32.BIP32Interface, error?: Error}
+	}>({masterFingerprint: {input: ''}, path: {input: ''}, xpub: {input: ''}})
 	const [transaction, setTransaction] = useState<{
 		transaction: {toHex: () => string}
 		minerFeeInSats: number
@@ -42,10 +49,41 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const [selectedWallet, setSelectedWallet] = useState<'electrum' | 'electrumDetailed' | 'sparrow' | undefined>('electrum')
 
 	useEffect(() => {
-		const tx = generateTransaction({name, senderAddress, senderUtxo, inscriptions: inscriptions.valid?? inscriptions.all, minerFeeInSatsPerVByte, mode})
+		const witnessUtxoScript = senderAddress.length > 0
+			? payments.p2wpkh({address: senderAddress}).output
+			: undefined
+		const witnessUtxo = witnessUtxoScript && senderUtxo ? {
+			script: witnessUtxoScript,
+			value: BigInt(senderUtxo.value)
+		} : undefined
+		
+		let bip32DerivationResults = undefined
+		if (bip32Derivation.masterFingerprint.result && bip32Derivation.path.result && bip32Derivation.xpub.result) {
+			let xpubDerivation: bip32.BIP32Interface = bip32Derivation.xpub.result
+			const path: {index: number, hardened: boolean}[]|undefined = bip32Derivation.path.parsedResult
+			if (path && path.length > 1) {
+				xpubDerivation = xpubDerivation.derive(path[path.length-2].index).derive(path[path.length-1].index)
+			}
+			bip32DerivationResults = {
+				masterFingerprint: bip32Derivation.masterFingerprint.result,
+				path: bip32Derivation.path.result,
+				pubkey: xpubDerivation.publicKey
+			}
+		}
+
+		const tx = generateTransaction({
+			name,
+			senderAddress,
+			senderUtxo,
+			inscriptions: inscriptions.valid?? inscriptions.all,
+			minerFeeInSatsPerVByte,
+			witnessUtxo,
+			bip32Derivation: bip32DerivationResults,
+			mode
+		})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
-	}, [name, senderAddress, senderUtxo, inscriptions, minerFeeInSatsPerVByte, mode])
+	}, [name, senderAddress, senderUtxo, inscriptions, minerFeeInSatsPerVByte, bip32Derivation, mode])
 
 	useEffect(() => {
 		if (!validSenderAddress) {
@@ -128,6 +166,100 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 					className="w-20 border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950"	
 				/>
 				{`=> ${transaction?.minerFeeInSats} sats miner fee`}
+				<br />
+			</div>
+
+			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+				<label className='font-bold'>BIP32 Derivation Master Fingerprint (needed only for Sparrow):{' '}</label>
+				<input
+					placeholder="01ab8e9f (8 hex characters)"
+					value={bip32Derivation.masterFingerprint.input}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						event.preventDefault()
+						const input: string = event.target.value
+						let result: Uint8Array|undefined = undefined
+						let error: Error|undefined = undefined
+						if (input.length > 0) {
+							if (input.match(/^[0-9a-fA-F]{8}$/)) {
+								result = util.hexToBytes(input)
+							} else {
+								error = new Error("Expected 8 hex characters like 01ab8e9f")
+							}
+						}
+						setBip32Derivation({...bip32Derivation, masterFingerprint: {input, result, error}})
+					}}
+					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+				/>
+				{bip32Derivation.masterFingerprint.error && (
+					<>
+						<div></div>
+						<div className="text-red-600">{bip32Derivation.masterFingerprint.error.message}</div>
+					</>
+				)}
+				<br />
+			</div>
+			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+				<label className='font-bold'>BIP32 Derivation Path (needed only for Sparrow):{' '}</label>
+				<input
+					placeholder="m/84'/0'/0'/0/0"
+					value={bip32Derivation.path.input}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						event.preventDefault()
+						const input: string = event.target.value
+						let result: string|undefined = undefined
+						let parsedResult: {index: number, hardened: boolean}[]|undefined = undefined
+						let warning: string|undefined = undefined
+						if (input.length > 0) {
+							result = input
+							if (input.match(/^m(\/\d+'?){5}$/)) {
+								parsedResult = input.split('/').slice(1).map(part => {
+									const hardened = part.endsWith("'")
+									const index = parseInt(hardened ? part.slice(0, -1) : part)
+									return { index, hardened }
+								})
+							} else {
+								warning = "Expected to be of form like m/84'/0'/0'/0/0"
+							}
+						}
+						setBip32Derivation({...bip32Derivation, path: {input, result, parsedResult, warning}})
+					}}
+					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+				/>
+				{bip32Derivation.path.warning && (
+					<>
+						<div></div>
+						<div className="mt-1 rounded-md bg-yellow-300 px-2 py-1 text-black w-fit">{bip32Derivation.path.warning}</div>
+					</>
+				)}
+				<br />
+			</div>
+			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+				<label className='font-bold'>BIP32 Derivation xpub (needed only for Sparrow):{' '}</label>
+				<input
+					placeholder="xpub..."
+					value={bip32Derivation.xpub.input}
+					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+						event.preventDefault()
+						const input: string = event.target.value
+						let result: bip32.BIP32Interface|undefined = undefined
+						let error: Error|undefined = undefined
+						if (input.length > 0) {
+							try {
+								result = bip32.BIP32Factory(ecc).fromBase58(input)
+							} catch (e: unknown) {
+								error = toError(e)
+							}
+						}
+						setBip32Derivation({...bip32Derivation, xpub: {input, result, error}})
+					}}
+					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+				/>
+				{bip32Derivation.xpub.error && (
+					<>
+						<div></div>
+						<div className="text-red-600">{bip32Derivation.xpub.error.message}</div>
+					</>
+				)}
 				<br />
 			</div>
 
@@ -225,12 +357,18 @@ function chooseNextInscription(reservedFields: string[]): InscriptionSelectOptio
 	return InscriptionSelectOption.ofOption(optionKey)
 }
 
+/**
+ * @param options.witnessUtxo needed only for Sparrow wallet (as of 2.2.3), otherwise undefined
+ * @param options.bip32Derivation needed only for Sparrow wallet (as of 2.2.3), otherwise undefined
+ */
 function generateTransaction(options: {
 	name: string
 	senderAddress: string
 	senderUtxo?: bitcoinExplorer.UTXO
 	inscriptions: InscriptionSelectOption[]
 	minerFeeInSatsPerVByte: number
+	witnessUtxo?: {script: Uint8Array, value: bigint}
+	bip32Derivation?: {masterFingerprint: Uint8Array, path: string, pubkey: Uint8Array}
 	mode: 'claimAndInscribe'|'inscribe'
 }): {
 	transaction: {toHex: () => string}
@@ -247,7 +385,15 @@ function generateTransaction(options: {
 	let senderUtxoError: Error|undefined = undefined
 
 	try {
-		transaction.addInput({hash: options.senderUtxo!.txid, index: options.senderUtxo!.vout})
+		transaction.addInput({
+			hash: options.senderUtxo!.txid,
+			index: options.senderUtxo!.vout,
+			witnessUtxo: options.witnessUtxo,
+			//bip32Derivation: options.bip32Derivation ? [options.bip32Derivation] : undefined // Key type bip32Derivation must be an array
+		})
+		if (options.bip32Derivation) {
+			transaction.updateInput(0, {bip32Derivation: [options.bip32Derivation]})
+		}
 	} catch (error: unknown) {
 		senderUtxoError = toError(error)
 	}
