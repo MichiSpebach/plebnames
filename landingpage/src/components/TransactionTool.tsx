@@ -49,25 +49,31 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	const [selectedWallet, setSelectedWallet] = useState<'electrum' | 'electrumDetailed' | 'sparrow' | undefined>('electrum')
 
 	useEffect(() => {
-		const witnessUtxoScript = senderAddress.length > 0
-			? payments.p2wpkh({address: senderAddress}).output
-			: undefined
-		const witnessUtxo = witnessUtxoScript && senderUtxo ? {
-			script: witnessUtxoScript,
-			value: BigInt(senderUtxo.value)
-		} : undefined
-		
+		let witnessUtxo = undefined
 		let bip32DerivationResults = undefined
-		if (bip32Derivation.masterFingerprint.result && bip32Derivation.path.result && bip32Derivation.xpub.result) {
-			let xpubDerivation: bip32.BIP32Interface = bip32Derivation.xpub.result
-			const path: {index: number, hardened: boolean}[]|undefined = bip32Derivation.path.parsedResult
-			if (path && path.length > 1) {
-				xpubDerivation = xpubDerivation.derive(path[path.length-2].index).derive(path[path.length-1].index)
+		if (selectedWallet === 'sparrow') {
+			
+			if (senderAddress.length > 0 && senderUtxo) {
+				const witnessUtxoScript = payments.p2wpkh({address: senderAddress}).output
+				if (witnessUtxoScript) {
+					witnessUtxo =  {
+						script: witnessUtxoScript,
+						value: BigInt(senderUtxo.value)
+					}
+				}
 			}
-			bip32DerivationResults = {
-				masterFingerprint: bip32Derivation.masterFingerprint.result,
-				path: bip32Derivation.path.result,
-				pubkey: xpubDerivation.publicKey
+			
+			if (bip32Derivation.masterFingerprint.result && bip32Derivation.path.result && bip32Derivation.xpub.result) {
+				let xpubDerivation: bip32.BIP32Interface = bip32Derivation.xpub.result
+				const path: {index: number, hardened: boolean}[]|undefined = bip32Derivation.path.parsedResult
+				if (path && path.length > 1) {
+					xpubDerivation = xpubDerivation.derive(path[path.length-2].index).derive(path[path.length-1].index)
+				}
+				bip32DerivationResults = {
+					masterFingerprint: bip32Derivation.masterFingerprint.result,
+					path: bip32Derivation.path.result,
+					pubkey: xpubDerivation.publicKey
+				}
 			}
 		}
 
@@ -83,7 +89,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 		})
 		setTransaction(tx)
 		setValidSenderAddress(tx && !tx.senderAddressError ? senderAddress : undefined)
-	}, [name, senderAddress, senderUtxo, inscriptions, minerFeeInSatsPerVByte, bip32Derivation, mode])
+	}, [name, senderAddress, senderUtxo, inscriptions, minerFeeInSatsPerVByte, bip32Derivation, selectedWallet, mode])
 
 	useEffect(() => {
 		if (!validSenderAddress) {
@@ -113,6 +119,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 
 	const reservedFields: string[] = inscriptions.all.map(inscription => inscription.dataField)
 	const validTransaction: boolean = !transaction?.senderAddressError && !transaction?.senderUtxoError && senderUtxoStatus === 'ok'
+	const bip32DerivationFilledOrNotNeeded: boolean = selectedWallet !== 'sparrow' || !!bip32Derivation.masterFingerprint.result && !!bip32Derivation.path.result && !!bip32Derivation.xpub.result
 
 	return (
 		<div className='text-lg'>
@@ -169,104 +176,108 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				<br />
 			</div>
 
-			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
-				<label className='font-bold'>BIP32 Derivation Master Fingerprint (needed only for Sparrow):{' '}</label>
-				<input
-					placeholder="01ab8e9f (8 hex characters)"
-					value={bip32Derivation.masterFingerprint.input}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-						event.preventDefault()
-						const input: string = event.target.value
-						let result: Uint8Array|undefined = undefined
-						let error: Error|undefined = undefined
-						if (input.length > 0) {
-							if (input.match(/^[0-9a-fA-F]{8}$/)) {
-								result = util.hexToBytes(input)
-							} else {
-								error = new Error("Expected 8 hex characters like 01ab8e9f")
-							}
-						}
-						setBip32Derivation({...bip32Derivation, masterFingerprint: {input, result, error}})
-					}}
-					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
-				/>
-				{bip32Derivation.masterFingerprint.error && (
-					<>
-						<div></div>
-						<div className="text-red-600">{bip32Derivation.masterFingerprint.error.message}</div>
-					</>
-				)}
-				<br />
-			</div>
-			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
-				<label className='font-bold'>BIP32 Derivation Path (needed only for Sparrow):{' '}</label>
-				<input
-					placeholder="m/84'/0'/0'/0/0"
-					value={bip32Derivation.path.input}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-						event.preventDefault()
-						const input: string = event.target.value
-						let result: string|undefined = undefined
-						let parsedResult: {index: number, hardened: boolean}[]|undefined = undefined
-						let warning: string|undefined = undefined
-						if (input.length > 0) {
-							result = input
-							if (input.match(/^m(\/\d+'?){5}$/)) {
-								parsedResult = input.split('/').slice(1).map(part => {
-									const hardened = part.endsWith("'")
-									const index = parseInt(hardened ? part.slice(0, -1) : part)
-									return { index, hardened }
-								})
-							} else {
-								warning = "Expected to be of form like m/84'/0'/0'/0/0"
-							}
-						}
-						setBip32Derivation({...bip32Derivation, path: {input, result, parsedResult, warning}})
-					}}
-					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
-				/>
-				{bip32Derivation.path.warning && (
-					<>
-						<div></div>
-						<div className="mt-1 rounded-md bg-yellow-300 px-2 py-1 text-black w-fit">{bip32Derivation.path.warning}</div>
-					</>
-				)}
-				<br />
-			</div>
-			<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
-				<label className='font-bold'>BIP32 Derivation xpub (needed only for Sparrow):{' '}</label>
-				<input
-					placeholder="xpub..."
-					value={bip32Derivation.xpub.input}
-					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-						event.preventDefault()
-						const input: string = event.target.value
-						let result: bip32.BIP32Interface|undefined = undefined
-						let error: Error|undefined = undefined
-						if (input.length > 0) {
-							try {
-								result = bip32.BIP32Factory(ecc).fromBase58(input)
-							} catch (e: unknown) {
-								error = toError(e)
-							}
-						}
-						setBip32Derivation({...bip32Derivation, xpub: {input, result, error}})
-					}}
-					className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
-				/>
-				{bip32Derivation.xpub.error && (
-					<>
-						<div></div>
-						<div className="text-red-600">{bip32Derivation.xpub.error.message}</div>
-					</>
-				)}
-				<br />
-			</div>
+			{selectedWallet === 'sparrow' &&
+				<>
+					<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+						<label className='font-bold'>BIP32 Derivation Master Fingerprint:{' '}</label>
+						<input
+							placeholder="01ab8e9f (8 hex characters)"
+							value={bip32Derivation.masterFingerprint.input}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								event.preventDefault()
+								const input: string = event.target.value
+								let result: Uint8Array|undefined = undefined
+								let error: Error|undefined = undefined
+								if (input.length > 0) {
+									if (input.match(/^[0-9a-fA-F]{8}$/)) {
+										result = util.hexToBytes(input)
+									} else {
+										error = new Error("Expected 8 hex characters like 01ab8e9f")
+									}
+								}
+								setBip32Derivation({...bip32Derivation, masterFingerprint: {input, result, error}})
+							}}
+							className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+						/>
+						{bip32Derivation.masterFingerprint.error && (
+							<>
+								<div></div>
+								<div className="text-red-600">{bip32Derivation.masterFingerprint.error.message}</div>
+							</>
+						)}
+						<br />
+					</div>
+					<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+						<label className='font-bold'>BIP32 Derivation Path:{' '}</label>
+						<input
+							placeholder="m/84'/0'/0'/0/0"
+							value={bip32Derivation.path.input}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								event.preventDefault()
+								const input: string = event.target.value
+								let result: string|undefined = undefined
+								let parsedResult: {index: number, hardened: boolean}[]|undefined = undefined
+								let warning: string|undefined = undefined
+								if (input.length > 0) {
+									result = input
+									if (input.match(/^m(\/\d+'?){5}$/)) {
+										parsedResult = input.split('/').slice(1).map(part => {
+											const hardened = part.endsWith("'")
+											const index = parseInt(hardened ? part.slice(0, -1) : part)
+											return { index, hardened }
+										})
+									} else {
+										warning = "Expected to be of form like m/84'/0'/0'/0/0"
+									}
+								}
+								setBip32Derivation({...bip32Derivation, path: {input, result, parsedResult, warning}})
+							}}
+							className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+						/>
+						{bip32Derivation.path.warning && (
+							<>
+								<div></div>
+								<div className="mt-1 rounded-md bg-yellow-300 px-2 py-1 text-black w-fit">{bip32Derivation.path.warning}</div>
+							</>
+						)}
+						<br />
+					</div>
+					<div className="mb-4 modifyConfigSelect grid grid-cols-[auto,1fr] items-center gap-x-3">
+						<label className='font-bold'>BIP32 Derivation xpub:{' '}</label>
+						<input
+							placeholder="xpub..."
+							value={bip32Derivation.xpub.input}
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+								event.preventDefault()
+								const input: string = event.target.value
+								let result: bip32.BIP32Interface|undefined = undefined
+								let error: Error|undefined = undefined
+								if (input.length > 0) {
+									try {
+										result = bip32.BIP32Factory(ecc).fromBase58(input)
+									} catch (e: unknown) {
+										error = toError(e)
+									}
+								}
+								setBip32Derivation({...bip32Derivation, xpub: {input, result, error}})
+							}}
+							className="border-gray-300 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"
+						/>
+						{bip32Derivation.xpub.error && (
+							<>
+								<div></div>
+								<div className="text-red-600">{bip32Derivation.xpub.error.message}</div>
+							</>
+						)}
+						<br />
+					</div>
+				</>
+			}
 
 			<hr className="mt-2 mb-2" />
 
 			<div className='font-bold mb-2'>Generated transaction - copy and paste into Bitcoin wallet: {' '}</div>
-			<div style={validTransaction && inscriptions.valid && claimedNamesOfAddress.length === 0 ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
+			<div style={validTransaction && inscriptions.valid && claimedNamesOfAddress.length === 0 && bip32DerivationFilledOrNotNeeded ? {} : {pointerEvents: 'none', userSelect: 'none', opacity: '0.5'}}>
 				<MarkedTextWithCopy clickToCopy>
 					{transaction?.transaction.toHex()}
 				</MarkedTextWithCopy>
@@ -287,6 +298,15 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						So having multiple names on the same address makes them harder to sell.
 					</div>}
 					{validTransaction && claimedNamesOfAddress.length === 0 && !inscriptions.valid && <div>Input at least one valid inscription.</div>}
+				</div>
+			}
+			{!bip32DerivationFilledOrNotNeeded &&
+				<div className="text-red-600">
+					BIP32 Derivation fields ({[
+						bip32Derivation.masterFingerprint.result ? undefined : 'Master Fingerprint',
+						bip32Derivation.path.result ? undefined : 'Path',
+						bip32Derivation.xpub.result ? undefined : 'xpub'
+					].filter(value => value).join(', ')}) need to be filled out for Sparrow.
 				</div>
 			}
 			{transaction?.warning &&
@@ -329,12 +349,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				</div>
 			}
 			{selectedWallet === 'sparrow' &&
-				<>
-					<div className='text-red-600 leading-none text-center mt-2'>
-						Signing and broadcasting might not work with some hardware wallets, use Electrum if you have issues!
-					</div>
-					<TransactionToolInstructionsSparrow name={name} showNostrSlide={!!inscriptions.all.find(inscription => inscription.option === 'nostr')}/>
-				</>
+				<TransactionToolInstructionsSparrow name={name} showNostrSlide={!!inscriptions.all.find(inscription => inscription.option === 'nostr')}/>
 			}
 		</div>
 	)
@@ -388,9 +403,12 @@ function generateTransaction(options: {
 		transaction.addInput({
 			hash: options.senderUtxo!.txid,
 			index: options.senderUtxo!.vout,
-			witnessUtxo: options.witnessUtxo,
-			//bip32Derivation: options.bip32Derivation ? [options.bip32Derivation] : undefined // Key type bip32Derivation must be an array
+			//witnessUtxo: options.witnessUtxo, // "can't access property "script", data is undefined"
+			//bip32Derivation: options.bip32Derivation ? [options.bip32Derivation] : undefined // "Key type bip32Derivation must be an array"
 		})
+		if (options.witnessUtxo) {
+			transaction.updateInput(0, {witnessUtxo: options.witnessUtxo})
+		}
 		if (options.bip32Derivation) {
 			transaction.updateInput(0, {bip32Derivation: [options.bip32Derivation]})
 		}
