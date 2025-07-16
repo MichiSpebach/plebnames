@@ -124,7 +124,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 	return (
 		<div className='text-lg'>
 			{!history &&
-				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+				<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-x-3">
 					<label className='font-bold'>
 						Your Address:{' '}
 					</label>
@@ -137,7 +137,21 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 						}}
 						className="border-gray-300 flex-1 rounded-md border bg-gray-100 px-3 py-2 text-blue-950 placeholder:text-gray-500"	
 					/>
-					<br />
+					<div className="w-full"></div>
+					<span className='invisible h-0 font-bold'>
+						Your Address:{' '}
+					</span>
+					<details>
+						<summary className="cursor-pointer">How to choose address of your Bitcoin wallet?</summary>
+						<img
+							src={'/wallets/sparrow/choose-address.png'}
+							alt={'Choose Address'}
+							style={{maxHeight: '350px'}}
+						/>
+						<div className='text-base'>
+							In Sparrow (other wallets similar) go to "Addresses", right click on the address of your choice and click "Copy Address".
+						</div>
+					</details>
 				</div>
 			}
 		
@@ -160,7 +174,7 @@ export const TransactionTool: React.FC<TransactionToolProps> = ({ name, mode, hi
 				/>
 			)}
 			
-			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+			<div className="mb-4 modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-x-3">
 				<label className='font-bold'>Sats/vByte:{' '}</label>
 				<input
 					type="number"

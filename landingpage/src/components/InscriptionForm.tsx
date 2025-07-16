@@ -53,7 +53,7 @@ const InscriptionForm: React.FC<{
 		<div className={className}>
 			{/* <div className="flex space-x-2 flex-row flex-wrap justify-start items-start"> */}
 			{/* <div className="modifyConfigSelect inline-flex items-center space-x-2"> */}
-			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-3">
+			<div className="modifyConfigSelect flex flex-row flex-wrap items-center justify-start gap-x-3 gap-y-1">
 				<label className='font-bold'>OP_RETURN:{' '}</label>
 
 				<select
